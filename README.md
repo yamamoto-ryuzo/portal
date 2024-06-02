@@ -4,7 +4,7 @@
 　その後、大学の専攻が農業土木だったため、幅広く農業や土木を学ぶことができ、現在の土木の仕事につながっています。  
 ## 出没先　
 ・https://www.dx-junkyard.com/  
-・[FOSS4Gもくもく会](https://www.osgeo.jp/)　　 皆勤賞を目指しています！   
+・[FOSS4Gもくもく会](https://github.com/yamamoto-ryuzo/portal/blob/main/FOSS4G%E3%82%82%E3%81%8F%E3%82%82%E3%81%8F%E4%BC%9A.md)　　 皆勤賞を目指しています！   
 ## 参加イベント  2024
 [応募先](https://odhackathon.metro.tokyo.lg.jp/) ：都知事杯オープンデータ・ハッカソン  
 [応募先](https://www.zaimu.metro.tokyo.lg.jp/zaisei/zaisei/teian/tomin/7tomin) ： [令和6年度　都民による事業提案制度](https://github.com/yamamoto-ryuzo/portal/blob/main/都民による事業提案制度.md)    
