@@ -11,6 +11,4 @@
 [応募先](https://www.zaimu.metro.tokyo.lg.jp/zaisei/zaisei/teian/tomin/7tomin)：[令和6年度　都民による事業提案制度](https://github.com/yamamoto-ryuzo/portal/blob/main/都民による事業提案制度.md)    
 ## 参加イベント 2023  
 [応募先](https://odhackathon.metro.tokyo.lg.jp/hackathon2023/) ：[都知事杯オープンデータ・ハッカソン](https://github.com/yamamoto-ryuzo/portal/blob/main/image/%E9%83%BD%E7%9F%A5%E4%BA%8B%E6%9D%AF%E3%82%AA%E3%83%BC%E3%83%97%E3%83%B3%E3%83%87%E3%83%BC%E3%82%BF%E3%83%BB%E3%83%8F%E3%83%83%E3%82%AB%E3%82%BD%E3%83%B3%202023.png)  
-　ほぼ何もしていない，遊びに行っていた感じになってしまった・・・💦  
-## 参加イベント 2022  
 [応募先](https://www.digital.go.jp/policies/myna_portal/hackathon)：[マイナポータルハッカソン](https://www.youtube.com/watch?v=5-ktu6egUCs&list=PLUPGuSVqDNP-qmZev9vrlE8-h_8uKFRm7&index=11)    
