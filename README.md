@@ -3,7 +3,7 @@
 　おかげで、Z80の2ビットの世界にはまり、中学のつまらない？授業中にゲームのフローを書いていた・・・おかげで理数系以外の成績極端によくないです。  
 　その後、大学の専攻が農業土木だったため、幅広く農業や土木を学ぶことができ、現在の土木の仕事につながっています。  
 ## 主な活動  
-・プロジェクト+プラグインを含む、すぐ動くポータブルQGIS環境の構築（たまに日本語翻訳）  
+・プロジェクト+プラグインを含む、すぐ動くポータブルQGIS環境の構築  
 　　https://github.com/yamamoto-ryuzo/yr-qgis-portable-launcher2  
 ・QGISをWEBで配信できるLIZMAPの布教  
 　　https://github.com/yamamoto-ryuzo/Lizmap-installation-Japanese-memo  
