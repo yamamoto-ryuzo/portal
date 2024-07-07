@@ -3,11 +3,13 @@
 　Z80の2ビットの世界にはまり、中学のつまらない？授業中にゲームのフローを書いていた・・・おかげで理数系以外の成績極端によくないです。  
 　その後、大学の専攻が農業土木だったため、幅広く農業や土木を学ぶことができ、現在の土木の仕事につながっています。  
 ## 主な活動  
-・初めての人でも扱いやすいポータブルQGIS環境の構築  
+### 初めての人でも扱いやすいポータブルQGIS環境の構築  
 　　https://github.com/yamamoto-ryuzo/yr-qgis-portable-launcher2  
-・QGISをWEBで配信できるLIZMAPの布教  
+### QGISをWEBで配信できるLIZMAPの布教  
 　　https://github.com/yamamoto-ryuzo/Lizmap-installation-Japanese-memo  
 　　https://www.facebook.com/groups/lizmapusergroupjapan  
+### QGIS,LIZMAPの日本語翻訳活動  
+　　https://explore.transifex.com/3liz-1/lizmap-locales/  
 ## 出没先　
 ・https://www.dx-junkyard.com/  
 ・[FOSS4Gもくもく会](https://github.com/yamamoto-ryuzo/portal/blob/main/FOSS4G%E3%82%82%E3%81%8F%E3%82%82%E3%81%8F%E4%BC%9A.md)　　 皆勤賞を目指しています！   
