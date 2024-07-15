@@ -20,7 +20,8 @@
 [応募先](https://connpass.com/event/322836/)：[予定][【アイデアソン】 LINKS:DATA x Hackathon]()   
 [応募先](https://park.itc.u-tokyo.ac.jp/padit/cog2024/)：[予定][チャレンジ！！オープンガバナンス 2024]()  
 [応募先](https://www.mlit.go.jp/plateau-next/award/#how-to-apply)：[予定][PLATEAU AWARD 2024](https://github.com/yamamoto-ryuzo/portal/issues/4)[【ODB for PLATEAU】](https://github.com/yamamoto-ryuzo/portal/blob/main/ODBforPLATEAU.md)   
-[応募先](https://odhackathon.metro.tokyo.lg.jp/)：[都知事杯オープンデータ・ハッカソン2024](https://github.com/yamamoto-ryuzo/portal/issues/1#issue-2329558676)   
+[応募先](https://odhackathon.metro.tokyo.lg.jp/)：[都知事杯オープンデータ・ハッカソン2024](https://github.com/yamamoto-ryuzo/portal/issues/1#issue-2329558676)  
+　　[アイデアソン Day.2](https://odhackathon.metro.tokyo.lg.jp/team-building/#ideathon2)、[ハッカソン 8/24.25日（土日）](https://odhackathon.metro.tokyo.lg.jp/hackathon/#hackathon-day1)  
 [応募先](https://asciistartup.connpass.com/event/318573/)：[PLATEAU Hack Challenge 2024 for ルーキ](https://github.com/yamamoto-ryuzo/portal/issues/2)[【そこ！どうなってるの？】](https://protopedia.net/prototype/5297)   
 [応募先](https://www.zaimu.metro.tokyo.lg.jp/zaisei/zaisei/teian/tomin/7tomin)：[令和6年度　都民による事業提案制度](https://github.com/yamamoto-ryuzo/portal/blob/main/都民による事業提案制度.md)    
 ### 参加イベント 2023  
