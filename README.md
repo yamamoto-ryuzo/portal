@@ -16,14 +16,18 @@
 ## 参加イベント  
 ### 参加イベント  2024
 [応募先](https://challenge2024.odpt.org/#)：[予定][公共交通オープンデータチャレンジ2024]()   
-[応募先](https://connpass.com/event/322837/)：[予定][【ハッカソン】 LINKS:DATA x Hackathon]()   
-[応募先](https://connpass.com/event/322836/)：[予定][【アイデアソン】 LINKS:DATA x Hackathon]()   
+　　7/16～　エントリー  
+[応募先]()：[予定][LINKS:DATA x Hackathon]()  
+　　[10/05 アイデアソン](https://connpass.com/event/322837/)、[11/23 ハッカソン](https://connpass.com/event/322836/)  
 [応募先](https://park.itc.u-tokyo.ac.jp/padit/cog2024/)：[予定][チャレンジ！！オープンガバナンス 2024]()  
+　　9月中旬～  
 [応募先](https://www.mlit.go.jp/plateau-next/award/#how-to-apply)：[予定][PLATEAU AWARD 2024](https://github.com/yamamoto-ryuzo/portal/issues/4)[【ODB for PLATEAU】](https://github.com/yamamoto-ryuzo/portal/blob/main/ODBforPLATEAU.md)   
+　　6/17～ プレエントリー、  8/80～　本エントリー  
 [応募先](https://odhackathon.metro.tokyo.lg.jp/)：[都知事杯オープンデータ・ハッカソン2024](https://github.com/yamamoto-ryuzo/portal/issues/1#issue-2329558676)  
 　　[アイデアソン Day.2 8/7(水)](https://odhackathon.metro.tokyo.lg.jp/team-building/#ideathon2)、[ハッカソン 8/24.25日（土日）](https://odhackathon.metro.tokyo.lg.jp/hackathon/#hackathon-day1)  
 [応募先](https://asciistartup.connpass.com/event/318573/)：[PLATEAU Hack Challenge 2024 for ルーキ](https://github.com/yamamoto-ryuzo/portal/issues/2)[【そこ！どうなってるの？】](https://protopedia.net/prototype/5297)   
-[応募先](https://www.zaimu.metro.tokyo.lg.jp/zaisei/zaisei/teian/tomin/7tomin)：[令和6年度　都民による事業提案制度](https://github.com/yamamoto-ryuzo/portal/blob/main/都民による事業提案制度.md)    
+[応募先](https://www.zaimu.metro.tokyo.lg.jp/zaisei/zaisei/teian/tomin/7tomin)：[令和6年度　都民による事業提案制度](https://github.com/yamamoto-ryuzo/portal/blob/main/都民による事業提案制度.md)   
+　　4/5～　提案、７月下旬～　公開（インターネット投票開始）  
 ### 参加イベント 2023  
 [応募先](https://odhackathon.metro.tokyo.lg.jp/hackathon2023/) ：[都知事杯オープンデータ・ハッカソン　](https://github.com/yamamoto-ryuzo/portal/blob/main/image/%E9%83%BD%E7%9F%A5%E4%BA%8B%E6%9D%AF%E3%82%AA%E3%83%BC%E3%83%97%E3%83%B3%E3%83%87%E3%83%BC%E3%82%BF%E3%83%BB%E3%83%8F%E3%83%83%E3%82%AB%E3%82%BD%E3%83%B3%202023.png)[【OpenData Bridge】](https://www.dx-junkyard.com/posts/opendata-bridge)  
 [応募先](https://www.digital.go.jp/policies/myna_portal/hackathon)：[マイナポータルハッカソン](https://github.com/yamamoto-ryuzo/portal/blob/main/image/%E3%83%9E%E3%82%A4%E3%83%8A%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%AB%E3%83%8F%E3%83%83%E3%82%AB%E3%82%BD%E3%83%B3.png)[【マイナセーフティ】](https://www.youtube.com/watch?v=5-ktu6egUCs&list=PLUPGuSVqDNP-qmZev9vrlE8-h_8uKFRm7&index=11)  
