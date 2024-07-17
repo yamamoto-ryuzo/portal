@@ -22,7 +22,7 @@
 [応募先](https://park.itc.u-tokyo.ac.jp/padit/cog2024/)：[予定][チャレンジ！！オープンガバナンス 2024]()  
 　　9月中旬～  
 [応募先](https://www.mlit.go.jp/plateau-next/award/#how-to-apply)：[PLATEAU AWARD 2024](https://github.com/yamamoto-ryuzo/portal/issues/4)[【ODB for PLATEAU】](https://github.com/yamamoto-ryuzo/portal/blob/main/ODBforPLATEAU.md)   
-　　[6/17～ プレエントリー](https://github.com/yamamoto-ryuzo/portal/issues/4#issuecomment-2202718126)、  8/80～　本エントリー  
+　　[6/17～ プレエントリー](https://github.com/yamamoto-ryuzo/portal/issues/4#issuecomment-2202718126)、8/30～　本エントリー  
 [応募先](https://odhackathon.metro.tokyo.lg.jp/)：[都知事杯オープンデータ・ハッカソン2024](https://github.com/yamamoto-ryuzo/portal/issues/1#issue-2329558676)  
 　　[アイデアソン Day.2 8/7(水)](https://odhackathon.metro.tokyo.lg.jp/team-building/#ideathon2)、[ハッカソン 8/24.25日（土日）](https://odhackathon.metro.tokyo.lg.jp/hackathon/#hackathon-day1)  
 [応募先](https://asciistartup.connpass.com/event/318573/)：[PLATEAU Hack Challenge 2024 for ルーキ](https://github.com/yamamoto-ryuzo/portal/issues/2)[【そこ！どうなってるの？】](https://protopedia.net/prototype/5297)   
