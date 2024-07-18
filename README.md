@@ -15,7 +15,7 @@
 ・[FOSS4Gもくもく会](https://github.com/yamamoto-ryuzo/portal/blob/main/FOSS4G%E3%82%82%E3%81%8F%E3%82%82%E3%81%8F%E4%BC%9A.md)　　 皆勤賞を目指しています！   
 ## 参加イベント  
 ### 参加イベント  2024
-[応募先](https://challenge2024.odpt.org/#)：[予定][公共交通オープンデータチャレンジ2024]()   
+[応募先](https://challenge2024.odpt.org/#)：[予定][公共交通オープンデータチャレンジ2024](https://github.com/yamamoto-ryuzo/portal/issues/5)   
 　　7/16～　エントリー  
 [応募先]()：[予定][LINKS:DATA x Hackathon]()  
 　　[10/05 アイデアソン](https://connpass.com/event/322837/)、[11/23 ハッカソン](https://connpass.com/event/322836/)  
