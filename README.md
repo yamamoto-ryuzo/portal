@@ -14,13 +14,13 @@
 ・https://www.dx-junkyard.com/  
 ・[FOSS4Gもくもく会](https://github.com/yamamoto-ryuzo/portal/blob/main/FOSS4G%E3%82%82%E3%81%8F%E3%82%82%E3%81%8F%E4%BC%9A.md)　　 皆勤賞を目指しています！   
 ## 参加イベント  
-### 参加イベント  2024
-[応募先](https://challenge2024.odpt.org/#)：[予定][公共交通オープンデータチャレンジ2024](https://github.com/yamamoto-ryuzo/portal/issues/5)   
-　　7/16～　エントリー  
+### 参加イベント  2024  
 [応募先]()：[予定][LINKS:DATA x Hackathon]()  
 　　[10/05 アイデアソン](https://connpass.com/event/322837/)、[11/23 ハッカソン](https://connpass.com/event/322836/)  
 [応募先](https://park.itc.u-tokyo.ac.jp/padit/cog2024/)：[予定][チャレンジ！！オープンガバナンス 2024]()  
 　　9月中旬～  
+[応募先](https://challenge2024.odpt.org/#)：[公共交通オープンデータチャレンジ2024](https://github.com/yamamoto-ryuzo/portal/issues/5)   
+　　7/16～　エントリー  
 [応募先](https://www.mlit.go.jp/plateau-next/award/#how-to-apply)：[PLATEAU AWARD 2024](https://github.com/yamamoto-ryuzo/portal/issues/4)[【ODB for PLATEAU】](https://github.com/yamamoto-ryuzo/portal/blob/main/ODBforPLATEAU.md)   
 　　[6/17～ プレエントリー](https://github.com/yamamoto-ryuzo/portal/issues/4#issuecomment-2202718126)、8/30～　本エントリー  
 [応募先](https://odhackathon.metro.tokyo.lg.jp/)：[都知事杯オープンデータ・ハッカソン2024](https://github.com/yamamoto-ryuzo/portal/issues/1#issue-2329558676)  
