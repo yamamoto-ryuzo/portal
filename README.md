@@ -6,11 +6,11 @@
 ## 主な活動  
 ### 初めての人でも扱いやすいポータブルQGIS環境の構築  
 　　https://github.com/yamamoto-ryuzo/yr-qgis-portable-launcher2  
+### QGIS,LIZMAPの日本語翻訳活動  
+　　https://explore.transifex.com/3liz-1/lizmap-locales/  
 ### QGISをWEBで配信できるLIZMAPの布教  
 　　https://github.com/yamamoto-ryuzo/Lizmap-installation-Japanese-memo  
 　　https://www.facebook.com/groups/lizmapusergroupjapan  
-### QGIS,LIZMAPの日本語翻訳活動  
-　　https://explore.transifex.com/3liz-1/lizmap-locales/  
 　　詳細はこちら[GISシステム連携概要](https://github.com/yamamoto-ryuzo/portal/blob/main/%E3%83%91%E3%83%AF%E3%83%BC%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/QGIS%E3%81%AE%E3%82%BD%E3%83%AA%E3%83%A5%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3.pdf)  
 ![image](https://github.com/user-attachments/assets/8f0e8558-5d6e-425c-95f0-f9cedf7f3225)
 
