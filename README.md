@@ -2,6 +2,7 @@
 　中学生の時にPC-8001mrkⅡなるものに出会い、当時はやっていたゲーム雑誌に作ったゲームを投稿するオタクな中学生！  
 　Z80の2ビットの世界にはまり、中学のつまらない？授業中にゲームのフローを書いていた・・・おかげで理数系以外の成績極端によくないです。  
 　その後、大学の専攻が農業土木だったため、幅広く農業や土木を学ぶことができ、現在の土木の仕事につながっています。  
+ 
 ## 主な活動  
 ### 初めての人でも扱いやすいポータブルQGIS環境の構築  
 　　https://github.com/yamamoto-ryuzo/yr-qgis-portable-launcher2  
@@ -10,6 +11,9 @@
 　　https://www.facebook.com/groups/lizmapusergroupjapan  
 ### QGIS,LIZMAPの日本語翻訳活動  
 　　https://explore.transifex.com/3liz-1/lizmap-locales/  
+　　詳細はこちら[GISシステム連携概要](https://github.com/yamamoto-ryuzo/portal/blob/main/%E3%83%91%E3%83%AF%E3%83%BC%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/QGIS%E3%81%AE%E3%82%BD%E3%83%AA%E3%83%A5%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3.pdf)  
+![image](https://github.com/user-attachments/assets/8f0e8558-5d6e-425c-95f0-f9cedf7f3225)
+
 ## 出没先　
 ・https://www.dx-junkyard.com/  
 ・[FOSS4Gもくもく会](https://github.com/yamamoto-ryuzo/portal/blob/main/FOSS4G%E3%82%82%E3%81%8F%E3%82%82%E3%81%8F%E4%BC%9A.md)　　 皆勤賞を目指しています！   
