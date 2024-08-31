@@ -23,7 +23,7 @@
 　　7/16～　エントリー  
 [応募先](https://www.mlit.go.jp/plateau-next/award/#how-to-apply)：[PLATEAU AWARD 2024](https://github.com/yamamoto-ryuzo/portal/issues/4)[【ODB for PLATEAU】](https://github.com/yamamoto-ryuzo/portal/blob/main/ODBforPLATEAU.md)   
 　　[6/17～ プレエントリー](https://github.com/yamamoto-ryuzo/portal/issues/4#issuecomment-2202718126)、8/30～　本エントリー  
-[応募先](https://odhackathon.metro.tokyo.lg.jp/)：[都知事杯オープンデータ・ハッカソン2024　(個人)](https://github.com/yamamoto-ryuzo/portal/issues/1#issue-2329558676) 　 [(dx-junkyard)](https://github.com/yamamoto-ryuzo/portal/issues/6)  
+[応募先](https://odhackathon.metro.tokyo.lg.jp/)：[都知事杯オープンデータ・ハッカソン2024ファーストステージ　(個人)](https://github.com/yamamoto-ryuzo/portal/issues/1#issue-2329558676) 　 [(dx-junkyard)](https://github.com/yamamoto-ryuzo/portal/issues/6)  
 　　[アイデアソン Day.2 8/7(水)](https://odhackathon.metro.tokyo.lg.jp/team-building/#ideathon2)、[ハッカソン 8/24.25日（土日）](https://odhackathon.metro.tokyo.lg.jp/hackathon/#hackathon-day1)  
 ## 終了イベント 
 ### イベント 2024  
