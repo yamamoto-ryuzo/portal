@@ -12,7 +12,7 @@
 　　https://github.com/yamamoto-ryuzo/Lizmap-installation-Japanese-memo  
 　　https://www.facebook.com/groups/lizmapusergroupjapan  
 　　詳細はこちら[GISシステム連携概要](https://github.com/yamamoto-ryuzo/portal/blob/main/%E3%83%91%E3%83%AF%E3%83%BC%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/QGIS%E3%81%AE%E3%82%BD%E3%83%AA%E3%83%A5%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3.pdf)  
-![image](https://github.com/user-attachments/assets/8f0e8558-5d6e-425c-95f0-f9cedf7f3225)
+![image](https://github.com/user-attachments/assets/823a5c6e-8296-4477-8017-5bbd399db594)
 
 ## 出没先　
 ・https://www.dx-junkyard.com/  
