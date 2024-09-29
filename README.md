@@ -20,7 +20,7 @@
 ## 参加イベント  
 ### イベント  2024  
 [応募先]()：[予定][LINKS:DATA x Hackathon]()  
-　　[10/05 アイデアソン](https://connpass.com/event/322837/)、[11/23 ハッカソン](https://connpass.com/event/322836/)  
+　　[11/23 ハッカソン](https://connpass.com/event/322836/)  
 [応募先](https://challenge2024.odpt.org/#)：[公共交通オープンデータチャレンジ2024](https://github.com/yamamoto-ryuzo/portal/issues/5)   
 　　7/16～　エントリー  
 [応募先](https://www.mlit.go.jp/plateau-next/award/#how-to-apply)：[PLATEAU AWARD 2024](https://github.com/yamamoto-ryuzo/portal/issues/4)[【ODB for PLATEAU】](https://github.com/yamamoto-ryuzo/portal/blob/main/ODBforPLATEAU.md)   
