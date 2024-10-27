@@ -4,8 +4,8 @@
 　その後、大学の専攻が農業土木だったため、幅広く農業や土木を学ぶことができ、現在の土木の仕事につながっています。  
  
 ## 主な活動  
-### 初めての人でも扱いやすいポータブルQGIS環境の構築  
-　　https://github.com/yamamoto-ryuzo/yr-qgis-portable-launcher2  
+### 初めての人でも扱いやすいQGIS環境の構築  
+　　https://github.com/yamamoto-ryuzo/yr-qgis-launcher  
 ### QGIS,LIZMAPの日本語翻訳活動  
 　　https://explore.transifex.com/3liz-1/lizmap-locales/  
 ### QGISをWEBで配信できるLIZMAPの布教  
