@@ -6,7 +6,7 @@
 ## 主な活動  
 ### 初めての人でも扱いやすいQGIS環境の構築  
 　　https://github.com/yamamoto-ryuzo/yr-qgis-launcher  
-### QGIS,LIZMAPの日本語翻訳活動  
+### QGISplugin,LIZMAPの日本語翻訳活動  
 　　https://explore.transifex.com/3liz-1/lizmap-locales/  
 ### QGISをWEBで配信できるLIZMAPの布教  
 　　https://github.com/yamamoto-ryuzo/Lizmap-installation-Japanese-memo  
