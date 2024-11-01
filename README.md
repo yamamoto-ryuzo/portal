@@ -27,9 +27,6 @@ Vector登録：[QGISの専用ランチャー yr-qgis-launcher](https://github.co
 　　[11/23 ハッカソン](https://connpass.com/event/322836/)  
 [応募先](https://challenge2024.odpt.org/#)：[公共交通オープンデータチャレンジ2024](https://github.com/yamamoto-ryuzo/portal/issues/5)   
 　　7/16～　エントリー  
-[応募先](https://www.mlit.go.jp/plateau-next/award/#how-to-apply)：[PLATEAU AWARD 2024](https://github.com/yamamoto-ryuzo/portal/issues/4)[【ODB for PLATEAU】](https://github.com/yamamoto-ryuzo/portal/blob/main/ODBforPLATEAU.md)   
-　　[6/17～ プレエントリー](https://github.com/yamamoto-ryuzo/portal/issues/4#issuecomment-2202718126)、8/30～　本エントリー  
-
 ## 終了イベント 
 ### イベント 2024  
 [応募先](https://odhackathon.metro.tokyo.lg.jp/)：[都知事杯オープンデータ・ハッカソン2024ファーストステージ　(個人)](https://github.com/yamamoto-ryuzo/portal/issues/1#issue-2329558676)  
