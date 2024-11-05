@@ -24,10 +24,6 @@
 　10/31 年度内には終わらせたい・・・💦  
 Vector登録：[QGISの専用ランチャー yr-qgis-launcher](https://github.com/yamamoto-ryuzo/yr-qgis-launcher)を登録  
 　10/31 ただいま登録申請中  
-[応募先]()：[予定][LINKS:DATA x Hackathon]()  
-　　[11/23 ハッカソン](https://connpass.com/event/322836/)  
-[応募先](https://challenge2024.odpt.org/#)：[公共交通オープンデータチャレンジ2024](https://github.com/yamamoto-ryuzo/portal/issues/5)   
-　　7/16～　エントリー  
 ## 終了イベント 
 ### イベント 2024  
 [応募先](https://odhackathon.metro.tokyo.lg.jp/)：[都知事杯オープンデータ・ハッカソン2024ファーストステージ　(個人)](https://github.com/yamamoto-ryuzo/portal/issues/1#issue-2329558676)  
