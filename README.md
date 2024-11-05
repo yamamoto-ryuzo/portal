@@ -19,7 +19,7 @@
 ・[FOSS4Gもくもく会](https://github.com/yamamoto-ryuzo/portal/blob/main/FOSS4G%E3%82%82%E3%81%8F%E3%82%82%E3%81%8F%E4%BC%9A.md)　　 皆勤賞を目指しています！   
 ## イベント  
 ### イベント  2024  
-QGISプラグイン:[簡易印刷プラグインの公式プラグインへの登録](https://github.com/yamamoto-ryuzo/easyprint-feature-qgis3)  
+QGISプラグイン：[簡易印刷プラグインの公式プラグインへの登録](https://github.com/yamamoto-ryuzo/easyprint-feature-qgis3)  
 QGISプラグイン：[QGISPlugin　GEO-search-pluginのダウンロード数が3万を超えたので、英語版を作成し国際化！](https://github.com/yamamoto-ryuzo/GEO-search-plugin)  
 　10/31 年度内には終わらせたい・・・💦  
 Vector登録：[QGISの専用ランチャー yr-qgis-launcher](https://github.com/yamamoto-ryuzo/yr-qgis-launcher)を登録  
