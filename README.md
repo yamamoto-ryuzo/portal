@@ -4,6 +4,9 @@
 　その後、大学の専攻が農業土木だったため、幅広く農業や土木を学ぶことができ、現在の土木の仕事につながっています。  
  
 ## 主な活動  
+### Vector  
+　　https://www.vector.co.jp/vpack/browse/person/an063250.html  
+　　[yr-qgis-launcher：ログイン機能等を備えた初めての人でも扱いやすいQGIS環境を提供](https://www.vector.co.jp/soft/winnt/business/se527023.html)
 ### 初めての人でも扱いやすいQGIS環境の構築  
 　　https://github.com/yamamoto-ryuzo/yr-qgis-launcher  
 ### QGISplugin,LIZMAPの日本語翻訳活動  
