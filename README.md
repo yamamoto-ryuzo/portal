@@ -25,10 +25,9 @@
 QGISプラグイン：[簡易印刷プラグインの公式プラグインへの登録](https://github.com/yamamoto-ryuzo/easyprint-feature-qgis3)  
 QGISプラグイン：[QGISPlugin　GEO-search-pluginのダウンロード数が3万を超えたので、英語版を作成し国際化！](https://github.com/yamamoto-ryuzo/GEO-search-plugin)  
 　10/31 年度内には終わらせたい・・・💦  
-Vector登録：[QGISの専用ランチャー yr-qgis-launcher](https://github.com/yamamoto-ryuzo/yr-qgis-launcher)を登録  
-　10/31 ただいま登録申請中  
 ## 終了イベント 
 ### イベント 2024  
+Vector登録：[QGISの専用ランチャー yr-qgis-launcher](https://github.com/yamamoto-ryuzo/yr-qgis-launcher)を登録  
 [応募先](https://odhackathon.metro.tokyo.lg.jp/)：[都知事杯オープンデータ・ハッカソン2024ファーストステージ　(個人)](https://github.com/yamamoto-ryuzo/portal/issues/1#issue-2329558676)  
 　　[アイデアソン Day.2 8/7(水)](https://odhackathon.metro.tokyo.lg.jp/team-building/#ideathon2)、[ハッカソン 8/24.25日（土日）](https://odhackathon.metro.tokyo.lg.jp/hackathon/#hackathon-day1)  　[ファーストステージ収録(8/31)](https://odhackathon.metro.tokyo.lg.jp/collection/29/)   
 [応募先](https://www.zaimu.metro.tokyo.lg.jp/zaisei/zaisei/teian/tomin/7tomin)：[令和6年度　都民による事業提案制度](https://github.com/yamamoto-ryuzo/portal/blob/main/都民による事業提案制度.md)   
