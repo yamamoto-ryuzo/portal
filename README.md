@@ -21,7 +21,11 @@
 ・https://www.dx-junkyard.com/  
 ・[FOSS4Gもくもく会](https://github.com/yamamoto-ryuzo/portal/blob/main/FOSS4G%E3%82%82%E3%81%8F%E3%82%82%E3%81%8F%E4%BC%9A.md)　　 皆勤賞を目指しています！   
 ## イベント  
-### イベント  2024  
+### イベント 2025  
+　今年のお題は  
+　　[yr-qgis-launcher：ログイン機能等を備えた初めての人でも扱いやすいQGIS環境を提供](https://www.vector.co.jp/soft/winnt/business/se527023.html)　のパワーアップ  
+　　プロジェクトＣＤＥの勉強  
+ ### イベント  2024  
 QGISプラグイン：[QGISPlugin　GEO-search-pluginのダウンロード数が3万を超えたので、英語版を作成し国際化！](https://github.com/yamamoto-ryuzo/GEO-search-plugin)  
 QGISランチャー：国際化。。。日本のユーザー少ないので、英語版を作成  
 　10/31 年度内には終わらせたい・・・💦  
