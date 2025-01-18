@@ -24,7 +24,7 @@
 ### イベント 2025  
 　今年のお題は  
 　　[yr-qgis-launcher：ログイン機能等を備えた初めての人でも扱いやすいQGIS環境を提供](https://www.vector.co.jp/soft/winnt/business/se527023.html)　のパワーアップ  
-  　　QGISプラグイン：[QGISPlugin　GEO-search-pluginのダウンロード数が3万を超えたので、英語版を作成し国際化！](https://github.com/yamamoto-ryuzo/GEO-search-plugin)  
+　　　QGISプラグイン：[QGISPlugin　GEO-search-pluginのダウンロード数が3万を超えたので、英語版を作成し国際化！](https://github.com/yamamoto-ryuzo/GEO-search-plugin)  
 　　　QGISランチャー：国際化。。。日本のユーザー少ないので、英語版を作成  
 　　プロジェクトＣＤＥの勉強  
 ## 終了イベント 
