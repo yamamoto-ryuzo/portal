@@ -24,11 +24,9 @@
 ### イベント 2025  
 　今年のお題は  
 　　[yr-qgis-launcher：ログイン機能等を備えた初めての人でも扱いやすいQGIS環境を提供](https://www.vector.co.jp/soft/winnt/business/se527023.html)　のパワーアップ  
+  　　QGISプラグイン：[QGISPlugin　GEO-search-pluginのダウンロード数が3万を超えたので、英語版を作成し国際化！](https://github.com/yamamoto-ryuzo/GEO-search-plugin)  
+　　　QGISランチャー：国際化。。。日本のユーザー少ないので、英語版を作成  
 　　プロジェクトＣＤＥの勉強  
- ### イベント  2024  
-QGISプラグイン：[QGISPlugin　GEO-search-pluginのダウンロード数が3万を超えたので、英語版を作成し国際化！](https://github.com/yamamoto-ryuzo/GEO-search-plugin)  
-QGISランチャー：国際化。。。日本のユーザー少ないので、英語版を作成  
-　10/31 年度内には終わらせたい・・・💦  
 ## 終了イベント 
 ### イベント 2024  
 [Vector登録](https://www.vector.co.jp/soft/winnt/business/se527103.html)：[電子納品の一覧を作成 MLITxml2csv](https://github.com/yamamoto-ryuzo/MLITxml2csv)を登録  
