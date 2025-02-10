@@ -27,7 +27,10 @@
 　　　QGISプラグイン：[QGISPlugin　GEO-search-pluginのダウンロード数が3万を超えたので、英語版を作成し国際化！](https://github.com/yamamoto-ryuzo/GEO-search-plugin)  
 　　　QGISランチャー：国際化。。。日本のユーザー少ないので、英語版を作成  
 　　プロジェクトＣＤＥの勉強  
+    My　Dify　による　QGIS,LIZMAPの専用AI作成
 ## 終了イベント 
+### イベント 2025
+[とりあえずDify](https://docs.dify.ai/ja-jp)：[ゆかりのチャボっと作成](https://udify.app/chat/ROACB9bjRdLIVwZB)  
 ### イベント 2024  
 [Vector登録](https://www.vector.co.jp/soft/winnt/business/se527103.html)：[電子納品の一覧を作成 MLITxml2csv](https://github.com/yamamoto-ryuzo/MLITxml2csv)を登録  
 [QGISプラグイン](https://plugins.qgis.org/plugins/geo_easyprint/)：[簡易印刷プラグインの公式プラグインへの登録](https://github.com/yamamoto-ryuzo/geo_easyprint)  
