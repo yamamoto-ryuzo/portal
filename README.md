@@ -30,7 +30,7 @@
 　　　QGISプラグイン：[QGISPlugin　GEO-search-pluginのダウンロード数が3万を超えたので、英語版を作成し国際化！](https://github.com/yamamoto-ryuzo/GEO-search-plugin)  
 　　　QGISランチャー：国際化。。。日本のユーザー少ないので、英語版を作成  
 　　プロジェクトＣＤＥの勉強  
-    My　Dify　による　QGIS,LIZMAPの専用AI作成
+　　My　Dify　による　QGIS,LIZMAPの専用AI作成
 ## 終了イベント 
 ### イベント 2025
 [とりあえずDify](https://docs.dify.ai/ja-jp)：[ゆかりのチャボっと作成](https://udify.app/chat/ROACB9bjRdLIVwZB)  
