@@ -8,6 +8,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = True
 
+
 Option Explicit
 
 
@@ -17,122 +18,123 @@ Private Const DATE_FORMAT As String = "yyyy/mm/dd"
 
 ' 列名の定数
 Private Const COL_ID As String = "ID"
-Private Const COL_projectId As String = "プロジェクトID"
+Private Const COL_PROJECT_ID As String = "プロジェクトID"
 Private Const COL_ISSUE_KEY As String = "課題キー"
-Private Const COL_issueType As String = "種別"
+Private Const COL_ISSUE_TYPE As String = "種別"
 Private Const COL_SUMMARY As String = "件名"
-Private Const COL_description As String = "説明"
+Private Const COL_DESCRIPTION As String = "説明"
+Private Const COL_RESOLUTION As String = "解決"
+Private Const COL_PRIORITY As String = "優先度"
 Private Const COL_STATUS As String = "状態"
 Private Const COL_ASSIGNEE As String = "担当者"
+Private Const COL_CATEGORY As String = "カテゴリー"
+Private Const COL_MILESTONE As String = "マイルストーン"
 Private Const COL_START_DATE As String = "開始日"
 Private Const COL_DUE_DATE As String = "期限日"
-Private Const COL_customFields As String = "カスタム属性"
-'headers = Array( COL_ID,COL_ISSUE_KEY,COL_issueType, COL_SUMMARY,COL_description, COL_STATUS, COL_ASSIGNEE, COL_START_DATE, COL_DUE_DATE, COL_customFields)
+Private Const COL_ESTIMATED_HOURS As String = "予定時間"
+Private Const COL_ACTUAL_HOURS As String = "実績時間"
+Private Const COL_PARENT_ISSUE_ID As String = "親課題ID"
+Private Const COL_CREATED_USER As String = "作成者"
+Private Const COL_CREATED_DATE As String = "作成日"
+Private Const COL_UPDATED_USER As String = "更新者"
+Private Const COL_UPDATED_DATE As String = "更新日"
+Private Const COL_CUSTOM_FIELDS As String = "カスタム属性"
+Private Const COL_ATTACHMENTS As String = "添付ファイル"
+Private Const COL_SHARED_FILES As String = "共有ファイル"
+
 
 Sub MainProcedure()
 
     Call GetBacklogIssues
-    Call ProcessJsonData
+    Call GetBacklogCustomIssues
     
 End Sub
 
-'===================================================
-
-Private Sub ProcessJsonData()
+'==============================
+'===== カスタム属性を展開 =====
+'==============================
+Private Sub GetBacklogCustomIssues()
     Dim ws As Worksheet
-    Dim jsonText As String
-    Dim row As Long, col As Long, lastRow As Long
-    Dim headers As Object
-    Dim regEx As Object
-    Dim matches As Object
-    Dim match As Object
-    Dim name As String, value As String
-    Dim cell As Range
+    Dim lastRow As Long, lastCol As Long
+    Dim i As Long, j As Long
+    Dim dataArray As Variant
+    Dim headers As Collection
+    Dim item As Variant, attr As Variant
+    Dim cellValue As String, urlValue As String
     
     Set ws = ThisWorkbook.Worksheets("issues")
-    Set headers = CreateObject("Scripting.Dictionary")
-    Set regEx = CreateObject("VBScript.RegExp")
+    lastRow = ws.Cells(ws.Rows.Count, "V").End(xlUp).row
     
-    ' G列の最後の行を取得
-    lastRow = ws.Cells(ws.Rows.Count, "J").End(xlUp).row
+    Set headers = New Collection
     
-    ' JSONデータが格納されているセルの範囲を指定
-    Dim jsonRange As Range
-    Set jsonRange = ws.Range("J2:J" & lastRow)
+    ' すべての行からユニークな属性を抽出
+    For i = 2 To lastRow
+        dataArray = Split(ws.Cells(i, "V").value, ", ")
+        For Each item In dataArray
+            attr = Split(item, ":", 2)  ' 最大2つに分割
+            If UBound(attr) >= 0 Then
+                On Error Resume Next
+                headers.Add Trim(attr(0)), Trim(attr(0))
+                On Error GoTo 0
+            End If
+        Next item
+    Next i
     
-    row = 2 ' 結果を書き込み始める行
-    col = 11 ' 結果を書き込み始める列（K列）
+    ' ヘッダーを設定し、背景色を薄い緑に変更
+    For i = 1 To headers.Count
+        ws.Cells(1, i + 24).value = headers(i)
+        ws.Cells(1, i + 24).Interior.Color = RGB(235, 241, 222) ' 薄い緑色に設定
+    Next i
     
-    ' 正規表現パターンの設定
-    regEx.Global = True
-    regEx.Pattern = """name"":""([^""]+)"",""value"":([^,}\]]+)"
-    
-    ' JSONデータを処理
-    For Each cell In jsonRange
-        jsonText = cell.value
-        Set matches = regEx.Execute(jsonText)
-        
-        For Each match In matches
-            name = match.SubMatches(0)
-            value = match.SubMatches(1)
-            
-            ' valueがnullの場合は空文字列に置き換える
-            If value = "null" Then
-                value = ""
-            Else
-                ' 最初と最後のダブルクォーテーションを削除
-                If Left(value, 1) = """" And Right(value, 1) = """" Then
-                    value = Mid(value, 2, Len(value) - 2)
+    ' データを分解して展開
+    For i = 2 To lastRow
+        dataArray = Split(ws.Cells(i, "V").value, ", ")
+        For j = 1 To headers.Count
+            ws.Cells(i, j + 24).value = ""
+            For Each item In dataArray
+                attr = Split(item, ":", 2)  ' 最大2つに分割
+                If UBound(attr) >= 0 Then
+                    If Trim(attr(0)) = headers(j) Then
+                        If UBound(attr) >= 1 Then
+                            cellValue = Trim(attr(1))
+                            ws.Cells(i, j + 24).value = cellValue
+                            ' セル内の文字列からURLを抽出
+                            urlValue = ExtractURL(cellValue)
+                            If urlValue <> "" Then
+                                ' URLが見つかった場合、ハイパーリンクを設定
+                                ws.Hyperlinks.Add Anchor:=ws.Cells(i, j + 24), Address:=urlValue, TextToDisplay:=cellValue
+                            End If
+                        End If
+                        Exit For
+                    End If
                 End If
-                
-                ' \nをエクセルの改行コードに置換
-                value = Replace(value, "\n", Chr(10))
-            End If
-            
-            ' ヘッダーが存在しない場合は新しい列を作成
-            If Not headers.Exists(name) Then
-                headers(name) = col
-                ws.Cells(1, col).value = name
-                col = col + 1
-            End If
-            
-            ' valueの値を書き込む
-            ws.Cells(row, headers(name)).value = value
-        Next match
-        
-        row = row + 1
-    Next cell
+            Next item
+        Next j
+    Next i
     
-    ' 特殊なケース（オブジェクト値）の処理
-    ProcessSpecialCases ws, jsonRange, headers
+    MsgBox "カスタム属性の展開が完了しました。", vbInformation
 End Sub
 
-Sub ProcessSpecialCases(ws As Worksheet, jsonRange As Range, headers As Object)
-    Dim regEx As Object
-    Dim matches As Object
-    Dim match As Object
-    Dim row As Long
-    Dim cell As Range
+' 文字列からURLを抽出する関数
+Function ExtractURL(text As String) As String
+    Dim regex As Object
+    Set regex = CreateObject("VBScript.RegExp")
     
-    Set regEx = CreateObject("VBScript.RegExp")
-    regEx.Global = True
-    regEx.Pattern = """name"":""(工務課|ＰＰＰ)"",""value"":\{""id"":\d+,""name"":""([^""]+)"""
+    regex.Pattern = "https?://[^\s]+"
+    regex.Global = False
     
-    row = 2
-    For Each cell In jsonRange
-        Set matches = regEx.Execute(cell.value)
-        For Each match In matches
-            ws.Cells(row, headers(match.SubMatches(0))).value = match.SubMatches(1)
-        Next match
-        row = row + 1
-    Next cell
-End Sub
+    If regex.Test(text) Then
+        ExtractURL = regex.Execute(text)(0)
+    Else
+        ExtractURL = ""
+    End If
+    
+    Set regex = Nothing
+End Function
 
-
-
-
-
-'==============================================================================================
+'==========================
+'===== 標準属性を展開 =====
+'==========================
 
 
 Private Sub GetBacklogIssues()
@@ -216,17 +218,29 @@ ErrorHandler:
     MsgBox "エラーが発生しました: " & Err.Description, vbCritical
 End Sub
 
+'==================================
+'===== エクセルに表示する属性 =====
+'==================================
 
 Private Function SetHeaders(sht As Worksheet) As Object
     Dim columnMap As Object
     Dim headers() As Variant
     Dim i As Long, col As Long
-    
-    'エクセルに表示する属性
     Set columnMap = CreateObject("Scripting.Dictionary")
-    headers = Array(COL_ID, COL_ISSUE_KEY, COL_issueType, COL_SUMMARY, COL_description, COL_STATUS, COL_ASSIGNEE, COL_START_DATE, COL_DUE_DATE, COL_customFields)
-    'メッセージにて内容の表示
     
+    '==================
+    '表示する配列の実態
+    '==================
+    headers = Array( _
+        COL_ID, COL_PROJECT_ID, COL_ISSUE_KEY, COL_ISSUE_TYPE, COL_SUMMARY, _
+        COL_DESCRIPTION, COL_RESOLUTION, COL_PRIORITY, COL_STATUS, COL_ASSIGNEE, _
+        COL_CATEGORY, COL_MILESTONE, COL_START_DATE, COL_DUE_DATE, _
+        COL_ESTIMATED_HOURS, COL_ACTUAL_HOURS, COL_PARENT_ISSUE_ID, _
+        COL_CREATED_USER, COL_CREATED_DATE, COL_UPDATED_USER, COL_UPDATED_DATE, _
+        COL_CUSTOM_FIELDS, COL_ATTACHMENTS, COL_SHARED_FILES _
+    )
+    
+    'ヘッダーの設定とマッピング
     col = 1
     For i = LBound(headers) To UBound(headers)
         If Len(headers(i)) > 0 Then
@@ -236,22 +250,124 @@ Private Function SetHeaders(sht As Worksheet) As Object
         End If
     Next i
     
+    'ヘッダー行の書式設定
+    With sht.Range(sht.Cells(1, 1), sht.Cells(1, col - 1))
+        .Font.Bold = True
+        .Interior.Color = RGB(220, 230, 241)  ' 薄い青色
+        .HorizontalAlignment = xlCenter
+    End With
+    
+    'オートフィルターの適用
+    sht.Range(sht.Cells(1, 1), sht.Cells(1, col - 1)).AutoFilter
+    
     Set SetHeaders = columnMap
 End Function
 
 Private Sub ProcessIssue(issue As String, ByRef data() As Variant, row As Long, columnMap As Object)
     If columnMap.Exists(COL_ID) Then data(row, columnMap(COL_ID)) = ExtractValue(issue, "id")
-    If columnMap.Exists(COL_projectId) Then data(row, columnMap(COL_projectId)) = ExtractValue(issue, "projectId")
+    If columnMap.Exists(COL_PROJECT_ID) Then data(row, columnMap(COL_PROJECT_ID)) = ExtractValue(issue, "projectId")
     If columnMap.Exists(COL_ISSUE_KEY) Then data(row, columnMap(COL_ISSUE_KEY)) = ExtractValue(issue, "issueKey")
-    If columnMap.Exists(COL_issueType) Then data(row, columnMap(COL_issueType)) = ExtractNestedValue(issue, "issueType", "name")
+    If columnMap.Exists(COL_ISSUE_TYPE) Then data(row, columnMap(COL_ISSUE_TYPE)) = ExtractNestedValue(issue, "issueType", "name")
     If columnMap.Exists(COL_SUMMARY) Then data(row, columnMap(COL_SUMMARY)) = ExtractValue(issue, "summary")
-    If columnMap.Exists(COL_description) Then data(row, columnMap(COL_description)) = ExtractValue(issue, "description")
+    If columnMap.Exists(COL_DESCRIPTION) Then data(row, columnMap(COL_DESCRIPTION)) = ExtractValue(issue, "description")
+    If columnMap.Exists(COL_RESOLUTION) Then data(row, columnMap(COL_RESOLUTION)) = ExtractValue(issue, "resolution")
+    If columnMap.Exists(COL_PRIORITY) Then data(row, columnMap(COL_PRIORITY)) = ExtractNestedValue(issue, "priority", "name")
     If columnMap.Exists(COL_STATUS) Then data(row, columnMap(COL_STATUS)) = ExtractNestedValue(issue, "status", "name")
     If columnMap.Exists(COL_ASSIGNEE) Then data(row, columnMap(COL_ASSIGNEE)) = ExtractNestedValue(issue, "assignee", "name")
+    If columnMap.Exists(COL_CATEGORY) Then data(row, columnMap(COL_CATEGORY)) = ExtractArrayValues(issue, "category", "name")
+    If columnMap.Exists(COL_MILESTONE) Then data(row, columnMap(COL_MILESTONE)) = ExtractArrayValues(issue, "milestone", "name")
     If columnMap.Exists(COL_START_DATE) Then data(row, columnMap(COL_START_DATE)) = ConvertDateFormat(ExtractValue(issue, "startDate"))
     If columnMap.Exists(COL_DUE_DATE) Then data(row, columnMap(COL_DUE_DATE)) = ConvertDateFormat(ExtractValue(issue, "dueDate"))
-    If columnMap.Exists(COL_customFields) Then data(row, columnMap(COL_customFields)) = ExtractValue(issue, "customFields")
+    If columnMap.Exists(COL_ESTIMATED_HOURS) Then data(row, columnMap(COL_ESTIMATED_HOURS)) = ExtractValue(issue, "estimatedHours")
+    If columnMap.Exists(COL_ACTUAL_HOURS) Then data(row, columnMap(COL_ACTUAL_HOURS)) = ExtractValue(issue, "actualHours")
+    If columnMap.Exists(COL_PARENT_ISSUE_ID) Then data(row, columnMap(COL_PARENT_ISSUE_ID)) = ExtractValue(issue, "parentIssueId")
+    If columnMap.Exists(COL_CREATED_USER) Then data(row, columnMap(COL_CREATED_USER)) = ExtractNestedValue(issue, "createdUser", "name")
+    If columnMap.Exists(COL_CREATED_DATE) Then data(row, columnMap(COL_CREATED_DATE)) = ConvertDateFormat(ExtractValue(issue, "created"))
+    If columnMap.Exists(COL_UPDATED_USER) Then data(row, columnMap(COL_UPDATED_USER)) = ExtractNestedValue(issue, "updatedUser", "name")
+    If columnMap.Exists(COL_UPDATED_DATE) Then data(row, columnMap(COL_UPDATED_DATE)) = ConvertDateFormat(ExtractValue(issue, "updated"))
+    If columnMap.Exists(COL_CUSTOM_FIELDS) Then data(row, columnMap(COL_CUSTOM_FIELDS)) = ExtractCustomFields(issue)
+    If columnMap.Exists(COL_ATTACHMENTS) Then data(row, columnMap(COL_ATTACHMENTS)) = ExtractArrayValues(issue, "attachments", "name")
+    If columnMap.Exists(COL_SHARED_FILES) Then data(row, columnMap(COL_SHARED_FILES)) = ExtractArrayValues(issue, "sharedFiles", "name")
 End Sub
+
+
+
+Function ExtractArrayValues(jsonString As String, arrayName As String, fieldName As String) As String
+    Dim regex As Object
+    Dim matches As Object
+    Dim match As Object
+    Dim result As String
+    
+    Set regex = CreateObject("VBScript.RegExp")
+    regex.Global = True
+    regex.Pattern = """" & arrayName & """\s*:\s*\[(.*?)\]"
+    
+    Set matches = regex.Execute(jsonString)
+    
+    If matches.Count > 0 Then
+        Dim arrayContent As String
+        arrayContent = matches(0).SubMatches(0)
+        
+        regex.Pattern = """" & fieldName & """\s*:\s*""([^""]*?)"""
+        Set matches = regex.Execute(arrayContent)
+        
+        For Each match In matches
+            If Len(result) > 0 Then result = result & ", "
+            result = result & match.SubMatches(0)
+        Next match
+    End If
+    
+    ExtractArrayValues = result
+End Function
+
+
+Function ExtractCustomFields(jsonString As String) As String
+    Dim regex As Object
+    Dim matches As Object
+    Dim match As Object
+    Dim result As String
+    
+    Set regex = CreateObject("VBScript.RegExp")
+    regex.Global = True
+    regex.Pattern = """customFields"":\s*(\[.*?\])"
+    
+    Set matches = regex.Execute(jsonString)
+    
+    If matches.Count > 0 Then
+        Dim customFieldsJson As String
+        customFieldsJson = matches(0).SubMatches(0)
+        
+        ' カスタムフィールドのパターンを修正
+        regex.Pattern = "{""id"":(\d+),""fieldTypeId"":\d+,""name"":""([^""]*)"",""value"":([^}]*)}"
+        Set matches = regex.Execute(customFieldsJson)
+        
+        For Each match In matches
+            Dim fieldName As String, fieldValue As String
+            fieldName = match.SubMatches(1)
+            fieldValue = match.SubMatches(2)
+            
+            ' fieldValueがオブジェクトの場合の処理を追加
+            If Left(Trim(fieldValue), 1) = "{" Then
+                fieldValue = ExtractValue(fieldValue, "name") ' オブジェクトからnameを抽出
+            Else
+                ' valueがnullの場合は空文字列に置き換える
+                If LCase(fieldValue) = "null" Then
+                    fieldValue = ""
+                Else
+                    ' 最初と最後のダブルクォーテーションを削除
+                    If Left(fieldValue, 1) = """" And Right(fieldValue, 1) = """" Then
+                        fieldValue = Mid(fieldValue, 2, Len(fieldValue) - 2)
+                    End If
+                End If
+            End If
+            
+            If Len(result) > 0 Then result = result & ", "
+            result = result & fieldName & ": " & fieldValue
+        Next match
+    End If
+    
+    ExtractCustomFields = result
+End Function
 
 
 
