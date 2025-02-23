@@ -25,9 +25,12 @@ Private Const COL_SUMMARY As String = "件名"
 Private Const COL_DESCRIPTION As String = "説明"
 Private Const COL_RESOLUTION As String = "解決"
 Private Const COL_PRIORITY As String = "優先度"
+Private Const COL_STATUS_ID As String = "状態ID"
 Private Const COL_STATUS As String = "状態"
 Private Const COL_ASSIGNEE As String = "担当者"
+Private Const COL_CATEGORY_ID As String = "カテゴリーID"
 Private Const COL_CATEGORY As String = "カテゴリー"
+Private Const COL_MILESTONE_ID As String = "マイルストーンID"
 Private Const COL_MILESTONE As String = "マイルストーン"
 Private Const COL_START_DATE As String = "開始日"
 Private Const COL_DUE_DATE As String = "期限日"
@@ -41,6 +44,8 @@ Private Const COL_UPDATED_DATE As String = "更新日"
 Private Const COL_CUSTOM_FIELDS As String = "カスタム属性"
 Private Const COL_ATTACHMENTS As String = "添付ファイル"
 Private Const COL_SHARED_FILES As String = "共有ファイル"
+Private Const CUSTOM_COLUMNS As String = "Y"
+Private Const CUSTOM_COLUMNS_NUM As Long = 27
 
 
 Sub MainProcedure()
@@ -63,13 +68,13 @@ Private Sub GetBacklogCustomIssues()
     Dim cellValue As String, urlValue As String
     
     Set ws = ThisWorkbook.Worksheets("issues")
-    lastRow = ws.Cells(ws.Rows.Count, "V").End(xlUp).row
+    lastRow = ws.Cells(ws.Rows.Count, CUSTOM_COLUMNS).End(xlUp).row
     
     Set headers = New Collection
     
     ' すべての行からユニークな属性を抽出
     For i = 2 To lastRow
-        dataArray = Split(ws.Cells(i, "V").value, ", ")
+        dataArray = Split(ws.Cells(i, CUSTOM_COLUMNS).value, ", ")
         For Each item In dataArray
             attr = Split(item, ":", 2)  ' 最大2つに分割
             If UBound(attr) >= 0 Then
@@ -82,27 +87,27 @@ Private Sub GetBacklogCustomIssues()
     
     ' ヘッダーを設定し、背景色を薄い緑に変更
     For i = 1 To headers.Count
-        ws.Cells(1, i + 24).value = headers(i)
-        ws.Cells(1, i + 24).Interior.Color = RGB(235, 241, 222) ' 薄い緑色に設定
+        ws.Cells(1, i + CUSTOM_COLUMNS_NUM).value = headers(i)
+        ws.Cells(1, i + CUSTOM_COLUMNS_NUM).Interior.Color = RGB(235, 241, 222) ' 薄い緑色に設定
     Next i
     
     ' データを分解して展開
     For i = 2 To lastRow
-        dataArray = Split(ws.Cells(i, "V").value, ", ")
+        dataArray = Split(ws.Cells(i, CUSTOM_COLUMNS).value, ", ")
         For j = 1 To headers.Count
-            ws.Cells(i, j + 24).value = ""
+            ws.Cells(i, j + CUSTOM_COLUMNS_NUM).value = ""
             For Each item In dataArray
                 attr = Split(item, ":", 2)  ' 最大2つに分割
                 If UBound(attr) >= 0 Then
                     If Trim(attr(0)) = headers(j) Then
                         If UBound(attr) >= 1 Then
                             cellValue = Trim(attr(1))
-                            ws.Cells(i, j + 24).value = cellValue
+                            ws.Cells(i, j + CUSTOM_COLUMNS_NUM).value = cellValue
                             ' セル内の文字列からURLを抽出
                             urlValue = ExtractURL(cellValue)
                             If urlValue <> "" Then
                                 ' URLが見つかった場合、ハイパーリンクを設定
-                                ws.Hyperlinks.Add Anchor:=ws.Cells(i, j + 24), Address:=urlValue, TextToDisplay:=cellValue
+                                ws.Hyperlinks.Add Anchor:=ws.Cells(i, j + CUSTOM_COLUMNS_NUM), Address:=urlValue, TextToDisplay:=cellValue
                             End If
                         End If
                         Exit For
@@ -145,7 +150,7 @@ Private Sub GetBacklogIssues()
     
     Dim configSht As Worksheet, issueSht As Worksheet
     Dim backlogURL As String, apiKey As String, apiEndpoint As String, url As String
-    Dim projectId As String, milestoneId As String
+    Dim projectId As String, milestoneId As String, categoryId As String, statusId As String
     Dim http As Object, response As String
     Dim issues() As String, issueData() As Variant
     Dim i As Long, row As Long
@@ -157,6 +162,8 @@ Private Sub GetBacklogIssues()
     apiKey = configSht.Range("B2").value
     projectId = configSht.Range("B3").value
     milestoneId = configSht.Range("B4").value
+    categoryId = configSht.Range("B5").value
+    statusId = configSht.Range("B6").value
     apiEndpoint = "api/v2/issues?"
     
     ' APIリクエストURLの構築
@@ -166,12 +173,20 @@ Private Sub GetBacklogIssues()
     If Len(projectId) > 0 Then
         url = url & "&projectId[]=" & WorksheetFunction.EncodeURL(projectId)
     End If
-    
     ' milestoneIdが空でない場合、URLに追加
     If Len(milestoneId) > 0 Then
         url = url & "&milestoneId[]=" & WorksheetFunction.EncodeURL(milestoneId)
     End If
-    
+    ' categoryIdが空でない場合、URLに追加
+    If Len(categoryId) > 0 Then
+        url = url & "&categoryId[]=" & WorksheetFunction.EncodeURL(categoryId)
+    End If
+    ' statusIdが空でない場合、URLに追加
+    If Len(statusId) > 0 Then
+        url = url & "&statusId[]=" & WorksheetFunction.EncodeURL(statusId)
+    End If
+
+
     ' HTTPリクエストの準備と送信
     Set http = CreateObject("MSXML2.XMLHTTP")
     http.Open "GET", url, False
@@ -233,8 +248,8 @@ Private Function SetHeaders(sht As Worksheet) As Object
     '==================
     headers = Array( _
         COL_ID, COL_PROJECT_ID, COL_ISSUE_KEY, COL_ISSUE_TYPE, COL_SUMMARY, _
-        COL_DESCRIPTION, COL_RESOLUTION, COL_PRIORITY, COL_STATUS, COL_ASSIGNEE, _
-        COL_CATEGORY, COL_MILESTONE, COL_START_DATE, COL_DUE_DATE, _
+        COL_DESCRIPTION, COL_RESOLUTION, COL_PRIORITY, COL_STATUS_ID, COL_STATUS, COL_ASSIGNEE, _
+        COL_CATEGORY_ID, COL_CATEGORY, COL_MILESTONE_ID, COL_MILESTONE, COL_START_DATE, COL_DUE_DATE, _
         COL_ESTIMATED_HOURS, COL_ACTUAL_HOURS, COL_PARENT_ISSUE_ID, _
         COL_CREATED_USER, COL_CREATED_DATE, COL_UPDATED_USER, COL_UPDATED_DATE, _
         COL_CUSTOM_FIELDS, COL_ATTACHMENTS, COL_SHARED_FILES _
@@ -272,9 +287,12 @@ Private Sub ProcessIssue(issue As String, ByRef data() As Variant, row As Long, 
     If columnMap.Exists(COL_DESCRIPTION) Then data(row, columnMap(COL_DESCRIPTION)) = ExtractValue(issue, "description")
     If columnMap.Exists(COL_RESOLUTION) Then data(row, columnMap(COL_RESOLUTION)) = ExtractValue(issue, "resolution")
     If columnMap.Exists(COL_PRIORITY) Then data(row, columnMap(COL_PRIORITY)) = ExtractNestedValue(issue, "priority", "name")
+    If columnMap.Exists(COL_STATUS_ID) Then data(row, columnMap(COL_STATUS_ID)) = ExtractNestedValue(issue, "status", "id")
     If columnMap.Exists(COL_STATUS) Then data(row, columnMap(COL_STATUS)) = ExtractNestedValue(issue, "status", "name")
     If columnMap.Exists(COL_ASSIGNEE) Then data(row, columnMap(COL_ASSIGNEE)) = ExtractNestedValue(issue, "assignee", "name")
+    If columnMap.Exists(COL_CATEGORY_ID) Then data(row, columnMap(COL_CATEGORY_ID)) = ExtractArrayValues(issue, "category", "id")
     If columnMap.Exists(COL_CATEGORY) Then data(row, columnMap(COL_CATEGORY)) = ExtractArrayValues(issue, "category", "name")
+    If columnMap.Exists(COL_MILESTONE_ID) Then data(row, columnMap(COL_MILESTONE_ID)) = ExtractArrayValues(issue, "milestone", "id")
     If columnMap.Exists(COL_MILESTONE) Then data(row, columnMap(COL_MILESTONE)) = ExtractArrayValues(issue, "milestone", "name")
     If columnMap.Exists(COL_START_DATE) Then data(row, columnMap(COL_START_DATE)) = ConvertDateFormat(ExtractValue(issue, "startDate"))
     If columnMap.Exists(COL_DUE_DATE) Then data(row, columnMap(COL_DUE_DATE)) = ConvertDateFormat(ExtractValue(issue, "dueDate"))
@@ -300,7 +318,7 @@ Function ExtractArrayValues(jsonString As String, arrayName As String, fieldName
     
     Set regex = CreateObject("VBScript.RegExp")
     regex.Global = True
-    regex.Pattern = """" & arrayName & """\s*:\s*\[(.*?)\]"
+    regex.Pattern = """" & arrayName & """:\s*\[(.*?)\]"
     
     Set matches = regex.Execute(jsonString)
     
@@ -308,17 +326,37 @@ Function ExtractArrayValues(jsonString As String, arrayName As String, fieldName
         Dim arrayContent As String
         arrayContent = matches(0).SubMatches(0)
         
-        regex.Pattern = """" & fieldName & """\s*:\s*""([^""]*?)"""
+        regex.Pattern = "{(.*?)}"
         Set matches = regex.Execute(arrayContent)
         
         For Each match In matches
-            If Len(result) > 0 Then result = result & ", "
-            result = result & match.SubMatches(0)
+            Dim itemContent As String
+            itemContent = match.SubMatches(0)
+            
+            Dim fieldRegex As Object
+            Set fieldRegex = CreateObject("VBScript.RegExp")
+            fieldRegex.Global = False
+            fieldRegex.Pattern = """" & Trim(fieldName) & """\s*:\s*(""[^""]*""|[^,}\s]+)"
+            
+            Dim fieldMatch As Object
+            Set fieldMatch = fieldRegex.Execute(itemContent)
+            
+            If fieldMatch.Count > 0 Then
+                If Len(result) > 0 Then result = result & ","
+                result = result & fieldMatch(0).SubMatches(0)
+            End If
         Next match
+    End If
+    
+    ' 文字列の場合、前後の引用符を削除
+    If Left(result, 1) = """" And Right(result, 1) = """" Then
+        result = Mid(result, 2, Len(result) - 2)
     End If
     
     ExtractArrayValues = result
 End Function
+
+
 
 
 Function ExtractCustomFields(jsonString As String) As String
@@ -386,15 +424,32 @@ Private Sub WriteDataToSheet(sht As Worksheet, data() As Variant)
 End Sub
 
 
-Private Function ExtractNestedValue(jsonString As String, parentKey As String, childKey As String) As String
-    Dim parentValue As String
-    parentValue = ExtractValue(jsonString, parentKey)
-    If Left(parentValue, 1) = "{" Then
-        ExtractNestedValue = ExtractValue(parentValue, childKey)
+Function ExtractNestedValue(jsonString As String, parentKey As String, childKey As String) As String
+    Dim regex As Object
+    Dim matches As Object
+    
+    Set regex = CreateObject("VBScript.RegExp")
+    regex.Global = True
+    regex.Pattern = """" & parentKey & """\s*:\s*\{[^\}]*""" & childKey & """\s*:\s*([^,\}]+)"
+    
+    Set matches = regex.Execute(jsonString)
+    
+    If matches.Count > 0 Then
+        Dim value As String
+        value = Trim(matches(0).SubMatches(0))
+        
+        ' 引用符がある場合は削除し、ない場合はそのまま文字列として返す
+        If Left(value, 1) = """" And Right(value, 1) = """" Then
+            ExtractNestedValue = Mid(value, 2, Len(value) - 2)
+        Else
+            ExtractNestedValue = value
+        End If
     Else
-        ExtractNestedValue = parentValue
+        ExtractNestedValue = ""
     End If
 End Function
+
+
 
 
 
