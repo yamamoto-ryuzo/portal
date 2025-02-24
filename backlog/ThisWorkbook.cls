@@ -13,7 +13,8 @@ Option Explicit
 
 
 Private Const API_KEY_NAME As String = "apiKey"
-Private Const MAX_ISSUES As Long = 100
+Private Const MAX_ISSUES As Long = 10
+Private Const MAX_ISSUES_LIMIT As Long = 50
 Private Const DATE_FORMAT As String = "yyyy/mm/dd"
 
 ' 列名の定数
@@ -141,7 +142,6 @@ End Function
 '===== 標準属性を展開 =====
 '==========================
 
-
 Private Sub GetBacklogIssues()
     On Error GoTo ErrorHandler
     
@@ -149,12 +149,15 @@ Private Sub GetBacklogIssues()
     Debug.Print String(200, vbCrLf)
     
     Dim configSht As Worksheet, issueSht As Worksheet
-    Dim backlogURL As String, apiKey As String, apiEndpoint As String, url As String
+    Dim backlogURL As String, apiKey As String, apiEndpoint As String, baseUrl As String
     Dim projectId As String, milestoneId As String, categoryId As String, statusId As String
     Dim http As Object, response As String
-    Dim issues() As String, issueData() As Variant
-    Dim i As Long, row As Long
+    Dim issues As Collection, issueData() As Variant
+    Dim i As Long, row As Long, offset As Long, totalIssues As Long
     Dim columnMap As Object
+    
+    Const MAX_ISSUES_PER_REQUEST As Long = 100 ' 1回のリクエストで取得する最大課題数
+    Dim MAX_TOTAL_ISSUES As Long ' 取得する課題の最大数
     
     ' 設定シートからBacklogのURLとAPIキーを取得
     Set configSht = ThisWorkbook.Worksheets("config")
@@ -164,74 +167,89 @@ Private Sub GetBacklogIssues()
     milestoneId = configSht.Range("B4").value
     categoryId = configSht.Range("B5").value
     statusId = configSht.Range("B6").value
+    MAX_TOTAL_ISSUES = configSht.Range("B7").value ' 新しい設定：取得する課題の最大数
     apiEndpoint = "api/v2/issues?"
     
-    ' APIリクエストURLの構築
-    ' 例：projectId[]=531908&milestoneId[]=1156331"
-    url = backlogURL & apiEndpoint & API_KEY_NAME & "=" & apiKey & "&count=" & MAX_ISSUES
-    ' projectIdが空でない場合、URLに追加
-    If Len(projectId) > 0 Then
-        url = url & "&projectId[]=" & WorksheetFunction.EncodeURL(projectId)
-    End If
-    ' milestoneIdが空でない場合、URLに追加
-    If Len(milestoneId) > 0 Then
-        url = url & "&milestoneId[]=" & WorksheetFunction.EncodeURL(milestoneId)
-    End If
-    ' categoryIdが空でない場合、URLに追加
-    If Len(categoryId) > 0 Then
-        url = url & "&categoryId[]=" & WorksheetFunction.EncodeURL(categoryId)
-    End If
-    ' statusIdが空でない場合、URLに追加
-    If Len(statusId) > 0 Then
-        url = url & "&statusId[]=" & WorksheetFunction.EncodeURL(statusId)
-    End If
-
-
-    ' HTTPリクエストの準備と送信
-    Set http = CreateObject("MSXML2.XMLHTTP")
-    http.Open "GET", url, False
-    http.send
+    ' ベースURLの構築
+    baseUrl = backlogURL & apiEndpoint & "apiKey=" & apiKey & "&count=" & MAX_ISSUES_PER_REQUEST
     
-    ' APIレスポンスの処理
-    If http.Status = 200 Then
-        response = http.responseText
-        Debug.Print "==========================http.responseTextレスポンスの表示=========================="
-        Debug.Print http.responseText
+    ' オプションパラメータの追加
+    If Len(projectId) > 0 Then baseUrl = baseUrl & "&projectId[]=" & WorksheetFunction.EncodeURL(projectId)
+    If Len(milestoneId) > 0 Then baseUrl = baseUrl & "&milestoneId[]=" & WorksheetFunction.EncodeURL(milestoneId)
+    If Len(categoryId) > 0 Then baseUrl = baseUrl & "&categoryId[]=" & WorksheetFunction.EncodeURL(categoryId)
+    If Len(statusId) > 0 Then baseUrl = baseUrl & "&statusId[]=" & WorksheetFunction.EncodeURL(statusId)
+    
+    ' 課題一覧を表示するシートの準備
+    Set issueSht = ThisWorkbook.Worksheets("issues")
+    issueSht.Cells.Clear
+    
+    ' ヘッダー行の設定と列マップの作成
+    Set columnMap = SetHeaders(issueSht)
+    
+    Set issues = New Collection
+    offset = 0
+    
+    Do
+        ' APIリクエストURLの構築（OFFSETを含む）
+        Dim url As String
+        url = baseUrl & "&offset=" & offset
         
-        ' 課題一覧を表示するシートの準備
-        Set issueSht = ThisWorkbook.Worksheets("issues")
-        issueSht.Cells.Clear
+        ' HTTPリクエストの準備と送信
+        Set http = CreateObject("MSXML2.XMLHTTP")
+        http.Open "GET", url, False
+        http.Send
         
-        ' ヘッダー行の設定と列マップの作成
-        Set columnMap = SetHeaders(issueSht)
-        
-        ' レスポンスを個別の課題データに分割
-        issues = Split(response, "]},{")
-        ReDim issueData(1 To UBound(issues) + 1, 1 To columnMap.Count)
-        
-        ' 各課題データの処理
-        For i = 0 To UBound(issues)
-            ProcessIssue issues(i), issueData, i + 1, columnMap
-            Debug.Print "=====メッセージにて課題を表示====="
-            Debug.Print issues(i)
-        Next i
-        
-        ' データをシートに書き込み
-        WriteDataToSheet issueSht, issueData
-        
-        ' 列幅の自動調整
-        ' issueSht.UsedRange.Columns.AutoFit
-        
-        MsgBox "課題一覧を取得しました。", vbInformation
-    Else
-        Err.Raise vbObjectError + 1, , "APIエラー: ステータスコード " & http.Status
-    End If
+        ' APIレスポンスの処理
+        If http.Status = 200 Then
+            response = http.responseText
+            Debug.Print "==========================http.responseTextレスポンスの表示=========================="
+            Debug.Print http.responseText
+            
+            ' レスポンスを個別の課題データに分割し、Collectionに追加
+            Dim tempIssues() As String
+            tempIssues = Split(response, "]},{")
+            
+            For i = 0 To UBound(tempIssues)
+                issues.Add tempIssues(i)
+                If issues.Count >= MAX_TOTAL_ISSUES Then
+                    Exit For
+                End If
+            Next i
+            
+            ' 次のオフセットを設定
+            offset = offset + MAX_ISSUES_PER_REQUEST
+            
+            ' 取得した課題数が100未満なら終了、または最大課題数に達したら終了
+            If UBound(tempIssues) + 1 < MAX_ISSUES_PER_REQUEST Or issues.Count >= MAX_TOTAL_ISSUES Then
+                Exit Do
+            End If
+        Else
+            Err.Raise vbObjectError + 1, , "APIエラー: ステータスコード " & http.Status
+        End If
+    Loop
+    
+    ' 全ての課題データを処理
+    ReDim issueData(1 To issues.Count, 1 To columnMap.Count)
+    For i = 1 To issues.Count
+        ProcessIssue issues(i), issueData, i, columnMap
+        Debug.Print "=====メッセージにて課題を表示====="
+        Debug.Print issues(i)
+    Next i
+    
+    ' データをシートに書き込み
+    WriteDataToSheet issueSht, issueData
+    
+    ' 列幅の自動調整
+    ' issueSht.UsedRange.Columns.AutoFit
+    
+    MsgBox "課題一覧を取得しました。合計 " & issues.Count & " 件の課題が見つかりました。", vbInformation
     
     Exit Sub
 
 ErrorHandler:
     MsgBox "エラーが発生しました: " & Err.Description, vbCritical
 End Sub
+
 
 '==================================
 '===== エクセルに表示する属性 =====
