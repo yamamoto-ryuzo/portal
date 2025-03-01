@@ -33,6 +33,7 @@
 　　My　Dify　による　QGIS,LIZMAPの専用AI作成
 ## 終了イベント 
 ### イベント 2025
+[ユーチューブ](https://www.youtube.com/@yamakun):QGIS動画を投稿するためアカウント取得  
 [とりあえずDify](https://docs.dify.ai/ja-jp)：[ゆかりのチャボっと作成](https://udify.app/chat/ROACB9bjRdLIVwZB)  
 ### イベント 2024  
 [Vector登録](https://www.vector.co.jp/soft/winnt/business/se527103.html)：[電子納品の一覧を作成 MLITxml2csv](https://github.com/yamamoto-ryuzo/MLITxml2csv)を登録  
