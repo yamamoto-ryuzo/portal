@@ -7,8 +7,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = True
-
-
 Option Explicit
 
 
@@ -21,6 +19,7 @@ Private Const DATE_FORMAT As String = "yyyy/mm/dd"
 Private Const COL_ID As String = "ID"
 Private Const COL_PROJECT_ID As String = "プロジェクトID"
 Private Const COL_ISSUE_KEY As String = "課題キー"
+Private Const COL_ISSUE_TYPE_ID As String = "種別ID"
 Private Const COL_ISSUE_TYPE As String = "種別"
 Private Const COL_SUMMARY As String = "件名"
 Private Const COL_DESCRIPTION As String = "説明"
@@ -45,8 +44,10 @@ Private Const COL_UPDATED_DATE As String = "更新日"
 Private Const COL_CUSTOM_FIELDS As String = "カスタム属性"
 Private Const COL_ATTACHMENTS As String = "添付ファイル"
 Private Const COL_SHARED_FILES As String = "共有ファイル"
-Private Const CUSTOM_COLUMNS As String = "Y"
-Private Const CUSTOM_COLUMNS_NUM As Long = 27
+' カスタム属性が格納されている列の列記号
+Private Const CUSTOM_COLUMNS As String = "Z"
+' カスタム属性の列が開始される列番号
+Private Const CUSTOM_COLUMNS_NUM As Long = 28
 
 
 Sub MainProcedure()
@@ -150,7 +151,7 @@ Private Sub GetBacklogIssues()
     
     Dim configSht As Worksheet, issueSht As Worksheet
     Dim backlogURL As String, apiKey As String, apiEndpoint As String, baseUrl As String
-    Dim projectId As String, milestoneId As String, categoryId As String, statusId As String
+    Dim projectId As String, milestoneId As String, categoryId As String, statusId As String, issueTypeId As String, startDate As String, endDate As String
     Dim http As Object, response As String
     Dim issues As Collection, issueData() As Variant
     Dim i As Long, row As Long, offset As Long, totalIssues As Long
@@ -168,6 +169,10 @@ Private Sub GetBacklogIssues()
     categoryId = configSht.Range("B5").value
     statusId = configSht.Range("B6").value
     MAX_TOTAL_ISSUES = configSht.Range("B7").value ' 新しい設定：取得する課題の最大数
+    issueTypeId = configSht.Range("B8").value ' B8から種別IDを取得
+    startDate = configSht.Range("B9").value ' B9から期限日取得開始日を取得
+    endDate = configSht.Range("B10").value ' B10から期限日取得最終日を取得
+    
     apiEndpoint = "api/v2/issues?"
     
     ' ベースURLの構築
@@ -178,6 +183,11 @@ Private Sub GetBacklogIssues()
     If Len(milestoneId) > 0 Then baseUrl = baseUrl & "&milestoneId[]=" & WorksheetFunction.EncodeURL(milestoneId)
     If Len(categoryId) > 0 Then baseUrl = baseUrl & "&categoryId[]=" & WorksheetFunction.EncodeURL(categoryId)
     If Len(statusId) > 0 Then baseUrl = baseUrl & "&statusId[]=" & WorksheetFunction.EncodeURL(statusId)
+    If Len(issueTypeId) > 0 Then baseUrl = baseUrl & "&issueTypeId[]=" & WorksheetFunction.EncodeURL(issueTypeId) ' 種別IDを追加
+    If Len(startDate) > 0 Then baseUrl = baseUrl & "&dueDateSince=" & WorksheetFunction.EncodeURL(startDate) ' 期限日検索開始日を追加
+    If Len(endDate) > 0 Then baseUrl = baseUrl & "&dueDateUntil=" & WorksheetFunction.EncodeURL(endDate) ' 期限日検索最終日を追加
+    Debug.Print "======================== ベースURL　========================"
+    Debug.Print baseUrl
     
     ' 課題一覧を表示するシートの準備
     Set issueSht = ThisWorkbook.Worksheets("issues")
@@ -265,7 +275,7 @@ Private Function SetHeaders(sht As Worksheet) As Object
     '表示する配列の実態
     '==================
     headers = Array( _
-        COL_ID, COL_PROJECT_ID, COL_ISSUE_KEY, COL_ISSUE_TYPE, COL_SUMMARY, _
+        COL_ID, COL_PROJECT_ID, COL_ISSUE_KEY, COL_ISSUE_TYPE_ID, COL_ISSUE_TYPE, COL_SUMMARY, _
         COL_DESCRIPTION, COL_RESOLUTION, COL_PRIORITY, COL_STATUS_ID, COL_STATUS, COL_ASSIGNEE, _
         COL_CATEGORY_ID, COL_CATEGORY, COL_MILESTONE_ID, COL_MILESTONE, COL_START_DATE, COL_DUE_DATE, _
         COL_ESTIMATED_HOURS, COL_ACTUAL_HOURS, COL_PARENT_ISSUE_ID, _
@@ -300,6 +310,7 @@ Private Sub ProcessIssue(issue As String, ByRef data() As Variant, row As Long, 
     If columnMap.Exists(COL_ID) Then data(row, columnMap(COL_ID)) = ExtractValue(issue, "id")
     If columnMap.Exists(COL_PROJECT_ID) Then data(row, columnMap(COL_PROJECT_ID)) = ExtractValue(issue, "projectId")
     If columnMap.Exists(COL_ISSUE_KEY) Then data(row, columnMap(COL_ISSUE_KEY)) = ExtractValue(issue, "issueKey")
+    If columnMap.Exists(COL_ISSUE_TYPE_ID) Then data(row, columnMap(COL_ISSUE_TYPE_ID)) = ExtractNestedValue(issue, "issueType", "id")
     If columnMap.Exists(COL_ISSUE_TYPE) Then data(row, columnMap(COL_ISSUE_TYPE)) = ExtractNestedValue(issue, "issueType", "name")
     If columnMap.Exists(COL_SUMMARY) Then data(row, columnMap(COL_SUMMARY)) = ExtractValue(issue, "summary")
     If columnMap.Exists(COL_DESCRIPTION) Then data(row, columnMap(COL_DESCRIPTION)) = ExtractValue(issue, "description")
@@ -547,4 +558,6 @@ Private Function ConvertDateFormat(dateStr As String) As String
         ConvertDateFormat = dateStr
     End If
 End Function
+
+
 

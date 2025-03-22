@@ -11,6 +11,8 @@
 ![image](https://github.com/user-attachments/assets/cd4a409c-491c-4156-be3e-d04c6b537eb3)
 
 ## 更新履歴 
+2025/03/22  
+取得ID、期限日によるフィルターを追加  
 2025/02/24  
 最大件数100件以上に対応  
 2025/02/23    
