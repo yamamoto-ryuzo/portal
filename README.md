@@ -16,10 +16,6 @@
 　　https://www.facebook.com/groups/lizmapusergroupjapan  
 　　詳細はこちら[GISシステム連携概要](https://github.com/yamamoto-ryuzo/portal/blob/main/%E3%83%91%E3%83%AF%E3%83%BC%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/QGIS%E3%81%AE%E3%82%BD%E3%83%AA%E3%83%A5%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3.pdf)  
 ![image](https://github.com/user-attachments/assets/823a5c6e-8296-4477-8017-5bbd399db594)
-
-### Dify
-　　今後充実！
-
 ## 出没先　
 ・https://www.dx-junkyard.com/  
 ・[FOSS4Gもくもく会](https://github.com/yamamoto-ryuzo/portal/blob/main/FOSS4G%E3%82%82%E3%81%8F%E3%82%82%E3%81%8F%E4%BC%9A.md)　　 皆勤賞を目指しています！   
@@ -30,7 +26,6 @@
 　　　QGISプラグイン：[QGISPlugin　GEO-search-pluginのダウンロード数が3万を超えたので、英語版を作成し国際化！](https://github.com/yamamoto-ryuzo/GEO-search-plugin)  
 　　　QGISランチャー：国際化。。。日本のユーザー少ないので、英語版を作成  
 　　プロジェクトＣＤＥの勉強  
-　　My　Dify　による　QGIS,LIZMAPの専用AI作成
 ## 終了イベント 
 ### イベント 2025
 [backlog-エクセル連携](https://github.com/yamamoto-ryuzo/portal/tree/main/backlog):バックログAPIを利用してエクセルに課題を読み込み  
