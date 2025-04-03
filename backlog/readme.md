@@ -3,7 +3,7 @@
 　マクロを有効にする設定は、自動処理できないので、周りの方でフォローお願いします。  
 　このシートを実際に設定される方なら、問題ないと思っています。
 
- [本体はこちらから](https://github.com/yamamoto-ryuzo/portal/blob/main/backlog/backlog%E8%AA%B2%E9%A1%8C%E4%B8%80%E8%A6%A7%E5%8F%96%E5%BE%97.xls)
+　　   [本体はこちらから](https://github.com/yamamoto-ryuzo/portal/blob/main/backlog/backlog%E8%AA%B2%E9%A1%8C%E4%B8%80%E8%A6%A7%E5%8F%96%E5%BE%97.xls)
  
 ## 入力画面
 ![image](https://github.com/user-attachments/assets/41c25ce7-ef3f-4834-a159-8df2d252b7f7)
