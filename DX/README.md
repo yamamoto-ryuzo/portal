@@ -8,7 +8,7 @@
 
 ## EPSGコード
 ### Cesium
-#### 内部EPSG:4978（ECEF座標系）+ PSG:6697
+#### 内部EPSG:4978（ECEF座標系）+ EPSG:6697
 　Cesiumで使用されるEPSG:6697は、日本の「JGD2011 + JGD2011 (vertical) height」という複合座標参照系を指します。この座標系は、水平座標として日本の測地系「JGD2011」（EPSG:6668）と、垂直座標として「JGD2011 (vertical) height」（EPSG:6695）を組み合わせたものです。  
 
 特徴:  
