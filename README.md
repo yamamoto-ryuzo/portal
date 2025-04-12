@@ -14,11 +14,12 @@
 ### QGISをWEBで配信できるLIZMAPの布教  
 　　https://github.com/yamamoto-ryuzo/Lizmap-installation-Japanese-memo  
 　　https://www.facebook.com/groups/lizmapusergroupjapan  
+### 事業監理におけるプロジェクトCDEの実現
 　　詳細はこちら[事業監理におけるプロジェクトCDE概要](https://github.com/yamamoto-ryuzo/portal/blob/main/%E3%83%91%E3%83%AF%E3%83%BC%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88CDE.pdf)
   ![image](https://github.com/user-attachments/assets/ac4513c1-f69f-4f7c-b5e7-d08262006865)
 
 ## [DX全般](https://github.com/yamamoto-ryuzo/portal/tree/main/DX/DX.md)  
- ・とりあえう書き始め。。。  
+ ・とりあえず書き始め。。。  
 ## 出没先　
 ・https://www.dx-junkyard.com/  
 ・[FOSS4Gもくもく会](https://github.com/yamamoto-ryuzo/portal/blob/main/FOSS4G%E3%82%82%E3%81%8F%E3%82%82%E3%81%8F%E4%BC%9A.md)　　 皆勤賞を目指しています！   
@@ -27,10 +28,10 @@
 　今年のお題は  
 　　[yr-qgis-launcher：ログイン機能等を備えた初めての人でも扱いやすいQGIS環境を提供](https://www.vector.co.jp/soft/winnt/business/se527023.html)　のパワーアップ  
 　　　QGISプラグイン：[QGISPlugin　GEO-search-pluginのダウンロード数が3万を超えたので、英語版を作成し国際化！](https://github.com/yamamoto-ryuzo/GEO-search-plugin)  
-　　　QGISランチャー：国際化。。。日本のユーザー少ないので、英語版を作成  
-　　プロジェクトＣＤＥの勉強  
+　　　QGISランチャー：国際化。。。日本のユーザー少ないので、英語版を作成  　  
 ## 終了イベント 
 ### イベント 2025
+プロジェクトＣＤＥ整理開始
 [backlog-エクセル連携](https://github.com/yamamoto-ryuzo/portal/tree/main/backlog):バックログAPIを利用してエクセルに課題を読み込み  
 [ユーチューブ](https://www.youtube.com/@yamakun):QGIS動画を投稿するためアカウント取得  
 [とりあえずDify](https://docs.dify.ai/ja-jp)：[ゆかりのチャボっと作成](https://udify.app/chat/ROACB9bjRdLIVwZB)  
