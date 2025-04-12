@@ -14,8 +14,9 @@
 ### QGISをWEBで配信できるLIZMAPの布教  
 　　https://github.com/yamamoto-ryuzo/Lizmap-installation-Japanese-memo  
 　　https://www.facebook.com/groups/lizmapusergroupjapan  
-　　詳細はこちら[GISシステム連携概要](https://github.com/yamamoto-ryuzo/portal/blob/main/%E3%83%91%E3%83%AF%E3%83%BC%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/QGIS%E3%81%AE%E3%82%BD%E3%83%AA%E3%83%A5%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3.pdf)  
-![image](https://github.com/user-attachments/assets/823a5c6e-8296-4477-8017-5bbd399db594)
+　　詳細はこちら[事業監理におけるプロジェクトCDE概要](https://github.com/yamamoto-ryuzo/portal/blob/main/%E3%83%91%E3%83%AF%E3%83%BC%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88CDE.pdf)
+  ![image](https://github.com/user-attachments/assets/ac4513c1-f69f-4f7c-b5e7-d08262006865)
+
 ## [DX全般](https://github.com/yamamoto-ryuzo/portal/tree/main/DX/DX.md)  
  ・とりあえう書き始め。。。  
 ## 出没先　
