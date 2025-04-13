@@ -16,7 +16,8 @@
 　　https://www.facebook.com/groups/lizmapusergroupjapan  
 ### 事業監理におけるプロジェクトCDEの実現
 　　詳細はこちら[事業監理におけるプロジェクトCDE概要](https://github.com/yamamoto-ryuzo/portal/blob/main/%E3%83%91%E3%83%AF%E3%83%BC%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88CDE.pdf)
-  ![image](https://github.com/user-attachments/assets/ac4513c1-f69f-4f7c-b5e7-d08262006865)
+  ![image](https://github.com/user-attachments/assets/d27f01c4-bfa7-4a90-8f2d-cb9fb41e51d8)
+  ![image](https://github.com/user-attachments/assets/1e87cd25-1ca5-4e3d-92ab-a4faccad7670)
 
 ## [DX全般](https://github.com/yamamoto-ryuzo/portal/tree/main/DX/DX.md)  
  ・とりあえず書き始め。。。  
