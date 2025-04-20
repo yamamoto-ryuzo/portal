@@ -34,10 +34,10 @@
 　　　QGISランチャー：国際化。。。日本のユーザー少ないので、英語版を作成  　  
 ## 終了イベント 
 ### イベント 2025
-プロジェクトＣＤＥ整理開始
-[backlog-エクセル連携](https://github.com/yamamoto-ryuzo/portal/tree/main/backlog):バックログAPIを利用してエクセルに課題を読み込み  
+[プロジェクトＣＤＥ整理開始](https://github.com/yamamoto-ryuzo/portal/tree/main/%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88CDE)    
+[backlog-エクセル連携](https://github.com/yamamoto-ryuzo/portal/tree/main/backlog):バックログAPIを利用してエクセルに課題を読み込み    
 [ユーチューブ](https://www.youtube.com/@yamakun):QGIS動画を投稿するためアカウント取得  
-[とりあえずDify](https://docs.dify.ai/ja-jp)：[ゆかりのチャボっと作成](https://udify.app/chat/ROACB9bjRdLIVwZB)  
+[とりあえずDify](https://docs.dify.ai/ja-jp)：[ゆかりのチャボっと作成](https://udify.app/chat/ROACB9bjRdLIVwZB)    
 ### イベント 2024  
 [Vector登録](https://www.vector.co.jp/soft/winnt/business/se527103.html)：[電子納品の一覧を作成 MLITxml2csv](https://github.com/yamamoto-ryuzo/MLITxml2csv)を登録  
 [QGISプラグイン](https://plugins.qgis.org/plugins/geo_easyprint/)：[簡易印刷プラグインの公式プラグインへの登録](https://github.com/yamamoto-ryuzo/geo_easyprint)  
