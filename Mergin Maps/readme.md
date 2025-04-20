@@ -1,5 +1,6 @@
 # Mergin Maps
 
+　類似アプリ：[QFiled](https://qfield.org/)　, [SMASH](https://www.geopaparazzi.org/smash/)  
  [無料のコミュニティエディションはこちら](https://github.com/MerginMaps)
 
  サイトに日本語はありませんが、アプリ自体はWindows,androidともに日本語化されています。  
