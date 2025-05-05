@@ -34,6 +34,7 @@
 　　　QGISランチャー：国際化。。。日本のユーザー少ないので、英語版を作成  　  
 ## 終了イベント 
 ### イベント 2025
+[Boxフォルダ写真位置情報抽出アプリ](https://github.com/yamamoto-ryuzo/boxPhotoGeoURL)  
 [プロジェクトＣＤＥ整理開始](https://github.com/yamamoto-ryuzo/portal/tree/main/%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88CDE)    
 [backlog-エクセル連携](https://github.com/yamamoto-ryuzo/portal/tree/main/backlog):バックログAPIを利用してエクセルに課題を読み込み    
 [ユーチューブ](https://www.youtube.com/@yamakun):QGIS動画を投稿するためアカウント取得  
