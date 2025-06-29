@@ -15,6 +15,7 @@
   - [データ形式変換・生成に役立つ主なツール・ライブラリ](#データ形式変換生成に役立つ主なツールライブラリ)
 - [QGIS・AutoCAD・ArcGIS・BIM/CIMとの連携](#qgisautocadarcgisbimcimとの連携)
 - [3D・VR・AR・MRとの関係](#3dvrarmrとの関係)
+- [代表的なサービス・アプリと3D・VR・AR・MRとの関係](#代表的なサービスアプリと3dvrarmrとの関係)
 
 ---
 
