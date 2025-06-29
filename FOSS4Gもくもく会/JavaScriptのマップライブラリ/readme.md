@@ -6,6 +6,7 @@
 ## 目次
 
 - [はじめに](#はじめに)
+- [WebGLとは](#webglとは)
 - [2D地図ライブラリ](#2d地図ライブラリ)
 - [2D/3D対応・3D表示に強いライブラリ](#2d3d対応3d表示に強いライブラリ)
 - [主なデータ形式と対応ライブラリ](#主なデータ形式と対応ライブラリ)
@@ -20,6 +21,36 @@
 ## はじめに
 
 JavaScriptで利用できる主な地図ライブラリについてまとめています。
+
+## WebGLとは
+
+[▲目次へ戻る](#目次)
+
+WebGL（Web Graphics Library）は、Webブラウザ上でハードウェアアクセラレーションを利用した3D/2Dグラフィックスを描画するためのJavaScript APIです。  
+WebGLを利用することで、インストール不要で高性能な3D地図や都市モデル、点群データなどの可視化が可能となり、three.js、Babylon.js、CesiumJS、deck.glなど多くのWeb地図・3D可視化ライブラリの基盤技術となっています。
+
+---
+
+### AutoCAD等のネイティブアプリとWebGLベース可視化の違い
+
+| 項目                | AutoCAD等ネイティブアプリ                | WebGLベース（three.js, CesiumJS等）         |
+|---------------------|------------------------------------------|--------------------------------------------|
+| 表示性能            | 高速・大規模データも快適（GPU/CPU最適化）| ブラウザ依存・大規模データは工夫が必要      |
+| 表示精度            | CAD/BIMの設計精度（ミリ単位・属性も厳密） | 軽量化・簡略化前提（glTF/3D Tiles等は簡易化や座標誤差あり）|
+| データ互換性        | DWG/DXF等のCAD/BIMネイティブ形式を直接扱える | glTF, 3D Tiles, OBJ等Web向け軽量形式が主流 |
+| 機能                | 精密な作図・編集・属性管理・自動化等が豊富 | 主に可視化・簡易編集・インタラクション      |
+| 拡張性              | プラグイン・APIで高度なカスタマイズ可能   | JavaScriptで柔軟に拡張・Web連携が容易      |
+| コラボレーション    | ファイル共有・クラウド連携（製品依存）    | URL共有・Web公開・多端末対応が容易         |
+| 利用環境            | 専用アプリのインストールが必要            | ブラウザのみで動作・クロスプラットフォーム |
+| VR/AR/MR対応        | 一部製品で対応（例：Autodesk VRED等）     | WebXR等で容易に対応・実装事例が多い        |
+| コスト              | 商用ライセンスが必要な場合が多い          | OSS/無料ライブラリが多い                   |
+
+- **表示性能・精度について**  
+  ネイティブアプリ（AutoCAD等）はGPU/CPU最適化により数百万要素の大規模データも高精度・高速に表示可能で、設計精度（ミリ単位や属性の厳密性）も維持されます。  
+  一方、WebGLベースの可視化はブラウザの制約やネットワーク転送の都合上、データ軽量化（LOD・簡略化・座標丸め等）が前提となるため、超高精度な設計用途や厳密な属性管理には向きません。ただし都市モデルや点群の「見せる・共有する」用途では十分な性能・精度を実現できます。  
+  表示の滑らかさや応答性は、データ量・端末性能・WebGL実装・最適化手法（タイル分割・LOD・ストリーミング等）に大きく依存します。
+
+---
 
 ## 2D地図ライブラリ
 
@@ -60,19 +91,30 @@ JavaScriptで利用できる主な地図ライブラリについてまとめて�
 
 [▲目次へ戻る](#目次)
 
+### 2D・3D両対応のライブラリ
+
 - [MapLibre GL JS](https://maplibre.org/projects/maplibre-gl-js/)
   - Mapbox GL JSのOSSフォーク。  
-    ベクトルタイルやラスタタイルの高速描画、地図の3D表示、スタイルの柔軟なカスタマイズが可能。  
-    Mapbox Style Specに準拠し、商用・非商用問わず無料で利用できる。
+    ベクトルタイルやラスタタイルの高速描画、地図の3D表示（建物の高さ表現や地形起伏）、スタイルの柔軟なカスタマイズが可能。  
+    2D/3Dの切り替えや重ね合わせもできる。
   - **主な対応データ形式:** MVT（Mapbox Vector Tile）, ラスタタイル, GeoJSON, ラスタ画像, Mapbox Style JSON
   - 参考: [公式サイト](https://maplibre.org/maplibre-gl-js/docs/) / [Zenn（あさひなさん記事）](https://zenn.dev/asahina820/books/c29592e397a35b) / [サンプル（ベクトルタイル・スタイル切替）](https://maplibre.org/maplibre-gl-js-docs/example/)
 
 - [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/)
   - ベクトルタイルベースの高機能地図ライブラリ。  
-    地図のスタイルを自由にカスタマイズでき、3D地図やアニメーションもサポート。  
+    2D/3D地図の切り替えや3D地形・建物表現、アニメーションもサポート。  
     商用利用は有償。
   - **主な対応データ形式:** MVT, GeoJSON, ラスタタイル, Mapbox Style JSON, 3D地形（DEM）, 画像オーバーレイ
   - 参考: [公式サイト](https://docs.mapbox.com/mapbox-gl-js/) / [サンプル集](https://docs.mapbox.com/mapbox-gl-js/example/)
+
+- [deck.gl](https://deck.gl/)
+  - WebGLベースの大規模データ可視化フレームワーク。  
+    2D/3D両方の地図・データ可視化に対応し、MapLibreやMapbox、Google Maps等と組み合わせて利用可能。  
+    3Dレイヤーやアニメーション表現も得意。
+  - **主な対応データ形式:** GeoJSON, CSV, 3D Tiles, 点群（LAS/LAZ）, MVT, ラスタ画像, ビッグデータ（Arrow, Parquet等）
+  - 参考: [公式サイト](https://deck.gl/) / [Qiita解説](https://qiita.com/keijipoon/items/92d9551930fe52d6c90a) / [サンプル集（大規模データ可視化）](https://deck.gl/examples/)
+
+### 3D専用ライブラリ
 
 - [CesiumJS](https://cesium.com/platform/cesiumjs/)
   - 3D地球・地図可視化ライブラリ。  
@@ -80,14 +122,6 @@ JavaScriptで利用できる主な地図ライブラリについてまとめて�
     PLATEAUなどの3D都市モデルとも連携。
   - **主な対応データ形式:** 3D Tiles, glTF, CZML, KML, GeoJSON, 点群（LAS/LAZ→3D Tiles変換）, 画像タイル, 地形データ（DEM）
   - 参考: [公式サイト](https://cesium.com/platform/cesiumjs/) / [PLATEAUトピック](https://www.mlit.go.jp/plateau/learning/tpc06-1/) / [サンプル集（3D地球・都市モデル）](https://sandcastle.cesium.com/)
-
-- [deck.gl](https://deck.gl/)
-  - WebGLベースの大規模データ可視化フレームワーク。  
-    地図上に大量のポイント・ライン・ポリゴン・ヒートマップなどを高パフォーマンスで描画できる。  
-    MapLibreやMapbox、Google Maps等と組み合わせて利用可能。  
-    3Dレイヤーやアニメーション表現も得意。
-  - **主な対応データ形式:** GeoJSON, CSV, 3D Tiles, 点群（LAS/LAZ）, MVT, ラスタ画像, ビッグデータ（Arrow, Parquet等）
-  - 参考: [公式サイト](https://deck.gl/) / [Qiita解説](https://qiita.com/keijipoon/items/92d9551930fe52d6c90a) / [サンプル集（大規模データ可視化）](https://deck.gl/examples/)
 
 - [three.js](https://threejs.org/)
   - WebGLを簡単に扱えるJavaScript 3Dグラフィックスライブラリ。  
@@ -102,6 +136,13 @@ JavaScriptで利用できる主な地図ライブラリについてまとめて�
     地形や建物の3Dスキャンデータ、測量データの可視化に最適で、属性情報の表示や断面計測などの機能も豊富。
   - **主な対応データ形式:** LAS, LAZ, PotreeConverterで変換したBIN, PLY, XYZ, PTX, CSV（点群）
   - 参考: [公式サイト](https://potree.org/) / [サンプル集](https://potree.org/demo.html)
+
+- [Babylon.js](https://www.babylonjs.com/)
+  - 高機能なWebGLベースの3Dエンジン。  
+    物理演算やPBRマテリアル、アニメーション、VR/AR（WebXR）などに対応し、都市モデルやBIMデータの可視化・インタラクションも可能。  
+    glTFやOBJ、STLなど多様な3Dフォーマットをサポートし、three.jsと並ぶWeb3D開発の代表的ライブラリ。
+  - **主な対応データ形式:** glTF, OBJ, STL, Babylon専用形式（.babylon）, 画像テクスチャ
+  - 参考: [公式サイト](https://www.babylonjs.com/) / [サンプル集](https://playground.babylonjs.com/)
 
 ## 主なデータ形式と対応ライブラリ
 
@@ -193,3 +234,27 @@ JavaScriptで利用できる主な地図ライブラリについてまとめて�
 - **データ形式のポイント**
   - VR/AR/MRでの3D地図・都市モデル活用には、glTFや3D Tiles、GeoJSON、点群（LAS/LAZ）などWeb標準の軽量3Dフォーマットが推奨されます。
   - WebXR APIやA-Frame、Babylon.jsなどのフレームワークと連携することで、Web地図ライブラリの3DデータをVR/AR/MR体験に活用できます。
+
+## 代表的なサービス・アプリと3D・VR・AR・MRとの関係
+
+[▲目次へ戻る](#目次)
+
+| サービス・アプリ名                | 主な利用ライブラリ         | 概要・特徴                                                                 | 3D/VR/AR/MR対応           |
+|-----------------------------------|---------------------------|----------------------------------------------------------------------------|---------------------------|
+| Google Maps                       | Google Maps JS API        | 世界最大級の地図サービス。2D/3D地図、ストリートビュー、ルート検索等。         | 3D地図（Web/モバイル）、一部AR（Live View）|
+| Mapbox                            | Mapbox GL JS, deck.gl     | カスタム地図・3D地図・ナビゲーションAPI。多くのWeb/モバイルアプリで採用。     | 3D地図、AR（Mapbox Vision）|
+| PLATEAU VIEW                      | CesiumJS                  | 国土交通省PLATEAUの3D都市モデルWebビューア。                                 | 3D都市モデル、WebGL        |
+| Cesium Stories                    | CesiumJS                  | 3D地球上でストーリーやデータを可視化・共有できるWebサービス。                 | 3D地球、WebGL              |
+| ArcGIS Online/Scene Viewer        | ArcGIS JS API, CesiumJS   | ESRIのクラウドGIS。2D/3D地図、都市モデル、点群、VR/AR/MR連携も可能。          | 3D地図、VR/AR/MR（一部対応）|
+| OpenStreetMap 3D                  | OSM Buildings, three.js   | OSMデータを使った3D都市モデルWeb表示。                                      | 3D地図                     |
+| QGIS2threejs出力例                | three.js                  | QGISから出力した3D地形・都市モデルのWeb可視化。                              | 3D地図                     |
+| Potree Viewer                     | Potree                    | 大規模点群データのWeb可視化。                                               | 3D点群                     |
+| Babylon.js Playground             | Babylon.js                | WebGLベースの3D/VR/AR/MRデモ・サンプル集。                                   | 3D/VR/AR/MR                |
+| Mapillary                         | Mapbox GL JS, three.js    | ストリートビュー画像の共有・解析サービス。3D点群やAR機能も一部提供。           | 3D点群、AR                  |
+| PLATEAU x XR                      | CesiumJS, Unity           | PLATEAU都市モデルのVR/AR/MR体験・実証プロジェクト。                           | VR/AR/MR                    |
+| [KOLC+](https://www.kolcplus.jp/) | CesiumJS, MapLibre GL JS  | 国土地理院の3D都市モデル・地理空間情報統合ビューア。PLATEAUや地理院地図、点群、地形、各種オープンデータをWebで統合表示。 | 3D都市モデル、点群、WebGL、今後XR連携も検討中 |
+| [PLATEAU SDK for Unity](https://sdk.plateau.reearth.io/) | Unity, Cesium for Unity   | PLATEAU都市モデルをUnityで活用・VR/AR/MRアプリ開発が可能なSDK。               | VR/AR/MR                    |
+| [Re:Earth](https://reearth.io/)   | CesiumJS, MapLibre GL JS  | オープンソースの3D地理空間プラットフォーム。PLATEAUや各種地理空間データの可視化・共有。 | 3D都市モデル、WebGL         |
+
+- これらのサービス・アプリは、WebGLベースの地図・3D可視化ライブラリを活用し、3D都市モデルや点群、ストリートビュー、ナビゲーション、VR/AR/MR体験など多様な地理空間情報サービスを実現しています。
+- 特にCesiumJS、three.js、Babylon.js、deck.gl、Mapbox GL JSなどは、3D地図や都市モデルのWeb可視化・共有・インタラクション・VR/AR/MR連携の基盤として広く利用されています。
