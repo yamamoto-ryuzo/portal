@@ -67,6 +67,12 @@ JavaScriptで利用できる主な地図ライブラリについてまとめて�
     地図専用ではないが、3D地図や都市モデルの可視化にも活用される。
   - 参考: [公式サイト](https://threejs.org/) / [サンプル集（3D表現全般）](https://threejs.org/examples/)
 
+- [Potree](https://potree.org/)
+  - WebGLベースのオープンソース点群データ可視化ライブラリ。  
+    大規模なLAS/LAZ形式などの点群データをWebブラウザ上で高速かつインタラクティブに表示できる。  
+    地形や建物の3Dスキャンデータ、測量データの可視化に最適で、属性情報の表示や断面計測などの機能も豊富。
+  - 参考: [公式サイト](https://potree.org/) / [サンプル集](https://potree.org/demo.html)
+
 ## QGISとの連携
 
 - QGISで作成したGeoJSONやシェープファイルをエクスポートし、LeafletやOpenLayers、MapLibre GL JSなどのJavaScriptライブラリでWeb地図として表示できます。
@@ -77,11 +83,23 @@ JavaScriptで利用できる主な地図ライブラリについてまとめて�
   [QGIS2threejs公式ページ](https://qgis2threejs.readthedocs.io/ja/latest/) / [サンプル（QGISから3D出力）](https://qgis2threejs.readthedocs.io/ja/latest/sample.html)
   - ※ QGIS2threejsは[three.js](https://threejs.org/)というJavaScript 3Dグラフィックスライブラリを利用しています。
 
-## その他参考リンク
+## BIM/CIMとの連携
 
-- [GIS実習オープン教材](https://gis-oer.github.io/gitbook/book/materials/web_gis/)
-- [地理院タイルを用いたサイト構築サンプル集](https://maps.gsi.go.jp/development/sample.html)
-- [電子版書籍：「JavaScriptではじめるWebマップアプリケーション」](https://techbookfest.org/product/5707841755152384?productVariantID=5181910525411328)
+- BIM（Building Information Modeling）やCIM（Construction Information Modeling）で作成された3Dモデルや属性情報は、Web地図・3D地図ライブラリと連携して可視化・共有が可能です。
+- 主なデータ形式例：
+    - **IFC（Industry Foundation Classes）**: 建築・土木分野で標準的なBIMデータ交換フォーマット。直接Web地図で表示するには変換が必要（例：glTFや3D Tilesへ）。
+    - **glTF（GL Transmission Format）**: 軽量な3Dモデルフォーマット。three.jsやCesiumJSで直接読み込み・表示が可能。
+    - **3D Tiles**: CesiumJSが提唱する大規模3D地理空間データ配信フォーマット。BIM/CIMや点群データ、都市モデル（PLATEAU等）で利用。
+    - **CityGML**: 都市モデルのXMLベース標準。FMEやPLATEAUツール等で3D TilesやglTFに変換してWeb可視化。
+    - **OBJ/FBX**: 3D CADやBIMソフトでよく使われる汎用3Dモデルフォーマット。three.js等で利用可能（glTF変換推奨）。
+    - **LAS/LAZ**: 点群データフォーマット。deck.glやPotree等で可視化可能。
+    - **GeoJSON/TopoJSON**: 属性付き2D/3D地理空間データ。地図ライブラリで広く利用。
+
+- [CesiumJS](https://cesium.com/platform/cesiumjs/)はglTFや3D Tiles形式に対応しており、BIM/CIMデータを大規模かつ高精度にWebブラウザ上で表示できます。
+- [three.js](https://threejs.org/)もglTFやOBJ等の3Dモデルを読み込んで表示でき、BIM/CIMデータのカスタム可視化やインタラクションも実現可能です。
+- [deck.gl](https://deck.gl/)は3D Tilesや点群データ（LAS/LAZ）の可視化にも対応しています。
+- QGISやFME等のGISツールを使ってBIM/CIMデータをGeoJSON、3D Tiles、glTF等に変換し、Web地図ライブラリで利用する事例も増えています。
+- PLATEAUプロジェクトのような都市モデル（CityGML/3D Tiles）もCesiumJSやdeck.glで活用されています。
 
 ## その他参考リンク
 
