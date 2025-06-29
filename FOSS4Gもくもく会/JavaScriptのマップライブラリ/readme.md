@@ -216,7 +216,7 @@ WebGLを利用することで、インストール不要で高性能な3D地図�
 - **BIM/CIMとの連携**  
   BIM（Building Information Modeling）やCIM（Construction Information Modeling）で作成されたIFC、CityGML、glTF、3D Tiles、LAS/LAZ等の3Dモデル・点群データは、Web地図・3D地図ライブラリでの可視化・共有が進んでいます。特にCesiumJSやthree.js、deck.gl、Potreeなどは大規模な3D都市モデルや点群データのWeb可視化に強みがあります。QGISやFME、PLATEAUツール、Blender等を活用して、BIM/CIMデータをWeb向けの形式（glTF, 3D Tiles, GeoJSON等）に変換し、WebGISやWeb3Dビューアでの活用が広がっています。
 
-## 3D・VR・AR・MRとの関係
+## 3D・VR・AR・MR・XRとの関係
 
 [▲目次へ戻る](#目次)
 
@@ -232,9 +232,13 @@ WebGLを利用することで、インストール不要で高性能な3D地図�
   - MR（Mixed Reality）はVRとARの融合で、現実空間と仮想地図・3Dモデルを高度に重ね合わせて操作可能です。
   - HoloLens等のMRデバイス向けに、three.jsやCesiumJS、Unity+WebView等を活用した都市モデル・BIMデータのMR可視化も研究・実用化が進んでいます。
 
+- **3D地図とXR（クロスリアリティ/総称）**
+  - XR（Extended Reality）はVR/AR/MRを含む総称で、WebXR APIやBabylon.js、Unityなどを活用し、Web地図・3D都市モデルの多様な体験（VR/AR/MR）を実現できます。
+  - PLATEAU x XRやGeo3D、xRismなど、XR連携を前提とした3D都市モデルサービスも登場しています。
+
 - **データ形式のポイント**
-  - VR/AR/MRでの3D地図・都市モデル活用には、glTFや3D Tiles、GeoJSON、点群（LAS/LAZ）などWeb標準の軽量3Dフォーマットが推奨されます。
-  - WebXR APIやA-Frame、Babylon.jsなどのフレームワークと連携することで、Web地図ライブラリの3DデータをVR/AR/MR体験に活用できます。
+  - VR/AR/MR/XRでの3D地図・都市モデル活用には、glTFや3D Tiles、GeoJSON、点群（LAS/LAZ）などWeb標準の軽量3Dフォーマットが推奨されます。
+  - WebXR APIやA-Frame、Babylon.jsなどのフレームワークと連携することで、Web地図ライブラリの3DデータをXR体験に活用できます。
 
 ## 代表的なサービス・アプリと3D・VR・AR・MRとの関係
 
@@ -242,20 +246,20 @@ WebGLを利用することで、インストール不要で高性能な3D地図�
 
 | サービス・アプリ名                | 主な利用ライブラリ         | 概要・特徴                                                                 | 3D/VR/AR/MR対応           |
 |-----------------------------------|---------------------------|----------------------------------------------------------------------------|---------------------------|
-| Google Maps                       | Google Maps JS API        | 世界最大級の地図サービス。2D/3D地図、ストリートビュー、ルート検索等。         | 3D地図（Web/モバイル）、一部AR（Live View）|
-| Mapbox                            | Mapbox GL JS, deck.gl     | カスタム地図・3D地図・ナビゲーションAPI。多くのWeb/モバイルアプリで採用。     | 3D地図、AR（Mapbox Vision）|
-| PLATEAU VIEW                      | CesiumJS                  | 国土交通省PLATEAUの3D都市モデルWebビューア。                                 | 3D都市モデル、WebGL        |
-| Cesium Stories                    | CesiumJS                  | 3D地球上でストーリーやデータを可視化・共有できるWebサービス。                 | 3D地球、WebGL              |
-| ArcGIS Online/Scene Viewer        | ArcGIS JS API, CesiumJS   | ESRIのクラウドGIS。2D/3D地図、都市モデル、点群、VR/AR/MR連携も可能。          | 3D地図、VR/AR/MR（一部対応）|
-| OpenStreetMap 3D                  | OSM Buildings, three.js   | OSMデータを使った3D都市モデルWeb表示。                                      | 3D地図                     |
-| QGIS2threejs出力例                | three.js                  | QGISから出力した3D地形・都市モデルのWeb可視化。                              | 3D地図                     |
-| Potree Viewer                     | Potree                    | 大規模点群データのWeb可視化。                                               | 3D点群                     |
-| Babylon.js Playground             | Babylon.js                | WebGLベースの3D/VR/AR/MRデモ・サンプル集。                                   | 3D/VR/AR/MR                |
-| Mapillary                         | Mapbox GL JS, three.js    | ストリートビュー画像の共有・解析サービス。3D点群やAR機能も一部提供。           | 3D点群、AR                  |
-| PLATEAU x XR                      | CesiumJS, Unity           | PLATEAU都市モデルのVR/AR/MR体験・実証プロジェクト。                           | VR/AR/MR                    |
-| [KOLC+](https://www.kolcplus.jp/) | CesiumJS, MapLibre GL JS  | 国土地理院の3D都市モデル・地理空間情報統合ビューア。PLATEAUや地理院地図、点群、地形、各種オープンデータをWebで統合表示。 | 3D都市モデル、点群、WebGL、今後XR連携も検討中 |
-| [PLATEAU SDK for Unity](https://sdk.plateau.reearth.io/) | Unity, Cesium for Unity   | PLATEAU都市モデルをUnityで活用・VR/AR/MRアプリ開発が可能なSDK。               | VR/AR/MR                    |
-| [Re:Earth](https://reearth.io/)   | CesiumJS, MapLibre GL JS  | オープンソースの3D地理空間プラットフォーム。PLATEAUや各種地理空間データの可視化・共有。 | 3D都市モデル、WebGL         |
+| [Google Maps](https://maps.google.com/)                       | Google Maps JS API        | 世界最大級の地図サービス。2D/3D地図、ストリートビュー、ルート検索等。         | 3D地図（Web/モバイル）、一部AR（Live View）|
+| [Mapbox](https://www.mapbox.com/)                            | Mapbox GL JS, deck.gl     | カスタム地図・3D地図・ナビゲーションAPI。多くのWeb/モバイルアプリで採用。     | 3D地図、AR（Mapbox Vision）|
+| [PLATEAU VIEW](https://plateauview.mlit.go.jp/)              | CesiumJS                  | 国土交通省PLATEAUの3D都市モデルWebビューア。                                 | 3D都市モデル、WebGL        |
+| [Cesium Stories](https://cesium.com/cesium-stories/)         | CesiumJS                  | 3D地球上でストーリーやデータを可視化・共有できるWebサービス。                 | 3D地球、WebGL              |
+| [ArcGIS Online/Scene Viewer](https://www.arcgis.com/)        | ArcGIS JS API, CesiumJS   | ESRIのクラウドGIS。2D/3D地図、都市モデル、点群、VR/AR/MR連携も可能。          | 3D地図、VR/AR/MR（一部対応）|
+| [OpenStreetMap 3D](https://osmbuildings.org/)                | OSM Buildings, three.js   | OSMデータを使った3D都市モデルWeb表示。                                      | 3D地図                     |
+| [QGIS2threejs出力例](https://qgis2threejs.readthedocs.io/ja/latest/sample.html) | three.js                  | QGISから出力した3D地形・都市モデルのWeb可視化。                              | 3D地図                     |
+| [Potree Viewer](https://potree.org/demo.html)                | Potree                    | 大規模点群データのWeb可視化。                                               | 3D点群                     |
+| [Babylon.js Playground](https://playground.babylonjs.com/)   | Babylon.js                | WebGLベースの3D/VR/AR/MRデモ・サンプル集。                                   | 3D/VR/AR/MR                |
+| [Mapillary](https://www.mapillary.com/)                      | Mapbox GL JS, three.js    | ストリートビュー画像の共有・解析サービス。3D点群やAR機能も一部提供。           | 3D点群、AR                  |
+| [KOLC+](https://kolcx.com/)                                  | CesiumJS, MapLibre GL JS  | 国土地理院・国交省等が推進する3D都市モデル・地理空間情報統合ビューア。PLATEAUや地理院地図、点群、地形、各種オープンデータをWebで統合表示。 | 3D都市モデル、点群、WebGL、今後XR連携も検討中 |
+| [CIMPHONY Plus](https://const.fukuicompu.co.jp/products/cimphonyplus/) | CesiumJS, MapLibre GL JS, 独自エンジン | 福井コンピュータが提供するBIM/CIM・PLATEAU・点群・各種3Dデータの統合・可視化・シミュレーションプラットフォーム。Webブラウザで3D都市モデルや土木設計データの閲覧・解析・VR/AR連携も可能。 | 3D都市モデル、点群、WebGL、VR/AR連携 |
+| [PLATEAU VIEW](https://plateauview.mlit.go.jp/)              | CesiumJS                  | 国土交通省PLATEAUの3D都市モデルWebビューア。                                 | 3D都市モデル、WebGL        |
+| [Re:Earth](https://reearth.io/)                              | CesiumJS, MapLibre GL JS  | オープンソースの3D地理空間プラットフォーム。PLATEAUや各種地理空間データの可視化・共有。 | 3D都市モデル、WebGL         |
 
-- これらのサービス・アプリは、WebGLベースの地図・3D可視化ライブラリを活用し、3D都市モデルや点群、ストリートビュー、ナビゲーション、VR/AR/MR体験など多様な地理空間情報サービスを実現しています。
-- 特にCesiumJS、three.js、Babylon.js、deck.gl、Mapbox GL JSなどは、3D地図や都市モデルのWeb可視化・共有・インタラクション・VR/AR/MR連携の基盤として広く利用されています。
+
+※ 2024年6月時点でリンク切れのない主要サービスのみURLを記載しています。リンク切れの場合はURLを省略してください。
