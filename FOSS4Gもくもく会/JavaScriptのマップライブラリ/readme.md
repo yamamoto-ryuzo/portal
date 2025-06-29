@@ -3,9 +3,27 @@
 
 # JavaScriptのマップライブラリ
 
+## 目次
+
+- [はじめに](#はじめに)
+- [2D地図ライブラリ](#2d地図ライブラリ)
+- [2D/3D対応・3D表示に強いライブラリ](#2d3d対応3d表示に強いライブラリ)
+- [主なデータ形式と対応ライブラリ](#主なデータ形式と対応ライブラリ)
+  - [2Dデータ形式](#2dデータ形式)
+  - [3Dデータ形式](#3dデータ形式)
+  - [データ形式変換・生成に役立つ主なツール・ライブラリ](#データ形式変換生成に役立つ主なツールライブラリ)
+- [QGIS・AutoCAD・ArcGIS・BIM/CIMとの連携](#qgisautocadarcgisbimcimとの連携)
+- [3D・VR・AR・MRとの関係](#3dvrarmrとの関係)
+
+---
+
+## はじめに
+
 JavaScriptで利用できる主な地図ライブラリについてまとめています。
 
 ## 2D地図ライブラリ
+
+[▲目次へ戻る](#目次)
 
 - [Leaflet](https://leafletjs.com/)
   - 軽量・シンプルなオープンソース地図ライブラリ。  
@@ -39,6 +57,8 @@ JavaScriptで利用できる主な地図ライブラリについてまとめて�
   - 参考: [公式サイト](https://turfjs.org/) / [Qiita解説](https://qiita.com/dayjournal/items/b89a8c650237738c975f)
 
 ## 2D/3D対応・3D表示に強いライブラリ
+
+[▲目次へ戻る](#目次)
 
 - [MapLibre GL JS](https://maplibre.org/projects/maplibre-gl-js/)
   - Mapbox GL JSのOSSフォーク。  
@@ -87,72 +107,89 @@ JavaScriptで利用できる主な地図ライブラリについてまとめて�
 
 ### 2Dデータ形式
 
+[▲目次へ戻る](#目次)
+
 | データ形式         | 概要・用途                                   | 主な対応ライブラリ                       | 備考・変換例                       |
 |--------------------|----------------------------------------------|------------------------------------------|------------------------------------|
 | GeoJSON            | 2D/3D地理空間データ（属性付）                | Leaflet, OpenLayers, MapLibre GL JS, Mapbox GL JS, CesiumJS, deck.gl, Turf.js | 多くのWeb地図で標準対応            |
-| KML                | Google系やGISで使われるXML地理データ          | Leaflet, OpenLayers, Google Maps, CesiumJS |                                    |
-| GPX                | GPSトラックデータ                            | Leaflet, OpenLayers                      |                                    |
-| CSV                | 座標付きテーブルデータ                       | Leaflet, OpenLayers, deck.gl             |                                    |
-| TopoJSON           | GeoJSONの拡張（トポロジー情報）               | OpenLayers, deck.gl                      |                                    |
-| GML                | OGC標準のXML地理データ                       | OpenLayers                               |                                    |
-| MVT（ベクトルタイル）| 高速な地図描画用ベクトルタイル               | MapLibre GL JS, Mapbox GL JS, OpenLayers, deck.gl |                                  |
-| ラスタタイル       | 地図画像タイル（XYZ, WMTS, WMS等）           | Leaflet, OpenLayers, MapLibre GL JS, Mapbox GL JS |                              |
-| 画像オーバーレイ   | 任意画像の地図重ね合わせ                     | Leaflet, OpenLayers, Mapbox GL JS        |                                    |
-| Mapbox Style JSON  | 地図スタイル定義                             | MapLibre GL JS, Mapbox GL JS             |                                    |
+| KML                | Google系やGISで使われるXML地理データ          | Leaflet, OpenLayers, Google Maps, CesiumJS | ogr2ogr, QGISでGeoJSON等に変換可   |
+| GPX                | GPSトラックデータ                            | Leaflet, OpenLayers                      | ogr2ogr, QGISでGeoJSON等に変換可   |
+| CSV                | 座標付きテーブルデータ                       | Leaflet, OpenLayers, deck.gl             | QGIS, csv2geojson等でGeoJSON変換可 |
+| TopoJSON           | GeoJSONの拡張（トポロジー情報）               | OpenLayers, deck.gl                      | mapshaper等でGeoJSON⇔TopoJSON変換  |
+| GML                | OGC標準のXML地理データ                       | OpenLayers                               | ogr2ogr, QGISでGeoJSON等に変換可   |
+| MVT（ベクトルタイル）| 高速な地図描画用ベクトルタイル               | MapLibre GL JS, Mapbox GL JS, OpenLayers, deck.gl | tippecanoe, QGIS, ogr2ogrで生成   |
+| ラスタタイル       | 地図画像タイル（XYZ, WMTS, WMS等）           | Leaflet, OpenLayers, MapLibre GL JS, Mapbox GL JS | QGIS, gdal2tiles等で生成           |
+| 画像オーバーレイ   | 任意画像の地図重ね合わせ                     | Leaflet, OpenLayers, Mapbox GL JS        | QGIS, GDALで座標付与可             |
+| Mapbox Style JSON  | 地図スタイル定義                             | MapLibre GL JS, Mapbox GL JS             | Studio, QGISプラグイン等で作成     |
 
 ### 3Dデータ形式
 
+[▲目次へ戻る](#目次)
+
 | データ形式         | 概要・用途                                   | 主な対応ライブラリ                       | 備考・変換例                       |
 |--------------------|----------------------------------------------|------------------------------------------|------------------------------------|
-| 3D Tiles           | 大規模3D地理空間データ配信                   | CesiumJS, deck.gl                        | CityGML/IFC/点群→3D Tiles変換可    |
-| glTF               | 軽量3Dモデル                                 | CesiumJS, three.js                       | IFC/OBJ/FBX→glTF変換可             |
-| OBJ/FBX/STL/PLY    | 汎用3Dモデル                                 | three.js                                 | glTF変換推奨                       |
-| LAS/LAZ            | 点群データ                                   | deck.gl, Potree, CesiumJS（3D Tiles変換）| PotreeConverter等で変換可           |
-| CityGML            | 都市モデルXML                                | CesiumJS（3D Tiles変換）, FME            | PLATEAU等                          |
+| 3D Tiles           | 大規模3D地理空間データ配信                   | CesiumJS, deck.gl                        | FME, PLATEAUツール, obj2gltf, entwine等で変換 |
+| glTF               | 軽量3Dモデル                                 | CesiumJS, three.js                       | obj2gltf, FBX2glTF, Blender等で変換|
+| OBJ/FBX/STL/PLY    | 汎用3Dモデル                                 | three.js                                 | Blender, MeshLab, obj2gltf等で変換 |
+| LAS/LAZ            | 点群データ                                   | deck.gl, Potree, CesiumJS（3D Tiles変換）| PotreeConverter, entwine, FME等で変換|
+| CityGML            | 都市モデルXML                                | CesiumJS（3D Tiles変換）, FME            | FME, PLATEAUツール等で3D Tiles変換 |
 | CZML               | 時系列3D地理データ                           | CesiumJS                                 |                                    |
-| DEM                | 標高・地形ラスタデータ                       | CesiumJS, Mapbox GL JS                   |                                    |
+| DEM                | 標高・地形ラスタデータ                       | CesiumJS, Mapbox GL JS                   | GDAL, QGISで生成・変換              |
 
-- ※各ライブラリの詳細やサンプルは上記のライブラリ紹介欄を参照してください。
-- データ形式によっては、事前に変換（例：IFC→glTF/3D Tiles、CityGML→3D Tiles、LAS→Potree形式など）が必要な場合があります。
+### データ形式変換・生成に役立つ主なツール・ライブラリ
 
-## QGISとの連携
+[▲目次へ戻る](#目次)
 
-- QGISで作成したGeoJSONやシェープファイルをエクスポートし、LeafletやOpenLayers、MapLibre GL JSなどのJavaScriptライブラリでWeb地図として表示できます。
-- [QGIS2Web](https://github.com/tomchadwin/qgis2web)プラグインを使うと、QGISのプロジェクトをそのままLeafletやOpenLayers用のHTMLにエクスポート可能です。
-- PLATEAUや3D都市モデルのデータをQGISで加工し、CesiumJSやdeck.glでWeb可視化する事例も増えています。
-- QGISでスタイリングしたベクトルタイル（MVT）をMapLibre GL JSやMapbox GL JSで利用することも可能です。
-- **QGIS2threejs**プラグインを使うと、QGISの3D地形や建物データをWebGLベースの3D地図（three.js利用）としてエクスポートできます。  
-  [QGIS2threejs公式ページ](https://qgis2threejs.readthedocs.io/ja/latest/) / [サンプル（QGISから3D出力）](https://qgis2threejs.readthedocs.io/ja/latest/sample.html)
-  - ※ QGIS2threejsは[three.js](https://threejs.org/)というJavaScript 3Dグラフィックスライブラリを利用しています。
+| ツール・ライブラリ      | 主な用途・特徴                                         | 公式・参考リンク                                         |
+|------------------------|------------------------------------------------------|----------------------------------------------------------|
+| ogr2ogr                | 多様なGISデータ形式の変換（コマンドライン/ライブラリ） | [GDAL/ogr2ogr公式](https://gdal.org/programs/ogr2ogr.html) |
+| QGIS                   | GUIで多様なGISデータ変換・編集                        | [QGIS公式](https://qgis.org/ja/site/)                    |
+| FME                    | 複雑な空間データ変換・自動化                          | [FME公式](https://www.safe.com/jp/)                      |
+| Blender                | 3Dモデル編集・変換（OBJ, FBX, glTF等）                | [Blender公式](https://www.blender.org/)                  |
+| obj2gltf, FBX2glTF     | 3DモデルをglTFへ変換                                  | [obj2gltf](https://github.com/CesiumGS/obj2gltf) / [FBX2glTF](https://github.com/facebookincubator/FBX2glTF) |
+| PotreeConverter        | LAS/LAZ等の点群をPotree用形式に変換                   | [PotreeConverter公式](https://github.com/potree/PotreeConverter) |
+| entwine                | 点群データを3D Tiles等に変換                          | [entwine公式](https://entwine.io/)                       |
+| mapshaper              | GeoJSON/TopoJSON等の変換・簡易編集                    | [mapshaper公式](https://mapshaper.org/)                  |
+| tippecanoe             | GeoJSON等からMVT（ベクトルタイル）生成                | [tippecanoe公式](https://github.com/mapbox/tippecanoe)   |
+| gdal2tiles             | ラスタ画像からXYZタイル生成                           | [gdal2tiles公式](https://gdal.org/programs/gdal2tiles.html) |
+| PLATEAUツール          | CityGML→3D Tiles変換など都市モデル用                  | [PLATEAU公式](https://www.mlit.go.jp/plateau/)           |
+| csv2geojson            | CSV→GeoJSON変換                                       | [csv2geojson](https://csv2geojson.org/)                  |
 
-## BIM/CIMとの連携
+## QGIS・AutoCAD・ArcGIS・BIM/CIMとの連携
 
-- BIM（Building Information Modeling）やCIM（Construction Information Modeling）で作成された3Dモデルや属性情報は、Web地図・3D地図ライブラリと連携して可視化・共有が可能です。
-- 主なデータ形式例：
-    - **IFC（Industry Foundation Classes）**: 建築・土木分野で標準的なBIMデータ交換フォーマット。直接Web地図で表示するには変換が必要（例：glTFや3D Tilesへ）。
-    - **glTF（GL Transmission Format）**: 軽量な3Dモデルフォーマット。three.jsやCesiumJSで直接読み込み・表示が可能。
-    - **3D Tiles**: CesiumJSが提唱する大規模3D地理空間データ配信フォーマット。BIM/CIMや点群データ、都市モデル（PLATEAU等）で利用。
-    - **CityGML**: 都市モデルのXMLベース標準。FMEやPLATEAUツール等で3D TilesやglTFに変換してWeb可視化。
-    - **OBJ/FBX**: 3D CADやBIMソフトでよく使われる汎用3Dモデルフォーマット。three.js等で利用可能（glTF変換推奨）。
-    - **LAS/LAZ**: 点群データフォーマット。deck.glやPotree等で可視化可能。
-    - **GeoJSON/TopoJSON**: 属性付き2D/3D地理空間データ。地図ライブラリで広く利用。
+[▲目次へ戻る](#目次)
 
-- [CesiumJS](https://cesium.com/platform/cesiumjs/)はglTFや3D Tiles形式に対応しており、BIM/CIMデータを大規模かつ高精度にWebブラウザ上で表示できます。
-- [three.js](https://threejs.org/)もglTFやOBJ等の3Dモデルを読み込んで表示でき、BIM/CIMデータのカスタム可視化やインタラクションも実現可能です。
-- [deck.gl](https://deck.gl/)は3D Tilesや点群データ（LAS/LAZ）の可視化にも対応しています。
-- QGISやFME等のGISツールを使ってBIM/CIMデータをGeoJSON、3D Tiles、glTF等に変換し、Web地図ライブラリで利用する事例も増えています。
-- PLATEAUプロジェクトのような都市モデル（CityGML/3D Tiles）もCesiumJSやdeck.glで活用されています。
+- **QGISとの連携**  
+  QGISは多様な地理空間データの編集・変換・可視化が可能なオープンソースGISです。QGISで作成・編集したGeoJSONやシェープファイル、ベクトルタイル（MVT）、ラスタタイル、3Dモデル（CityGML等）は、LeafletやOpenLayers、MapLibre GL JS、CesiumJSなどのWeb地図・3D地図ライブラリで活用できます。QGIS2WebやQGIS2threejsなどのプラグインを使えば、QGISのプロジェクトをそのままWeb用にエクスポートすることも容易です。QGISはデータ形式変換のハブとしても非常に有用です。
 
-## データ形式とライブラリの関係
+- **AutoCADとの連携**  
+  AutoCAD（DWG/DXF形式）は建築・土木設計で広く使われており、**AutoCAD 2013形式（DWG/DXF 2013）**で保存されたファイルはQGISやFME、ogr2ogrなど多くのGISツールで安定して読み書き・変換が可能です。  
+  特にQGISではAutoCAD 2013形式のDWG/DXFのインポート・エクスポートの再現性が高く、属性情報やジオメトリも正確に取り扱えることが[公式ドキュメントや多くの事例](https://docs.qgis.org/latest/ja/docs/user_manual/working_with_vector/supported_data.html#autocad-dwg-dxf)で確認されています。  
+  また、AutoCAD Civil 3DやInfraWorksなどBIM/CIM対応製品からLandXMLやIFC、3Dモデルデータをエクスポートし、Web可視化に活用する事例もあります。
 
-- Web地図・3D地図ライブラリは、それぞれ対応するデータ形式が異なります。  
-  例えば、**Leaflet**や**OpenLayers**はGeoJSONやKMLなどの2D地理空間データに強く、**MapLibre GL JS**や**Mapbox GL JS**はベクトルタイル（MVT）やラスタタイルの高速描画に特化しています。
-- 3Dモデルや都市モデル、点群データをWebで可視化したい場合は、**CesiumJS**（3D Tiles, glTF, CityGML変換）、**three.js**（glTF, OBJ, FBX等）、**deck.gl**（3D Tiles, LAS/LAZ等）、**Potree**（LAS/LAZ, PLY等点群）など、用途に応じて適切なライブラリとデータ形式を選択する必要があります。
-- データ形式によっては、事前に変換（例：IFC→glTF/3D Tiles、CityGML→3D Tiles、LAS→Potree形式など）が必要な場合があります。
-- 目的の可視化やインタラクション、データ容量、パフォーマンス要件に応じて、ライブラリとデータ形式の組み合わせを検討してください。
+- **ArcGISとの連携**  
+  ArcGISはESRI社の商用GISで、Shapefile、FileGDB、GeoJSON、KML、CSV、3D Tiles、Scene Layer Package（SLPK）、LAS/LAZなど多様なデータ形式の入出力・変換が可能です。ArcGIS ProやArcGIS OnlineからGeoJSONや3D Tiles、glTF等にエクスポートし、Web地図・3D地図ライブラリで利用できます。ArcGIS API for JavaScriptもWeb地図開発に利用されますが、他のOSSライブラリとのデータ連携も容易です。  
+  また、**ArcGISはAutoCADとの連携強化も進めており**、ArcGIS ProではDWG/DXFファイル（AutoCAD 2013形式を含む複数バージョン）を直接読み込み・編集できます。ArcGISはAutoCAD 2013形式以外（2000/2004/2007/2010/2013/2018等）にも幅広く対応しており、[公式ドキュメント](https://pro.arcgis.com/ja/pro-app/latest/help/data/cad/supported-cad-formats.htm)でもサポートバージョンが明記されています。AutoCAD Map 3DやCivil 3Dとのデータ交換（属性・座標系の保持）もサポートされており、ArcGIS for AutoCADアドインを利用することで、AutoCAD上でArcGISの地理情報やサービスを直接利用・編集することも可能です。これにより、CADとGIS間のデータ連携・ワークフローの再現性や効率が大きく向上しています。
 
-## その他参考リンク
+- **BIM/CIMとの連携**  
+  BIM（Building Information Modeling）やCIM（Construction Information Modeling）で作成されたIFC、CityGML、glTF、3D Tiles、LAS/LAZ等の3Dモデル・点群データは、Web地図・3D地図ライブラリでの可視化・共有が進んでいます。特にCesiumJSやthree.js、deck.gl、Potreeなどは大規模な3D都市モデルや点群データのWeb可視化に強みがあります。QGISやFME、PLATEAUツール、Blender等を活用して、BIM/CIMデータをWeb向けの形式（glTF, 3D Tiles, GeoJSON等）に変換し、WebGISやWeb3Dビューアでの活用が広がっています。
 
-- [GIS実習オープン教材](https://gis-oer.github.io/gitbook/book/materials/web_gis/)
-- [地理院タイルを用いたサイト構築サンプル集](https://maps.gsi.go.jp/development/sample.html)
-- [電子版書籍：「JavaScriptではじめるWebマップアプリケーション」](https://techbookfest.org/product/5707841755152384?productVariantID=5181910525411328)
+## 3D・VR・AR・MRとの関係
+
+[▲目次へ戻る](#目次)
+
+- **3D地図とVR（バーチャルリアリティ）**
+  - CesiumJSやthree.jsなどのWebGLベースの3D地図ライブラリは、WebVR/WebXR APIと組み合わせることで、VRゴーグル（Oculus, HTC Vive等）での3D都市モデルや地形の没入型体験が可能です。
+  - 3D TilesやglTF形式の都市モデル・BIMデータをVR空間で閲覧・操作する事例も増えています。
+
+- **3D地図とAR（拡張現実）**
+  - WebAR（WebXR API, AR.js, 8th Wall等）とthree.jsやMapbox GL JSを組み合わせることで、スマートフォンやタブレットのカメラ映像上に地図や3Dモデルを重ねて表示するARアプリが開発できます。
+  - CesiumJSやMapboxの一部機能もAR対応の実証例があります。
+
+- **3D地図とMR（複合現実）**
+  - MR（Mixed Reality）はVRとARの融合で、現実空間と仮想地図・3Dモデルを高度に重ね合わせて操作可能です。
+  - HoloLens等のMRデバイス向けに、three.jsやCesiumJS、Unity+WebView等を活用した都市モデル・BIMデータのMR可視化も研究・実用化が進んでいます。
+
+- **データ形式のポイント**
+  - VR/AR/MRでの3D地図・都市モデル活用には、glTFや3D Tiles、GeoJSON、点群（LAS/LAZ）などWeb標準の軽量3Dフォーマットが推奨されます。
+  - WebXR APIやA-Frame、Babylon.jsなどのフレームワークと連携することで、Web地図ライブラリの3DデータをVR/AR/MR体験に活用できます。
