@@ -71,7 +71,7 @@ WebGLを利用することで、インストール不要で高性能な3D地図�
     ※ 標準では2D地図のみ対応。3D地図表示はサポートしていませんが、[ol-cesium](https://github.com/openlayers/ol-cesium)などの拡張を利用することでCesiumJSと連携した3D表示も可能です。
     - **ol-cesium**はOpenLayersの2D地図とCesiumJSの3D地球表示を同じ地図上で同期・切り替えできるOSSライブラリです。  
       これにより、OpenLayersで作成した地図やレイヤーをそのまま3D地球上に表示したり、2D/3Dをシームレスに切り替えることができます。  
-      例: [ol-cesium公式デモ](https://openlayers.org/ol-cesium/examples/synchronization.html)
+      例: [ol-cesium公式デモ](https://openlayers.org/ol-cesium/examples/fillstyle.html)
   - **主な対応データ形式:** GeoJSON, KML, GML, WMS, WMTS, XYZタイル, TopoJSON, GPX, MVT（ベクトルタイル）, ラスタ画像
   - 参考: [公式サイト](https://openlayers.org/) / [OpenLayers入門](https://developer-note.com/ol_entry/) / [サンプル（基本地図・GeoJSON・スタイル変更）](https://yamamoto-ryuzo.github.io/openlayers-map/)
 
