@@ -29,13 +29,13 @@
 
 ## 関連図（流れ）
 
-shibuya.md（骨子）
-　↓
-hatikou.md（具体アイデア）
-　↓
-dashboard.md（可視化・分析設計）
-　↓
-opendata.md（必要なデータリスト）
+shibuya.md（骨子）  
+　↓  
+hatikou.md（具体アイデア）  
+　↓  
+dashboard.md（可視化・分析設計）  
+　↓  
+opendata.md（必要なデータリスト）  
 
 ---
 
