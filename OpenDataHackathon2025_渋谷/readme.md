@@ -57,6 +57,10 @@
     - 多様なデータ連携・可視化による地域課題解決の加速
 - 詳細はproblem.mdを参照
 
+### 6. SNS・AI連携による地域情報活用
+- 本プロジェクトでは、SNS（Xなど）で発信・収集された地域情報（イベント・災害・混雑・口コミ・写真など）をダッシュボードやオープンデータと連携し、AIによる信憑性メータ等で情報の真偽・信頼度を可視化しながら、リアルタイムで可視化・分析・共有します。
+- SNSで発信された地域課題やニーズもオープンデータと組み合わせて分析・活用し、AIによる信憑性評価を導入します。
+
 ---
 
 ## 関連図（流れ）
@@ -69,7 +73,9 @@ dashboard.md（可視化・分析設計）
 　↓  
 opendata.md（必要なデータリスト）  
 　↓  
-problem.md（課題・解決可能性）
+problem.md（課題・解決可能性）  
+　↓  
+SNS_AI.md（SNS・AI連携による地域情報活用）
 
 ## ダッシュボードに関する課題と今後の方向性
  渋谷区のダッシュボードに関する課題としては、都市の複雑な課題を迅速かつ的確に把握するためのデータの可視化が挙げられます。現在、交通機関の利用状況や違法駐車などの交通課題に関するデータを官民で収集・分析し、区民サービスや生活環境の改善に役立てる取り組みが進められています。しかし、これらのデータをどのように効果的に活用し、具体的な施策に結びつけるかが今後の課題となっています。引き続き、産官学民が連携して課題解決に向けた施策を共創していくことが求められています。  
@@ -120,6 +126,7 @@ https://www.city.shibuya.tokyo.jp/contents/kutyo/aisatsu/syosin_20220222.html
 - 3.dashboard.md
 - 4.opendata.md
 - 5.problem.md
+- 6.SNS_AI.md
 
 各ファイルを参照し、渋谷区の未来を共に考えましょう。
 
@@ -131,5 +138,10 @@ https://www.city.shibuya.tokyo.jp/contents/kutyo/aisatsu/syosin_20220222.html
 - [ハチ公と歩く渋谷区データ活用ダッシュボード構想](./3.dashboard.md)
 - [ハチ公と歩く渋谷区データ活用ダッシュボードに必要なオープンデータ一覧](./4.opendata.md)
 - [プロジェクトを通じて見えてくる課題・解決](./5.problem.md)
-- [SHIBUYA CITY DASHBOARD](https://www.city.shibuya.tokyo.jp/contents/kusei/shibuya-data/)  
-- [SHIBUYA CITY OPEN DATA](https://city-shibuya-data.opendata.arcgis.com/)  
+- [SHIBUYA CITY DASHBOARD](https://www.city.shibuya.tokyo.jp/contents/kusei/shibuya-data/)
+- [SHIBUYA CITY OPEN DATA](https://city-shibuya-data.opendata.arcgis.com/)
+
+---
+
+## SNS・AI活用の方針
+本プロジェクトでは、SNS（Xなど）で発信・収集された地域情報（イベント・災害・混雑・口コミ・写真など）をダッシュボードやオープンデータと連携し、AIによる信憑性メータ等で情報の真偽・信頼度を可視化しながら、リアルタイムで可視化・分析・共有します。SNSで発信された地域課題やニーズもオープンデータと組み合わせて分析・活用し、AIによる信憑性評価を導入します。
