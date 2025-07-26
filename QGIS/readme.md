@@ -6,13 +6,13 @@ QGISの標準的なファイル・フォルダ構成として、作成せず、�
 本体のPYはmain.pyとせず、リポジトリの名前から作成して。  
 
 ## QT
-QT6専用のプラグインして作成すること。
-メタデータには以下を必ず記載のこと。
- qgisMinimumVersion=3.44
- qgisMaximumVersion=3.999
- required_qt_version=6
-UIは、Qt Designerの.uiファイル方式すること。
-標準言語は英語として、PYの動作説明のコメントだけは日本語で作成のこと。  
+QT6専用のプラグインして作成すること。  
+メタデータには以下を必ず記載のこと。  
+ qgisMinimumVersion=3.44  
+ qgisMaximumVersion=3.999  
+ required_qt_version=6  
+UIは、Qt Designerの.uiファイル方式すること。  
+標準言語は英語として、PYの動作説明のコメントだけは日本語で作成のこと。    
   
 ## 多言語化
 QGISの設定言語によって、自動的に言語設定を行うようにして。  
