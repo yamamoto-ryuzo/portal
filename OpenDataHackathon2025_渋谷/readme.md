@@ -39,6 +39,23 @@
         - 市民発信データの収集・活用システムの構想。
             SNS等から市民の声や意見を自動収集・分析し、行政・市民・事業者の共創によるまちづくりや課題解決に活用する仕組みをまとめています。
 
+11. **Twitter.py（Twitterデータ収集スクリプト）**
+        - Pythonとtweepy, python-dotenvを使い、Twitter API v2から指定キーワードのツイートを収集するサンプルスクリプトです。  
+            事前に `pip install tweepy python-dotenv` で必要なライブラリをインストールし、Twitter APIのBearer Tokenを環境変数 `TWITTER_BEARER_TOKEN` または `.env` ファイルに設定してください。  
+            スクリプト内の検索クエリや件数を編集し、コマンドラインで `python Twitter.py` を実行すると、該当ツイートがコンソールに出力されます。  
+            ※無料API枠では取得件数や検索期間に制限があります。  
+
+
+                - `.env` サンプル（APIコード例）：
+                        ```
+                        TWITTER_API_KEY=xxxxxxxxxxxxxxxxxxxxxx
+                        TWITTER_API_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                        TWITTER_ACCESS_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                        TWITTER_ACCESS_TOKEN_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                        TWITTER_BEARER_TOKEN=ここに取得したBearer Tokenを貼り付けてください
+                        ```
+                    ※このうちTwitter.pyで必要なのは `TWITTER_BEARER_TOKEN` です。他はAPI v1.1等で利用します。
+
 
 ## ダッシュボードに関する課題と今後の方向性
 
