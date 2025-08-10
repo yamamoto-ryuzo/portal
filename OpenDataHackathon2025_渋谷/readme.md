@@ -39,37 +39,12 @@
         - 市民発信データの収集・活用システムの構想。
             SNS等から市民の声や意見を自動収集・分析し、行政・市民・事業者の共創によるまちづくりや課題解決に活用する仕組みをまとめています。
 
-11. **[Twitter.py（Twitterデータ収集スクリプト）](./Twitter.py)**
-        - Pythonとtweepy, python-dotenvを使い、Twitter API v2から指定キーワードのツイートを収集するサンプルスクリプトです。  
-            事前に `pip install tweepy python-dotenv` で必要なライブラリをインストールし、Twitter APIのBearer Tokenを環境変数 `TWITTER_BEARER_TOKEN` または `.env` ファイルに設定してください。  
-            スクリプト内の検索クエリや件数を編集し、コマンドラインで `python Twitter.py` を実行すると、該当ツイートがコンソールに出力されます。  
-            ※無料API枠では取得件数や検索期間に制限があります。  
 
-
-                - `.env` サンプル（APIコード例）：
-                        ```
-                        TWITTER_API_KEY=xxxxxxxxxxxxxxxxxxxxxx
-                        TWITTER_API_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                        TWITTER_ACCESS_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                        TWITTER_ACCESS_TOKEN_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                        TWITTER_BEARER_TOKEN=ここに取得したBearer Tokenを貼り付けてください
-                        ```
-                    ※このうちTwitter.pyで必要なのは `TWITTER_BEARER_TOKEN` です。他はAPI v1.1等で利用します。
 
 
 ## ダッシュボードに関する課題と今後の方向性
 
 ---
-
-## 本提案のまとめと今後について
-
-今回のハッカソンでは、SNS（特にTwitter/X）からの市民発信データの収集・分析を中核に据えた提案を検討してきました。しかし、実際にPythonスクリプト（例：Twitter.py）を用いて情報収集を試みたところ、Twitter APIの無料枠では取得できるデータ量に大きな制限があり、十分なデータ収集・分析が困難であることが判明しました。
-
-このため、現状の無料API環境下では本提案の実現性が著しく低く、これ以上の検討・開発は行わないこととします。今後、API利用条件やデータ取得環境が改善された場合には、再度検討を行う可能性があります。
-
----
-
-渋谷区の「シティダッシュボード」は、都市の多様で複雑な課題を迅速かつ的確に把握し、区民サービスや地域活動の質向上、まちづくりの共創を推進するための基盤ツールです。本プロジェクトでは、以下の観点から課題と今後の方向性を整理します。
 
 ### 主な課題
 - データの収集・統合・標準化：多様なオープンデータやSNS、IoT等の情報を一元的に収集・統合し、標準化する体制の構築が必要。
