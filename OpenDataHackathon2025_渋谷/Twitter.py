@@ -1,3 +1,12 @@
+# .envサンプル（APIキー例）
+# ----------------------------------
+# TWITTER_API_KEY=xxxxxxxxxxxxxxxxxxxxxx
+# TWITTER_API_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# TWITTER_ACCESS_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# TWITTER_ACCESS_TOKEN_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# TWITTER_BEARER_TOKEN=ここに取得したBearer Tokenを貼り付けてください
+# ※このうち本スクリプトで必要なのはTWITTER_BEARER_TOKENのみです
+
 # Twitterデータ収集用スクリプト（サンプル）
 # 必要なライブラリ: tweepy
 # pip install tweepy
