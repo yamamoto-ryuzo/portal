@@ -6,11 +6,8 @@ QGISの標準的なファイル・フォルダ構成として、作成せず、�
 本体のPYはmain.pyとせず、リポジトリの名前から作成して。  
 
 ## QT
-QT6専用のプラグインして作成すること。  
+QT6専用のプラグインとして作成すること。  
 メタデータには以下を必ず記載のこと。  
- qgisMinimumVersion=3.44  
- qgisMaximumVersion=3.999  
- required_qt_version=6  
 UIは、Qt Designerの.uiファイル方式すること。  
 標準言語は英語として、PYの動作説明のコメントだけは日本語で作成のこと。    
   
@@ -37,8 +34,13 @@ C: プロファイル・プラグイン、本体の修正
 ## 配布用ZIP
 配布用ZIPの作成は、必要最小限をZIPにするcreate_zip.pyを作成して。  
 metadata.txtからプラグイン情報を読み取って、バージョン文字列（例: 1.3.0）を+0.0.1してZIPを作成してmetadata.txtも更新して。  
+metadata.txtは、以下サイトを参考に作成して。  
+　https://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/plugins/plugins.html#metadata-txt   
 ZIP作成指示に、プラグインとしてのフォルダを作成を忘れないで。  
 前のバージョンのZIPは自動的にごみ箱へ移動して。  
+
+# 開発環境
+VSCODE用の一般的な .ignore を設定して。  
 
 
 
