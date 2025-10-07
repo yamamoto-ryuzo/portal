@@ -7,10 +7,25 @@ QGISの標準的なファイル・フォルダ構成として、作成せず、�
 
 ## QT
 QT6専用のプラグインとして作成すること。  
-メタデータには以下を必ず記載のこと。  
+メタデータには以下を必ず記載のこと。   
+ qgisMinimumVersion=3.44  
+ qgisMaximumVersion=3.999  
+ required_qt_version=6  
 UIは、Qt Designerの.uiファイル方式すること。  
 標準言語は英語として、PYの動作説明のコメントだけは日本語で作成のこと。    
-  
+
+## UI
+UIはパネル・ルールバーのいずれで作成するか確認を行うこと。
+
+## ユーザー関数（式関数）
+ユーザー関数（式関数）の追加を行う場合は以下の例による行うこと。
+```
+from qgis.core import qgsfunction
+@qgsfunction(args='auto', group='Custom', usesgeometry=False)
+def my_custom_function(value1, value2, feature, parent):
+    return value1 + value2
+```
+
 ## 多言語化
 QGISの設定言語によって、自動的に言語設定を行うようにして。  
 QGISの翻訳標準的な翻訳方法に従って。  
@@ -38,7 +53,7 @@ metadata.txtは、以下サイトを参考に作成して。
 　https://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/plugins/plugins.html#metadata-txt   
 ZIP作成指示に、プラグインとしてのフォルダを作成を忘れないで。  
 ライセンスファイルをZAPに入れるのを忘れないで。
-前のバージョンのZIPは自動的にごみ箱へ移動して。  
+前のバージョンのZIPは自動的にWINDOWSのごみ箱へ移動して。  
 
 # 開発環境
 VSCODE用の一般的な .ignore を設定して。  
