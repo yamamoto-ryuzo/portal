@@ -62,47 +62,34 @@ ZIP作成指示に、プラグインとしてのフォルダを作成を忘れ�
 # 開発環境
 VSCODE用の一般的な .ignore を設定して。  
 
-# QT5-6対応プロンプト  
-QGISのプラグインをQt6に対応させる方法は主に3つのポイントがあります。  
+# QT5-6対応プロンプト 「AI に投げる詳細プロンプト（実作業を任せるとき）」
+「タスク：プラグインを Qt5 と Qt6 の両方で動作するように変更してください。具体要件は次の通りです。  
 
-metadata.txtにQt6対応を宣言  
-プラグインのトップにあるmetadata.txtファイルに、以下のように  
+必須変更点（実装・検証を行ってください）  
 
-text  
-supportsQt6=True  
-のフラグを追加します。これを設定することで、Qt6版のQGISでもプラグインがインストール可能になります。  
- 
-Pythonコードの修正 - qgis.PyQtパッケージの使用  
-従来、PyQt5など直接のQtモジュールをimportしていた部分を次のように書き換えます。  
+metadata.txt に supportsQt6 = True を追加（既に無ければ）。  
+全 Python モジュールで直接の PyQt5 / PyQt6 import を使っている箇所を from qgis.PyQt import ... に統一（qgis が適切なバインディングを選ぶため）。  
+Qt6 の enum スコープ変更（例: QAbstractItemView.SelectRows → QAbstractItemView.SelectionBehavior.SelectRows）に対して、ランタイムで両方をサポートする shim を追加。可能なら getattr を使い、なければ代替の名前空間を探すこと。  
+QEventLoop.exec_() が無い環境に対応するため、if hasattr(loop, 'exec_'): loop.exec_() else: loop.exec() の形に統一。  
+QIODevice.WriteOnly（Qt6で名前空間が変わる）を直接参照する箇所はすべて、以下の優先順で取得して buffer.open(write_mode) するよう変更：  
+getattr(QIODevice, 'WriteOnly', None)  
+getattr(QIODevice, 'OpenMode', None).WriteOnly または OpenModeFlag.WriteOnly  
+フォールバックで integer 1（WriteOnly に相当）を使う  
+QDockWidget のフラグ（DockWidgetMovable, DockWidgetFloatable, DockWidgetClosable）等が Qt6 で名前空間変更されている場合に備え、存在しない場合は getattr(QDockWidget, 'DockWidgetMovable', None) → getattr(QDockWidget, 'DockWidgetFeature', ... ) 等をチェックして互換性を提供。  
+変更したら python -m py_compile で構文チェック、可能なら既存のテスト（tests）を実行して緑にする。最終的に QGIS を起動してプラグインを試し、QGIS の Python ログにエラーが出ないことを確認。  
+出力物（必須）  
 
-python  
-from qgis.PyQt.QtWidgets import QAbstractItemView, QDialog, QLineEdit, QMessageBox  
-このqgis.PyQtは内部でQt5/Qt6のどちらでも動作するように切り替わるため、Qtのバージョンを意識せずに書けます。  
+変更ファイル一覧（1行ずつ目的を添えて）  
+各変更で入れた互換 shim の短い説明（該当コード抜粋）  
+実行手順（PowerShell 例）と QGIS での確認手順  
+失敗時に回収すべきログ抜粋（どの情報を貼ればよいか）  
+品質ゲート（必須）  
 
-Enumの扱いの修正  
-Qt6ではEnumの扱いが大きく変わっており、例えば  
+Syntax check: PASS  
+Tests: all existing tests run and PASS (or list failing tests)  
+Manual QGIS run: plugin loads without traceback in QGIS log (attach sample log)  
+注意事項  
 
-python  
-QAbstractItemView.SelectRows  
-から  
-
-python  
-QAbstractItemView.SelectionBehavior.SelectRows  
-のように修正が必要です。これをQtのバージョンによって切り替えられるようにし、以下のように条件分岐して対応します。  
-
-python  
-from qgis.PyQt.QtCore import QT_VERSION_STR, Qt  
-from qgis.PyQt.QtWidgets import QAbstractItemView  
-
-QT_VERSION_INT = int(QT_VERSION_STR.split(".")[0])  
-
-if QT_VERSION_INT <= 5:  
-    select_rows = QAbstractItemView.SelectRows  
-else:  
-    select_rows = QAbstractItemView.SelectionBehavior.SelectRows  
-
-self.japanDpfResultTableView.setSelectionBehavior(select_rows)  
-このようにmetadata.txtのフラグ設定＋コード内のqgis.PyQtへのimport修正とEnumの扱いの条件対応をすれば、QGISプラグインをQt6に対応させることができます。  
-
-
-
+実動作確認は必ず QGIS 実行環境（対象ユーザープロファイル）で行う。ユニットテストだけでは enum / PyQt バインディングの違いを完全には検出できないことがある。  
+破壊的な API 変更（QGIS 自体の API 変更）があれば別途対応が必要になる可能性あり。  
+さあ、実装して変更 diff と実行ログをください。」  
