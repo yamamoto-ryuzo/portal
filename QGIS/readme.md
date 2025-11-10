@@ -62,5 +62,47 @@ ZIP作成指示に、プラグインとしてのフォルダを作成を忘れ�
 # 開発環境
 VSCODE用の一般的な .ignore を設定して。  
 
+# QT5-6対応プロンプト  
+QGISのプラグインをQt6に対応させる方法は主に3つのポイントがあります。  
+
+metadata.txtにQt6対応を宣言  
+プラグインのトップにあるmetadata.txtファイルに、以下のように  
+
+text  
+supportsQt6=True  
+のフラグを追加します。これを設定することで、Qt6版のQGISでもプラグインがインストール可能になります。  
+ 
+Pythonコードの修正 - qgis.PyQtパッケージの使用  
+従来、PyQt5など直接のQtモジュールをimportしていた部分を次のように書き換えます。  
+
+python  
+from qgis.PyQt.QtWidgets import QAbstractItemView, QDialog, QLineEdit, QMessageBox  
+このqgis.PyQtは内部でQt5/Qt6のどちらでも動作するように切り替わるため、Qtのバージョンを意識せずに書けます。  
+
+Enumの扱いの修正  
+Qt6ではEnumの扱いが大きく変わっており、例えば  
+
+python  
+QAbstractItemView.SelectRows  
+から  
+
+python  
+QAbstractItemView.SelectionBehavior.SelectRows  
+のように修正が必要です。これをQtのバージョンによって切り替えられるようにし、以下のように条件分岐して対応します。  
+
+python  
+from qgis.PyQt.QtCore import QT_VERSION_STR, Qt  
+from qgis.PyQt.QtWidgets import QAbstractItemView  
+
+QT_VERSION_INT = int(QT_VERSION_STR.split(".")[0])  
+
+if QT_VERSION_INT <= 5:  
+    select_rows = QAbstractItemView.SelectRows  
+else:  
+    select_rows = QAbstractItemView.SelectionBehavior.SelectRows  
+
+self.japanDpfResultTableView.setSelectionBehavior(select_rows)  
+このようにmetadata.txtのフラグ設定＋コード内のqgis.PyQtへのimport修正とEnumの扱いの条件対応をすれば、QGISプラグインをQt6に対応させることができます。  
+
 
 
