@@ -1,16 +1,18 @@
 # GithubCopilotProでプラグインを作るときのプロンプト
 　プレミアムではなくて、GPT5-miniでも動くプロンプトを目指す！
+ 
+## 関数の利用
+関数は以下を利用のこと    
+ https://qgis.org/pyqgis/master/  
+ https://qgis.org/pyqgis/3.44/  
+ https://qgis.org/pyqgis/3.40/  
 
 ## 基本構成
 QGISの標準的なファイル・フォルダ構成として、作成せず、リポジトリの名前からプラグイン名等を作成して。  
 本体のPYはmain.pyとせず、リポジトリの名前から作成して。  
-ログ出力先は、プラグイン名とすること。  
-TESTのPYを作るときはTESTフォルダに作成のこと。 
-demoを作成するときはdemoフォルダに作成のこと。
-関数は以下を利用のこと  
- https://qgis.org/pyqgis/master/  
- https://qgis.org/pyqgis/3.44/  
- https://qgis.org/pyqgis/3.40/  
+ログ出力先は、プラグイン名とすること。   
+TESTのPYを作るときはTESTフォルダに作成のこと。   
+demoを作成するときはdemoフォルダに作成のこと。  
  
 ## QT
 QT6専用のプラグインとして作成すること。  
