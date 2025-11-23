@@ -15,7 +15,7 @@ TESTのPYを作るときはTESTフォルダに作成のこと。
 demoを作成するときはdemoフォルダに作成のこと。  
  
 ## QT
-QT6専用のプラグインとして作成すること。  
+QT5/QT6のプラグインとして作成すること。  
 メタデータには以下を必ず記載のこと。   
  qgisMinimumVersion=3.40  
  qgisMaximumVersion=3.999  
