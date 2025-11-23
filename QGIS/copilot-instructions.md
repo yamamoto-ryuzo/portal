@@ -60,7 +60,7 @@ metadata.txtからプラグイン情報を読み取って、バージョン文�
 metadata.txtは、以下サイトを参考に作成して。  
 　https://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/plugins/plugins.html#metadata-txt   
 ZIP作成指示に、プラグインとしてのフォルダを作成を忘れないで。  
-ライセンスファイルをZAPに入れるのを忘れないで。
+ライセンスファイルをZIPに入れるのを忘れないで。
 前のバージョンのZIPは自動的にWINDOWSのごみ箱へ移動して。  
 
 # 開発環境
