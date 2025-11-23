@@ -1,4 +1,4 @@
-# GithubCopilotProでプラグインを作るときのプロンプト（作成中）
+# GithubCopilotProでプラグインを作るときのプロンプト
 　プレミアムではなくて、GPT5-miniでも動くプロンプトを目指す！
 
 ## 基本構成
@@ -7,11 +7,15 @@ QGISの標準的なファイル・フォルダ構成として、作成せず、�
 ログ出力先は、プラグイン名とすること。  
 TESTのPYを作るときはTESTフォルダに作成のこと。 
 demoを作成するときはdemoフォルダに作成のこと。
-
+関数は以下を利用のこと  
+ https://qgis.org/pyqgis/master/  
+ https://qgis.org/pyqgis/3.44/  
+ https://qgis.org/pyqgis/3.40/  
+ 
 ## QT
 QT6専用のプラグインとして作成すること。  
 メタデータには以下を必ず記載のこと。   
- qgisMinimumVersion=3.44  
+ qgisMinimumVersion=3.40  
  qgisMaximumVersion=3.999  
  required_qt_version=6  
 UIは、Qt Designerの.uiファイル方式すること。  
