@@ -44,6 +44,12 @@ lrelease.exeは、C:\Qt\linguist_6.9.1\lrelease.exe　にあります。
 UIに表示される文字がある場合は、文字を英語にして、翻訳対象とすること。  
 ただし、PYの説明やログ出力は日本語にして。  
 
+## README
+ README.MD　は英語で作成し、同時に、同じ内容でREADME_JP.MDを同時作成のこと。  
+ 画像については同じ画像を利用のこと。  
+ その他、仕様書等のMD作成も同様に _JP.MD　を作成のこと。  
+ 英語翻訳と日本語翻訳は、ページのトップで相互リンクを行うこと。  
+
 ## バージョン管理 / Versioning
 プラグインのバージョンは metadata.txt の version フィールドで管理して。  
 新機能追加や修正時は metadata.txt の version を更新して。  
