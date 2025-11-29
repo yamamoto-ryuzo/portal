@@ -75,7 +75,7 @@ metadata.txtは、以下サイトを参考に作成して。
 ## README.MD  
  目次にMD内のリンクをつけて。  
  README_JP.MDは日本語メインサイトとして、README.MDは英語サイトとする。  
- README_JP.MDが更新時のメインサイトとし、README.MDは日本語の翻訳サイトとする。  
+ README_JP.MDが更新時のメインサイトとし、README.MDは日本語の英語サイトとする。  
  READMEの日本語版と英語版の相互リンクをページのトップに設置する。  
  
 # 開発環境
