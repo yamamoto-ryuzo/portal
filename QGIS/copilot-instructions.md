@@ -70,7 +70,13 @@ metadata.txtからプラグイン情報を読み取って、バージョン文�
 metadata.txtは、以下サイトを参考に作成して。  
 　https://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/plugins/plugins.html#metadata-txt   
 ライセンスファイルをZIPに入れるのを忘れないで。
-前のバージョンのZIPは自動的にWINDOWSのごみ箱へ移動して。  
+前のバージョンのZIPは自動的にWINDOWSのごみ箱へ移動して。 
 
+## README.MD  
+ 目次にMD内のリンクをつけて。  
+ README_JP.MDは日本語メインサイトとして、README.MDは英語サイトとする。  
+ README_JP.MDが更新時のメインサイトとし、README.MDは日本語の翻訳サイトとする。  
+ READMEの日本語版と英語版の相互リンクをページのトップに設置する。  
+ 
 # 開発環境
 VSCODE用の一般的な .ignore を設定して。 
