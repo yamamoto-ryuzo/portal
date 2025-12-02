@@ -64,13 +64,12 @@ B: UIの変更（プラグインの追加等含む）、本体の簡易な機能
 C: プロファイル・プラグイン、本体の修正  
 
 ## 配布用ZIP
-配布用ZIPの作成は、必要最小限をZIPにするcreate_zip.pyを作成して。 
-ZIPファイルはプラグイン本体のフォルダのignore以外をZIPするようにして。
-metadata.txtからプラグイン情報を読み取って、バージョン文字列（例: 1.3.0）を+0.0.1してZIPを作成してmetadata.txtも更新して。  
-metadata.txtは、以下サイトを参考に作成して。  
-　https://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/plugins/plugins.html#metadata-txt   
-ライセンスファイルをZIPに入れるのを忘れないで。
-前のバージョンのZIPは自動的にWINDOWSのごみ箱へ移動して。 
+配布用ZIPの作成は、必要最小限をZIPにするcreate_zip.pyを作成して。  
+ZIPファイルはプラグイン本体のフォルダのignore以外をZIPするようにして。  
+metadata.txtからプラグイン情報を読み取って、バージョン文字列（例: 1.3.0）を+0.0.1してZIPを作成してmetadata.txtも更新して。    
+metadata.txtは、以下サイトを参考に作成して。   
+　https://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/plugins/plugins.html#metadata-txt      
+前のバージョンのZIPは自動的にWINDOWSのごみ箱へ移動して。  
 
 ## README.MD  
  目次にMD内のリンクをつけて。  
