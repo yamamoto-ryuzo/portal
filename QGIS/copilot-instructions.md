@@ -40,7 +40,8 @@ def my_custom_function(value1, value2, feature, parent):
 QGISの設定言語によって、自動的に言語設定を行うようにして。  
 QGISの翻訳は、複雑化せず、シンプルな翻訳方法であるtr()メソッドのみを使って行って。  
 ソースの言語は英語として、英語、フランス語、ドイツ語、スペイン語、イタリア語、ポルトガル語、日本語、中国語、ロシア語、ヒンディー語に対応して。  
-lrelease.exeは、C:\Qt\linguist_6.9.1\lrelease.exe　にあります。  
+lrelease.exeは、C:\Qt\linguist_6.9.1\lrelease.exe　にあります。
+linguistは、C:\Qt\linguist_6.9.1\linguist.exe にあります。
 UIに表示される文字がある場合は、文字を英語にして、翻訳対象とすること。  
 ただし、PYの説明やログ出力は日本語にして。  
 
