@@ -19,7 +19,7 @@ QT5/QT6のプラグインとして作成すること。
 メタデータには以下を必ず記載のこと。   
  qgisMinimumVersion=3.00  
  qgisMaximumVersion=3.99  
- required_qt_version=6  
+ supportsQt6=True   
 UIは、Qt Designerの.uiファイル方式すること。  
 標準言語は英語として、PYの動作説明のコメントだけは日本語で作成のこと。    
 
