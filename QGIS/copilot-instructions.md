@@ -17,9 +17,9 @@ demoを作成するときはdemoフォルダに作成のこと。
 ## QT
 QT5/QT6のプラグインとして作成すること。  
 メタデータには以下を必ず記載のこと。   
- qgisMinimumVersion=3.40  
+ qgisMinimumVersion=3.00  
  qgisMaximumVersion=3.99  
- required_qt_version=6  
+ supportsQt6=True   
 UIは、Qt Designerの.uiファイル方式すること。  
 標準言語は英語として、PYの動作説明のコメントだけは日本語で作成のこと。    
 
@@ -38,10 +38,10 @@ def my_custom_function(value1, value2, feature, parent):
 
 ## 多言語化
 QGISの設定言語によって、自動的に言語設定を行うようにして。  
-QGISの翻訳は、複雑化せず、シンプルな翻訳方法であるtr()メソッドのみを使って行って。  
+QGISの翻訳は、複雑化せず、シンプルな翻訳方法であるtr()メソッドのみを使い、lrelease対応にして。   
 ソースの言語は英語として、英語、フランス語、ドイツ語、スペイン語、イタリア語、ポルトガル語、日本語、中国語、ロシア語、ヒンディー語に対応して。  
-lrelease.exeは、C:\Qt\linguist_6.9.1\lrelease.exe　にあります。
-linguistは、C:\Qt\linguist_6.9.1\linguist.exe にあります。
+lrelease.exeは、C:\Qt\linguist_6.9.1\lrelease.exe　にあります。  
+linguistは、C:\Qt\linguist_6.9.1\linguist.exe にあります。  
 UIに表示される文字がある場合は、文字を英語にして、翻訳対象とすること。  
 ただし、PYの説明やログ出力は日本語にして。  
 
