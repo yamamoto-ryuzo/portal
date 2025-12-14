@@ -17,7 +17,7 @@ demoを作成するときはdemoフォルダに作成のこと。
 ## QT
 QT5/QT6のプラグインとして作成すること。  
 メタデータには以下を必ず記載のこと。   
- qgisMinimumVersion=3.40  
+ qgisMinimumVersion=3.00  
  qgisMaximumVersion=3.99  
  required_qt_version=6  
 UIは、Qt Designerの.uiファイル方式すること。  
