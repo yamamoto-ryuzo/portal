@@ -30,7 +30,7 @@
 ### イベント 2026  
 　今年のお題は
  [第4回 Agentic AI Hackathon with Google Cloud](https://zenn.dev/hackathons/google-cloud-japan-ai-hackathon-vol4)  
-　　　AIはハッカソンで作成しているGISコンポーネントのOSS化及びMCP組み込み  
+　　　ハッカソンで作成しているGISコンポーネントのOSS化及びMCP組み込み  
 2025から持ち越した 
 　　[yr-qgis-launcher：ログイン機能等を備えた初めての人でも扱いやすいQGIS環境を提供](https://www.vector.co.jp/soft/winnt/business/se527023.html)　のパワーアップ  
 　　　QGISプラグイン：[QGISPlugin　GEO-search-pluginのダウンロード数が3万を超えたので、英語版を作成し国際化！](https://github.com/yamamoto-ryuzo/GEO-search-plugin)  
