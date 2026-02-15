@@ -29,14 +29,16 @@
 ## イベント  
 ### イベント 2026  
 　今年のお題は
- [第4回 Agentic AI Hackathon with Google Cloud](https://zenn.dev/hackathons/google-cloud-japan-ai-hackathon-vol4)  
-　　　ハッカソンで作成しているGISコンポーネントのOSS化及びMCP組み込み  
-2025から持ち越した 
+ 2025から持ち越した 
 　　[yr-qgis-launcher：ログイン機能等を備えた初めての人でも扱いやすいQGIS環境を提供](https://www.vector.co.jp/soft/winnt/business/se527023.html)　のパワーアップ  
 　　　QGISプラグイン：[QGISPlugin　GEO-search-pluginのダウンロード数が3万を超えたので、英語版を作成し国際化！](https://github.com/yamamoto-ryuzo/GEO-search-plugin)  
 　　　QGISランチャー：国際化。。。日本のユーザー少ないので、英語版を作成    　
   
 ## 終了イベント 
+### イベント 2026  
+ [第4回 Agentic AI Hackathon with Google Cloud](https://zenn.dev/hackathons/google-cloud-japan-ai-hackathon-vol4)    
+　　　　GIS周りとちょこっとお手伝い、モダンな開発環境頼みめて面白かった。  
+　　　　[獣害通報AI管理システム「AIRS」](https://airs.demo.dx-junkyard.com/) 　[チームリーダーの報告ページ！はこちら。](https://zenn.dev/fooqoo/articles/eeeebf27353744)  
 ### イベント 2025
 [Boxフォルダ写真位置情報抽出アプリ](https://github.com/yamamoto-ryuzo/boxPhotoGeoURL)  
 [プロジェクトＣＤＥ整理開始](https://github.com/yamamoto-ryuzo/portal/tree/main/%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88CDE)    
