@@ -37,7 +37,7 @@
 ## 終了イベント 
 ### イベント 2026  
  [第4回 Agentic AI Hackathon with Google Cloud](https://zenn.dev/hackathons/google-cloud-japan-ai-hackathon-vol4)    
-　　　　GIS周りとちょこっとお手伝い、モダンな開発環境頼みめて面白かった。  
+　　　　GIS周りとちょこっとお手伝い、私にとっては、モダンな開発環境での開発だったので面白かった。  
 　　　　[獣害通報AI管理システム「AIRS」](https://airs.demo.dx-junkyard.com/) 　[チームリーダーの報告ページ！はこちら。](https://zenn.dev/fooqoo/articles/eeeebf27353744)  
 ### イベント 2025
 [Boxフォルダ写真位置情報抽出アプリ](https://github.com/yamamoto-ryuzo/boxPhotoGeoURL)  
