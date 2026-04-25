@@ -3,7 +3,7 @@ redirect_from:
   - /プロジェクトCDE/index.md
 ---
 
-# プロジェクトCDE — 調査ノート（下書き）
+# プロジェクトCDE — 調査ノート（下書き）　
 
 > 参考資料：[2025.3.7_プロジェクトCDEを中心としたデータマネジメントの取組案について（国土技術政策総合研究所）](https://www.nilim.go.jp/lab/peg/img/file2256.pdf)
 
