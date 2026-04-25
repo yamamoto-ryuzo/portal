@@ -13,7 +13,7 @@ content = re.sub(r'^---\s*\n(.*?\n)?---\s*\n', '', content, flags=re.DOTALL).str
 # Zennフロントマター
 front = (
     '---\n'
-    'title: "プロジェクトCDE — 構想・機能・運用ガイド"\n'
+    'title: "プロジェクトCDE — 調査メモ（草案）"\n'
     'emoji: "🗺️"\n'
     'type: "idea"\n'
     'topics: ["GIS", "CDE", "BIM", "公共事業", "土木"]\n'
