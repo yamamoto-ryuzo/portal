@@ -8,7 +8,7 @@ canonical_url: "https://yamamoto-ryuzo.github.io/portal/%E3%83%97%E3%83%AD%E3%82
 publication: dx-junkyard
 ---
 
-# プロジェクトCDE — 調査ノート（下書き）　
+# プロジェクトCDE — 調査ノート（下書き2）　
 
 > 参考資料：[2025.3.7_プロジェクトCDEを中心としたデータマネジメントの取組案について（国土技術政策総合研究所）](https://www.nilim.go.jp/lab/peg/img/file2256.pdf)
 
