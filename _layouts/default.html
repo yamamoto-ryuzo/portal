@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+    {% include head-custom.html %}
+    <style>
+      .page-container {
+        width: min(1200px, 95vw);
+        margin: 0 auto;
+        padding: 24px 0 48px;
+      }
+
+      @media (max-width: 768px) {
+        .page-container {
+          width: 92vw;
+          padding-top: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page-container">
+      {{ content }}
+    </main>
+  </body>
+</html>

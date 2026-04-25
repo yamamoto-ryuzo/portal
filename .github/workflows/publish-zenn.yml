@@ -1,0 +1,43 @@
+name: Publish to Zenn
+
+on:
+  push:
+    paths:
+      - 'articles/project-cde-guide.md'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install zenn-cli
+        run: npm install -g zenn-cli
+
+      - name: Publish article to Zenn
+        env:
+          ZENN_TOKEN: ${{ secrets.ZENN_TOKEN }}
+        run: |
+          if [ -z "$ZENN_TOKEN" ]; then echo "ZENN_TOKEN secret is not set"; exit 1; fi
+          # Try common zenn-cli publish commands; adjust if your zenn-cli version differs
+          if command -v zenn >/dev/null 2>&1; then
+            zenn publish:article articles/project-cde-guide.md --token "$ZENN_TOKEN" || zenn publish articles/project-cde-guide.md --token "$ZENN_TOKEN"
+          else
+            npx zenn-cli publish:article articles/project-cde-guide.md --token "$ZENN_TOKEN" || npx zenn-cli publish articles/project-cde-guide.md --token "$ZENN_TOKEN"
+          fi
+
+      - name: Notify
+        run: echo "Publish step finished"
+
+# NOTE:
+# 1) Create a Zenn access token with publication permissions and add it to the repository secrets as `ZENN_TOKEN`.
+# 2) Ensure the token's account is a member of the `dx-junkyard` Publication.
+# 3) Verify the `zenn-cli` command matching your installed version; adjust the publish command if needed.
