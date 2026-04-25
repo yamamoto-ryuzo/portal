@@ -1,8 +1,10 @@
 title: yamamoto-ryuzo portal
 theme: jekyll-theme-minimal
 
-plugins:
-  - jekyll-redirect-from
+# Note: `jekyll-redirect-from` removed because GitHub Pages' safe build
+# environment does not support some plugins. Re-enable if using a custom
+# build (Actions) that supports this plugin.
+plugins: []
 
 defaults:
   - scope:
