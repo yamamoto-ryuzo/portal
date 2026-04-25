@@ -19,7 +19,7 @@ front = (
     'topics: ["GIS", "CDE", "BIM", "公共事業", "土木"]\n'
     'published: true\n'
     'canonical_url: "https://yamamoto-ryuzo.github.io/portal/%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88CDE/"\n'
-    'publication: dx-junkyard\n'
+    'publication_name: "dx_junkyard"\n'
     '---\n\n'
 )
 
