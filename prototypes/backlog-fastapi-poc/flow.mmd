@@ -1,0 +1,6 @@
+flowchart TD
+  Backlog[Backlog (task complete)] -->|Webhook| FastAPI[FastAPI / Webhook receiver]
+  FastAPI -->|enqueue| Queue[(Redis / SQS / Cloud Tasks)]
+  Queue -->|consume| Worker[Worker (FastAPI worker / Celery)]
+  Worker -->|call| Box[Box API / Storage]
+  Worker -->|log| AuditDB[(Audit DB / Object Storage)]
