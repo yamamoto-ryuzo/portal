@@ -1,0 +1,58 @@
+# Python virtualenvs
+.venv/
+venv/
+ENV/
+.env/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Installer / packaging
+*.egg-info/
+dist/
+build/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+coverage.xml
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Jekyll build output
+_site/
+
+# Node / JS
+node_modules/
+npm-debug.log*
+yarn-error.log
+
+# Sass / cache
+.sass-cache/
+.cache/
+
+# Terraform
+.terraform/
+
+# Logs and env
+*.log
+.env
+.env.local
+
+# Python cache and dist
+*.egg
+*.whl
+
+# Optional: generated articles by script
+# If you want to avoid committing generated Zenn articles, uncomment the next line
+# articles/
