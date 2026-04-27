@@ -1,11 +1,3 @@
-- 各パターン別補足（主な必要追加要素）
-
-- 1. フルスタック（Coolify）: シークレット管理（Vault）、永続キュー、監査DB、バックアップ・監視（Prometheus/Alerting）を含む運用基盤を用意すること。CI/CD と自動復旧手順も必須。
-- 2. Power Automate + 外部APIワーカー: Approvals は UI を提供するが、Box 操作の安全実行用に Key Vault/AAD、長時間処理用キュー（Cloud Tasks/SQS）、監査ログ格納先が必要。
-- 3. Box Relay + Webhook → 外部APIワーカー: Relay はトリガに過ぎないため、Webhook 受信サービス（署名検証・冪等処理・再試行制御）とバッチ処理ワーカーを用意する必要がある。
-- 4. n8n（Self‑host）+ 外部APIワーカー: n8n はワークフローを容易に作れるが、機密情報の安全な保管、外部ワーカーによる重処理、DB/キューの統合が必須。
-- 5. Serverless / Managed（Vercel 等）: Serverless の実行制約を補うためのキュー・バッチ処理、オブジェクトストレージ、およびシークレット管理が必要。長時間処理は外部ワーカーに委譲する運用設計を推奨。
-
 ---
 redirect_from:
   - /プロジェクトCDE/index.md
