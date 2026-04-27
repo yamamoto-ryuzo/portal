@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'articles/project-cde-guide.md'
+      - 'プロジェクトCDE/index.md'
 
 jobs:
   publish:
