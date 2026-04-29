@@ -23,9 +23,6 @@ redirect_from:
 　　https://www.facebook.com/groups/lizmapusergroupjapan  
 ### 事業監理におけるプロジェクトCDEの実現
 　　詳細はこちら[事業監理におけるプロジェクトCDE概要](./プロジェクトCDE/)
-  ![image](https://github.com/user-attachments/assets/d27f01c4-bfa7-4a90-8f2d-cb9fb41e51d8)
-  ![image](https://github.com/user-attachments/assets/1e87cd25-1ca5-4e3d-92ab-a4faccad7670)
-
 ## [DX全般](./DX/)  
  ・とりあえず書き始め。。。  
 ## 出没先　
