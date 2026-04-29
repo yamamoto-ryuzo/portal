@@ -22,7 +22,9 @@ redirect_from:
 　　https://github.com/yamamoto-ryuzo/Lizmap-installation-Japanese-memo  
 　　https://www.facebook.com/groups/lizmapusergroupjapan  
 ### 事業監理におけるプロジェクトCDEの実現
-　　詳細はこちら[事業監理におけるプロジェクトCDE概要](./プロジェクトCDE/)
+　　詳細はこちら[事業監理におけるプロジェクトCDE概要](./プロジェクトCDE/)  
+![プロジェクトCDE](プロジェクトCDE\プロジェクトCDE.png)
+
 ## [DX全般](./DX/)  
  ・とりあえず書き始め。。。  
 ## 出没先　
