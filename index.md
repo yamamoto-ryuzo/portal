@@ -30,7 +30,7 @@ redirect_from:
  ・とりあえず書き始め。。。  
 ## 出没先　
 ・https://www.dx-junkyard.com/  
-・[FOSS4Gもくもく会](https://github.com/yamamoto-ryuzo/portal/blob/main/FOSS4G%E3%82%82%E3%81%8F%E3%82%82%E3%81%8F%E4%BC%9A.md)　　 皆勤賞を目指しています！   
+・[FOSS4Gもくもく会](https://yamamoto-ryuzo.github.io/portal/blob/main/FOSS4G%E3%82%82%E3%81%8F%E3%82%82%E3%81%8F%E4%BC%9A.md)　　 皆勤賞を目指しています！   
 ## イベント  
 ### イベント 2026  
 　今年のお題は
@@ -46,20 +46,20 @@ redirect_from:
 　　　　[獣害通報AI管理システム「AIRS」](https://airs.demo.dx-junkyard.com/) 　[チームリーダーの報告ページ！はこちら。](https://zenn.dev/fooqoo/articles/eeeebf27353744)  
 ### イベント 2025
 [Boxフォルダ写真位置情報抽出アプリ](https://github.com/yamamoto-ryuzo/boxPhotoGeoURL)  
-[プロジェクトＣＤＥ整理開始](https://github.com/yamamoto-ryuzo/portal/tree/main/%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88CDE)    
-[backlog-エクセル連携](https://github.com/yamamoto-ryuzo/portal/tree/main/backlog):バックログAPIを利用してエクセルに課題を読み込み    
+[プロジェクトＣＤＥ整理開始](https://yamamoto-ryuzo.github.io/portal/tree/main/%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88CDE)    
+[backlog-エクセル連携](https://yamamoto-ryuzo.github.io/portal/tree/main/backlog):バックログAPIを利用してエクセルに課題を読み込み    
 [ユーチューブ](https://www.youtube.com/@yamakun):QGIS動画を投稿するためアカウント取得  
 [とりあえずDify](https://docs.dify.ai/ja-jp)：[ゆかりのチャボっと作成](https://udify.app/chat/ROACB9bjRdLIVwZB)    
 ### イベント 2024  
 [Vector登録](https://www.vector.co.jp/soft/winnt/business/se527103.html)：[電子納品の一覧を作成 MLITxml2csv](https://github.com/yamamoto-ryuzo/MLITxml2csv)を登録  
 [QGISプラグイン](https://plugins.qgis.org/plugins/geo_easyprint/)：[簡易印刷プラグインの公式プラグインへの登録](https://github.com/yamamoto-ryuzo/geo_easyprint)  
 [Vector登録](https://www.vector.co.jp/soft/winnt/business/se527023.html)：[QGISの専用ランチャー yr-qgis-launcher](https://github.com/yamamoto-ryuzo/yr-qgis-launcher)を登録  
-[応募先](https://odhackathon.metro.tokyo.lg.jp/)：[都知事杯オープンデータ・ハッカソン2024ファーストステージ　(個人)](https://github.com/yamamoto-ryuzo/portal/issues/1#issue-2329558676)  
+[応募先](https://odhackathon.metro.tokyo.lg.jp/)：[都知事杯オープンデータ・ハッカソン2024ファーストステージ　(個人)](https://yamamoto-ryuzo.github.io/portal/issues/1#issue-2329558676)  
 　　[アイデアソン Day.2 8/7(水)](https://odhackathon.metro.tokyo.lg.jp/team-building/#ideathon2)、[ハッカソン 8/24.25日（土日）](https://odhackathon.metro.tokyo.lg.jp/hackathon/#hackathon-day1)  　[ファーストステージ収録(8/31)](https://odhackathon.metro.tokyo.lg.jp/collection/29/)   
-[応募先](https://www.zaimu.metro.tokyo.lg.jp/zaisei/zaisei/teian/tomin/7tomin)：[令和6年度　都民による事業提案制度](https://github.com/yamamoto-ryuzo/portal/blob/main/都民による事業提案制度.md)   
+[応募先](https://www.zaimu.metro.tokyo.lg.jp/zaisei/zaisei/teian/tomin/7tomin)：[令和6年度　都民による事業提案制度](https://yamamoto-ryuzo.github.io/portal/blob/main/都民による事業提案制度.md)   
 　　4/5～　提案、７月 [投票まで辿り着いた提案（私は落選。。。）](https://www.zaimu.metro.tokyo.lg.jp/documents/d/zaimu/t_ichiran_7)  
-[応募先](https://asciistartup.connpass.com/event/318573/)：[PLATEAU Hack Challenge 2024 for ルーキ](https://github.com/yamamoto-ryuzo/portal/issues/2)[【そこ！どうなってるの？】](https://protopedia.net/prototype/5297)    
+[応募先](https://asciistartup.connpass.com/event/318573/)：[PLATEAU Hack Challenge 2024 for ルーキ](https://yamamoto-ryuzo.github.io/portal/issues/2)[【そこ！どうなってるの？】](https://protopedia.net/prototype/5297)    
 ### イベント 2023  
-[応募先](https://odhackathon.metro.tokyo.lg.jp/hackathon2023/) ：[都知事杯オープンデータ・ハッカソン　](https://github.com/yamamoto-ryuzo/portal/blob/main/image/%E9%83%BD%E7%9F%A5%E4%BA%8B%E6%9D%AF%E3%82%AA%E3%83%BC%E3%83%97%E3%83%B3%E3%83%87%E3%83%BC%E3%82%BF%E3%83%BB%E3%83%8F%E3%83%83%E3%82%AB%E3%82%BD%E3%83%B3%202023.png)[【OpenData Bridge】](https://www.dx-junkyard.com/posts/opendata-bridge)  
-[応募先](https://www.digital.go.jp/policies/myna_portal/hackathon)：[マイナポータルハッカソン](https://github.com/yamamoto-ryuzo/portal/blob/main/image/%E3%83%9E%E3%82%A4%E3%83%8A%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%AB%E3%83%8F%E3%83%83%E3%82%AB%E3%82%BD%E3%83%B3.png)[【マイナセーフティ】](https://www.youtube.com/watch?v=5-ktu6egUCs&list=PLUPGuSVqDNP-qmZev9vrlE8-h_8uKFRm7&index=11)  
+[応募先](https://odhackathon.metro.tokyo.lg.jp/hackathon2023/) ：[都知事杯オープンデータ・ハッカソン　](https://yamamoto-ryuzo.github.io/portal/blob/main/image/%E9%83%BD%E7%9F%A5%E4%BA%8B%E6%9D%AF%E3%82%AA%E3%83%BC%E3%83%97%E3%83%B3%E3%83%87%E3%83%BC%E3%82%BF%E3%83%BB%E3%83%8F%E3%83%83%E3%82%AB%E3%82%BD%E3%83%B3%202023.png)[【OpenData Bridge】](https://www.dx-junkyard.com/posts/opendata-bridge)  
+[応募先](https://www.digital.go.jp/policies/myna_portal/hackathon)：[マイナポータルハッカソン](https://yamamoto-ryuzo.github.io/portal/blob/main/image/%E3%83%9E%E3%82%A4%E3%83%8A%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%AB%E3%83%8F%E3%83%83%E3%82%AB%E3%82%BD%E3%83%B3.png)[【マイナセーフティ】](https://www.youtube.com/watch?v=5-ktu6egUCs&list=PLUPGuSVqDNP-qmZev9vrlE8-h_8uKFRm7&index=11)  
 応募先：Tokyo OSS Party!! 2023
