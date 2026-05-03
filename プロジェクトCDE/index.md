@@ -110,7 +110,72 @@ graph TD
     - CAD⇄GIS、BIM⇄IFC、点群⇄メッシュの変換ルール、命名規則、バージョン管理を事前に合意し手順を文書化する。
     - 納品パッケージ例：図面(PDF/DWG) + 座標CSV + GISレイヤ(GeoPackage) + 点群(LAS) + 仕様書(PDF) + メタデータ(JSON)
 
-詳細な納品チェックリストや工程別テンプレートは、別添で作成・配布できます。
+    #### 空間データ可視化基盤への連携
+    調査・測量・設計で生成されたデータはCDEでの原本管理と並行して、空間データ可視化基盤で統合・加工・配信されます。代表的な連携フローは次の通りです。
+
+    - ベクタ（Shapefile/GeoJSON/GeoPackage） → PostGIS 等の空間 DB に格納 → GeoServer/QGIS Server 経由で OGC（WMS/WFS）やベクタタイル配信 → Lizmap/Leaflet 等で2D可視化
+    - ラスタ（GeoTIFF / DSM / DTM） → タイル化（GeoServer/TMS）→ 地図・解析ビューで配信
+    - 点群（LAS/LAZ/E57） → PDAL/Entwine による処理・タイル化 → Potree / 3DTiles 等でブラウザ表示
+    - BIM/3Dモデル（IFC/Revit/OBJ） → IFC→3DTILES/glTF 変換（IFC.js, BIMserver 等）→ Cesium/3D ビューアで閲覧
+    - 文書・図面（PDF/DWG/Excel） → CDEで原本管理、可視化基盤はサムネ・メタデータ・リンクを参照して関連情報を表示
+
+    運用要点：
+    - 全データに座標系（EPSG）とメタデータ（作成者・作成日・精度・処理履歴）を付与し、可視化基盤はこれを参照して整合性を担保する。
+    - ETL（GDAL/OGR、PDAL、変換パイプライン）は自動化し、SSOT（CDE）→ 派生物（可視化用タイル/モデル）生成をCI化する。
+    - アクセス制御はCDE側で原本を管理し、可視化基盤は派生ビューに対して公開レイヤ（認証／共有リンク／公開）を適用する。
+
+    - 文書・図面は単なるリンク参照に留めず、GIS属性（SSOT ID／文書種別／承認ステータス／作成日／関連地物ID 等）として取り込み、地物の属性クエリや GetFeatureInfo で即時参照・ダウンロードできるようにする。これにより位置情報と文書が一体化し、事業全体の統合的参照・意思決定が可能になる。
+
+        ##### 文書・図面の属性スキーマ（例）
+        下は GIS の属性テーブルやメタデータカタログに保存する想定の最小スキーマ例です。プロジェクト要件に応じて拡張してください。
+
+        - `ssot_id` (string, 必須): SSOT 一意 ID（例: UUID）
+        - `doc_id` (string, 必須): 文書/図面の識別子（例: DOC-2026-001）
+        - `title` (string): 文書タイトル
+        - `doc_type` (string): 種別（例: 調査報告書／設計図／写真／点群）
+        - `related_feature_id` (string, 任意): 関連する地物／要素の ID（地物側の主キーと整合）
+        - `related_feature_type` (string, 任意): 地物種別（例: road, bridge, manhole）
+        - `epsg` (integer, 推奨): 座標系 EPSG コード（該当する場合）
+        - `created_at` (datetime): 作成日時
+        - `creator` (string): 作成者（担当者名／組織）
+        - `accuracy` (string/float, 任意): 精度・信頼度（例: 0.05m）
+        - `approval_status` (string): 承認ステータス（WIP/Shared/Published）
+        - `file_url` (string, 必須): CDE 上の原本ダウンロード／参照 URL
+        - `thumbnail_url` (string, 任意): サムネ画像 URL
+        - `metadata_json` (jsonb, 任意): 拡張メタデータ（元ファイルの処理履歴・センサー情報等）
+
+        例：メタデータ JSON（GeoJSON の `properties` に埋める想定）
+
+        {
+            "ssot_id": "b6f9d8e2-4c2a-4f1a-9e2b-0a1b2c3d4e5f",
+            "doc_id": "DOC-2026-001",
+            "title": "現況写真_道路A_20260501",
+            "doc_type": "photo",
+            "related_feature_id": "FT-000123",
+            "related_feature_type": "manhole",
+            "epsg": 6669,
+            "created_at": "2026-05-01T10:23:00+09:00",
+            "creator": "測量チームA",
+            "accuracy": null,
+            "approval_status": "WIP",
+            "file_url": "https://box.example.com/s/abcd1234",
+            "thumbnail_url": "https://box.example.com/s/thumb_abcd1234.jpg",
+            "metadata_json": {"camera_model":"CannonXYZ","exif_gps":true}
+        }
+
+        ##### 実装チェックリスト（導入時）
+        - CDE に原本保管：ファイルとメタデータの分離（ファイルは Box 等、メタデータは PostGIS/Elasticsearch）
+        - 一意 ID 運用：`ssot_id` を全システムでキーにする（UUID を推奨）
+        - GIS 属性追加：地物テーブルに `doc_links` または `doc_count` 等の列を追加し GetFeatureInfo で参照可能にする
+        - メタデータ格納：PostGIS の JSONB カラムか専用メタデータテーブルで管理し全文検索を有効化する
+        - API/Viewer 統合：GeoServer の GetFeatureInfo / feature attributes で `file_url` を返すよう設定
+        - 権限連携：CDE のアクセス権と可視化基盤の表示制御を紐付ける（SSO / token 検証）
+        - ETL 自動化：ファイル登録時にメタデータを自動抽出・インジェストするパイプラインを構築（例: Lambda/Cloud Function / CI）
+        - テスト：代表的な文書（PDF）、図面（DWG）、写真（ジオタグ付）で GetFeatureInfo→ファイル参照→ダウンロードまでの実行検証
+
+        上記を実行すれば、GIS 上で地物をクリックすると該当する文書・図面が即参照でき、位置情報と文書が一体化した運用が実現します。
+
+    次節の「空間データ可視化基盤」は、上の流れを前提に具体的な構成・技術選定・運用を記載します。
 
 ## 1.4 機能構成（全体像）
 
