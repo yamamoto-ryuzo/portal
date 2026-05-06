@@ -1,7 +1,11 @@
 <script>
   (function() {
+    console.log("head-custom: script loaded");
     function initMermaidAndRender() {
-      document.querySelectorAll("pre > code.language-mermaid").forEach(function (code) {
+      console.log("head-custom: initMermaidAndRender start");
+      var codes = document.querySelectorAll("pre > code.language-mermaid");
+      console.log("head-custom: found mermaid code blocks: ", codes.length);
+      codes.forEach(function (code) {
         var pre = code.parentElement;
         var diagram = document.createElement("div");
         diagram.className = "mermaid";
@@ -24,10 +28,14 @@
     }
 
     function loadMermaid() {
+      console.log("head-custom: loadMermaid called");
       var s = document.createElement("script");
       s.src = "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js";
       s.defer = true;
-      s.onload = initMermaidAndRender;
+      s.onload = function() {
+        console.log("head-custom: mermaid script onload");
+        initMermaidAndRender();
+      };
       s.onerror = function() {
         console.error("Failed to load mermaid.min.js from CDN.");
       };
