@@ -1,20 +1,43 @@
-<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll("pre > code.language-mermaid").forEach(function (code) {
-      var pre = code.parentElement;
-      var diagram = document.createElement("div");
-      diagram.className = "mermaid";
-      diagram.textContent = code.textContent;
-      pre.replaceWith(diagram);
-    });
-
-    if (typeof mermaid !== "undefined") {
-      mermaid.initialize({
-        startOnLoad: false,
-        securityLevel: "loose"
+  (function() {
+    function initMermaidAndRender() {
+      document.querySelectorAll("pre > code.language-mermaid").forEach(function (code) {
+        var pre = code.parentElement;
+        var diagram = document.createElement("div");
+        diagram.className = "mermaid";
+        diagram.textContent = code.textContent;
+        pre.replaceWith(diagram);
       });
-      mermaid.run({ querySelector: ".mermaid" });
+      if (typeof mermaid !== "undefined") {
+        mermaid.initialize({
+          startOnLoad: false,
+          securityLevel: "loose"
+        });
+        try {
+          mermaid.run({ querySelector: ".mermaid" });
+        } catch (e) {
+          console.error("mermaid.run error:", e);
+        }
+      } else {
+        console.warn("mermaid is undefined after script load.");
+      }
     }
-  });
+
+    function loadMermaid() {
+      var s = document.createElement("script");
+      s.src = "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js";
+      s.defer = true;
+      s.onload = initMermaidAndRender;
+      s.onerror = function() {
+        console.error("Failed to load mermaid.min.js from CDN.");
+      };
+      document.head.appendChild(s);
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", loadMermaid);
+    } else {
+      loadMermaid();
+    }
+  })();
 </script>
