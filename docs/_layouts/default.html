@@ -26,6 +26,18 @@
     <main class="page-container">
       {{ content }}
     </main>
-    <script src="{{ '/assets/js/mermaid-init.js' | relative_url }}"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      // Kramdown が <pre><code class="language-mermaid"> に変換するため
+      // Mermaid が認識できる <pre class="mermaid"> に変換する
+      document.querySelectorAll('pre code.language-mermaid').forEach(code => {
+        const pre = code.parentElement;
+        const div = document.createElement('pre');
+        div.className = 'mermaid';
+        div.textContent = code.textContent;
+        pre.replaceWith(div);
+      });
+      mermaid.initialize({ startOnLoad: true });
+    </script>
   </body>
 </html>

@@ -2,6 +2,10 @@ title: yamamoto-ryuzo portal
 theme: jekyll-theme-minimal
 toc_depth: 4
 
+kramdown:
+  syntax_highlighter_opts:
+    disable: true
+
 # Note: `jekyll-redirect-from` removed because GitHub Pages' safe build
 # environment does not support some plugins. Re-enable if using a custom
 # build (Actions) that supports this plugin.
