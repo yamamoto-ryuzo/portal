@@ -1,4 +1,4 @@
-src: "プロジェクトCDE/index.md"
+src: "docs/プロジェクトCDE/index.md"
 dst: "articles/project-cde-guide.md"
 title: "プロジェクトCDE — 検討メモ（草案）"
 emoji: "🗺️"

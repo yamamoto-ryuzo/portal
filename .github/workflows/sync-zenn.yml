@@ -3,7 +3,7 @@ name: Sync to Zenn article
 on:
   push:
     paths:
-      - 'プロジェクトCDE/index.md'
+      - 'docs/プロジェクトCDE/index.md'
 
 jobs:
   sync:
