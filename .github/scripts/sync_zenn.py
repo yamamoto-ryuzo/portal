@@ -86,7 +86,7 @@ def main():
 	else:
 		cfg_path = os.path.join(os.path.dirname(__file__), 'zenn_config.yaml')
 	if not os.path.exists(cfg_path):
-		print('zenn_config.yaml not found', file=sys.stderr)
+		print(f'config not found: {cfg_path}', file=sys.stderr)
 		sys.exit(1)
 	cfg = parse_simple_yaml(cfg_path)
 

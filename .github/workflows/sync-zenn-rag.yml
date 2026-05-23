@@ -16,9 +16,7 @@ jobs:
 
       - name: Convert index.md to Zenn format
         run: |
-          python3 .github/scripts/sync_zenn.py
-          # use the RAG-specific config
-          python3 .github/scripts/sync_zenn.py .github/scripts/zenn_config_rag.yaml || true
+          python3 .github/scripts/sync_zenn.py .github/scripts/zenn_config_rag.yaml
 
       - name: Commit and push
         run: |
