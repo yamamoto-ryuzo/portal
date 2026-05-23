@@ -22,7 +22,7 @@ redirect_from:
 　　https://github.com/yamamoto-ryuzo/Lizmap-installation-Japanese-memo  
 　　https://www.facebook.com/groups/lizmapusergroupjapan  
 ### 土木事業管理における知識・判断継承のためのRAGシステム構築提案書  
-　　詳細はこちら[事業監理におけるプロジェクトCDE概要](./RAGシステム/)  　　
+　　詳細はこちら[土木事業管理における知識・判断継承のためのRAGシステム構築提案書](./RAGシステム/)  　　
 ### 事業監理におけるプロジェクトCDEの実現
 　　詳細はこちら[事業監理におけるプロジェクトCDE概要](./プロジェクトCDE/)  
 ![プロジェクトCDE](プロジェクトCDE\プロジェクトCDE.png)
