@@ -80,7 +80,11 @@ def build_frontmatter(cfg):
 
 
 def main():
-	cfg_path = os.path.join(os.path.dirname(__file__), 'zenn_config.yaml')
+	if len(sys.argv) > 1:
+		cfg_arg = sys.argv[1]
+		cfg_path = cfg_arg if os.path.isabs(cfg_arg) else os.path.join(ROOT, cfg_arg)
+	else:
+		cfg_path = os.path.join(os.path.dirname(__file__), 'zenn_config.yaml')
 	if not os.path.exists(cfg_path):
 		print('zenn_config.yaml not found', file=sys.stderr)
 		sys.exit(1)
