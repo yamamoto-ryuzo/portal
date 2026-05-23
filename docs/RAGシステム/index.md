@@ -834,7 +834,7 @@ Track A+C で対応できない領域は以下に限定される。
 
 これらの条件に該当しない限り、**Track A+C がコスト・変化対応・維持管理の全面において Track B より優れた選択**である。
 
-![Track B が依然必要な条件（限定的）](https://yamamoto-ryuzo.github.io/portal/RAGシステム/images/土木事業管理RAG_TrackB_構築ガイド.png)
+![Track B が依然必要な条件_限定的](https://yamamoto-ryuzo.github.io/portal/RAGシステム/images/土木事業管理RAG_TrackB_構築ガイド.png)
 
 ---
 
