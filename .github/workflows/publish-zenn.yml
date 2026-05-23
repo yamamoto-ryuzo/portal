@@ -5,6 +5,8 @@ on:
     paths:
       - 'articles/project-cde-guide.md'
       - 'プロジェクトCDE/index.md'
+      - 'articles/civil-rag-system-guide.md'
+      - 'docs/RAGシステム/index.md'
 
 jobs:
   publish:
@@ -31,8 +33,11 @@ jobs:
           # Try common zenn-cli publish commands; adjust if your zenn-cli version differs
           if command -v zenn >/dev/null 2>&1; then
             zenn publish:article articles/project-cde-guide.md --token "$ZENN_TOKEN" || zenn publish articles/project-cde-guide.md --token "$ZENN_TOKEN"
+            # also try publishing civil-rag article if present
+            zenn publish:article articles/civil-rag-system-guide.md --token "$ZENN_TOKEN" || zenn publish articles/civil-rag-system-guide.md --token "$ZENN_TOKEN"
           else
             npx zenn-cli publish:article articles/project-cde-guide.md --token "$ZENN_TOKEN" || npx zenn-cli publish articles/project-cde-guide.md --token "$ZENN_TOKEN"
+            npx zenn-cli publish:article articles/civil-rag-system-guide.md --token "$ZENN_TOKEN" || npx zenn-cli publish articles/civil-rag-system-guide.md --token "$ZENN_TOKEN"
           fi
 
       - name: Notify

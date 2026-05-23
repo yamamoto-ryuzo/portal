@@ -1,0 +1,29 @@
+name: Sync RAG to Zenn article
+
+on:
+  push:
+    paths:
+      - 'docs/RAGシステム/index.md'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Convert index.md to Zenn format
+        run: |
+          python3 .github/scripts/sync_zenn.py
+          # use the RAG-specific config
+          python3 .github/scripts/sync_zenn.py .github/scripts/zenn_config_rag.yaml || true
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add articles/civil-rag-system-guide.md
+          git diff --cached --quiet || git commit -m "chore: sync civil-rag article from index.md"
+          git push
