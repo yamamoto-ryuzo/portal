@@ -1,7 +1,7 @@
 ---
 title: "土木事業管理における知識・判断継承のためのRAGシステム構築提案書"
 emoji: "🏗️"
-type: "tech"
+type: "idea"
 topics: ["RAG", "LLM", "GraphRAG", "土木", "ナレッジグラフ"]
 published: true
 publication_name: "dx_junkyard"
