@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - 'articles/project-cde-guide.md'
-      - 'プロジェクトCDE/index.md'
+      - 'docs/プロジェクトCDE/index.md'
       - 'articles/civil-rag-system-guide.md'
       - 'docs/RAGシステム/index.md'
 
