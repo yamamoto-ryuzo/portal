@@ -21,11 +21,9 @@ redirect_from:
 ### QGISをWEBで配信できるLIZMAPの布教  
 　　https://github.com/yamamoto-ryuzo/Lizmap-installation-Japanese-memo  
 　　https://www.facebook.com/groups/lizmapusergroupjapan  
-### 土木事業管理における知識・判断継承のためのRAGシステム構築提案書  
-　　詳細はこちら[土木事業管理における知識・判断継承のためのRAGシステム構築提案書](./RAGシステム/)  
+### [土木事業管理における知識・判断継承のためのRAGシステム構築提案書](./RAGシステム/)    
 ![土木事業管理RAG_TrackA+C_構築ガイド](./RAGシステム/images/TrackA+C_構築ガイド.png)　　
-### 事業監理におけるプロジェクトCDEの実現
-　　詳細はこちら[事業監理におけるプロジェクトCDE概要](./プロジェクトCDE/)  
+### [事業監理におけるプロジェクトCDEの実現](./プロジェクトCDE/)
 ![プロジェクトCDE](プロジェクトCDE\プロジェクトCDE.png)
 
 ## [DX全般](./DX/)  
