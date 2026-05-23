@@ -773,7 +773,7 @@ AIの推論能力・コンテキスト長の急速な向上を考慮すると、
 | **障害点の少なさ** | インフラ障害なし。MDファイルが壊れることはない |
 | **コスト構造** | ランニングコストはLLM API費用のみ。Track B はDB運用・保守費が継続発生 |
 
-![Track A+C が主力になる理由](https://yamamoto-ryuzo.github.io/portal/プロジェクトCDE/images/土木事業管理RAG（TrackA+C）構築ガイド.png)
+![Track A+C が主力になる理由](https://yamamoto-ryuzo.github.io/portal/プロジェクトCDE/images/土木事業管理RAG_TrackA+C_構築ガイド.png)
 
 
 ---
@@ -825,7 +825,7 @@ Track A+C で対応できない領域は以下に限定される。
 
 これらの条件に該当しない限り、**Track A+C がコスト・変化対応・維持管理の全面において Track B より優れた選択**である。
 
-![Track B が依然必要な条件（限定的）](https://yamamoto-ryuzo.github.io/portal/プロジェクトCDE/images/土木事業管理RAG（TrackB）構築ガイド.png)
+![Track B が依然必要な条件（限定的）](https://yamamoto-ryuzo.github.io/portal/プロジェクトCDE/images/土木事業管理RAG_TrackB_構築ガイド.png)
 
 ---
 
