@@ -16,15 +16,13 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: "Debug: show workspace and docs"
-        run: |
-          echo "PWD: $(pwd)"
-          echo "Top-level files:"
-          ls -la
-          echo "docs contents (if present):"
-          ls -la docs || echo "docs directory not present"
+      - uses: actions/configure-pages@v5
+      - uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./docs
+          destination: ./_site
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: docs
+          path: _site
       - uses: actions/deploy-pages@v4
         id: deployment
