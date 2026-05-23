@@ -1,9 +1,5 @@
 ---
 title: "土木事業管理における知識・判断継承のためのRAGシステム構築提案書"
-emoji: "🏗️"
-type: "idea"
-topics: ["RAG","ナレッジマネジメント","土木"]
-published: false
 description: "HybridRAGとCogGRAGを用いた土木分野向け知識継承システムの提案書（PoC〜本番ロードマップ、実施手順付き）"
 ---
 
