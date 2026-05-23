@@ -3,7 +3,7 @@ title: "土木事業管理における知識・判断継承のためのRAGシス
 emoji: "🏗️"
 type: "tech"
 topics: ["RAG", "LLM", "GraphRAG", "土木", "ナレッジグラフ"]
-published: false
+published: true
 publication_name: "dx_junkyard"
 toc_depth: 4
 ---
