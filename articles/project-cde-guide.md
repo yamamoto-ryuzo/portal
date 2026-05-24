@@ -2,7 +2,7 @@
 title: "プロジェクトCDE — 検討メモ（草案）"
 emoji: "🗺️"
 type: "idea"
-topics: ["GIS", "CDE", "BIM", "公共事業", "土木"]
+topics: ["gis", "cde", "bim", "公共事業", "土木"]
 published: true
 canonical_url: "https://yamamoto-ryuzo.github.io/portal/%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88CDE/"
 publication_name: "dx_junkyard"
