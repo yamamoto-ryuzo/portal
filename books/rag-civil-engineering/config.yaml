@@ -1,0 +1,17 @@
+title: "土木事業管理 RAGシステム構築ガイド"
+summary: "HybridRAG・CogGRAGを用いた土木分野向け知識継承システムの構築から法令体系整理まで。PoC（数日）から本格実装（数ヶ月）まで対応する2トラック戦略を収録。"
+topics:
+  - "ai"
+  - "RAG"
+  - "土木"
+  - "知識管理"
+  - "LLM"
+published: false
+price: 0
+chapters:
+  - intro
+  - architecture
+  - technology
+  - steps
+  - implementation
+  - legal
