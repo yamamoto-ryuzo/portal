@@ -10,9 +10,9 @@ published: true
 price: 0
 publication_name: "dx_junkyard"
 chapters:
-  - intro
-  - architecture
-  - technology
-  - steps
-  - implementation
-  - legal
+  - 1_intro
+  - 2_architecture
+  - 3_technology
+  - 4_steps
+  - 5_implementation
+  - 6_legal
