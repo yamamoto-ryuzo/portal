@@ -8,6 +8,7 @@ topics:
   - "LLM"
 published: false
 price: 0
+publication_name: "dx_junkyard"
 chapters:
   - intro
   - architecture
