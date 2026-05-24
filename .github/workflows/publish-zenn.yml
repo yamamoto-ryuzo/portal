@@ -5,8 +5,7 @@ on:
     paths:
       - 'articles/project-cde-guide.md'
       - 'docs/プロジェクトCDE/index.md'
-      - 'articles/civil-rag-system-guide.md'
-
+ 
 jobs:
   publish:
     runs-on: ubuntu-latest
