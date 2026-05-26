@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+    {% include head-custom.html %}
+    <style>
+      /* ===== 2ペイン・ブックレイアウト ===== */
+      * { box-sizing: border-box; }
+
+      body { margin: 0; }
+
+      .book-layout {
+        display: flex;
+        width: 100%;
+        min-height: 100vh;
+      }
+
+      /* ---- サイドバー（目次） ---- */
+      .book-sidebar {
+        width: 260px;
+        flex-shrink: 0;
+        border-right: 1px solid #ddd;
+        background: #f6f8fa;
+        padding: 24px 14px 40px;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+        scrollbar-width: thin;
+      }
+
+      .book-sidebar .sidebar-title {
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #999;
+        margin: 0 0 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .book-toc ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .book-toc li { margin: 2px 0; }
+
+      .book-toc a {
+        display: block;
+        text-decoration: none;
+        color: #444;
+        font-size: 0.85rem;
+        line-height: 1.4;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: background 0.12s, color 0.12s;
+      }
+
+      .book-toc a:hover {
+        background: #eaf0fb;
+        color: #0969da;
+      }
+
+      .book-toc a.active {
+        background: #d0e4ff;
+        color: #0550ae;
+        font-weight: 600;
+      }
+
+      /* インデント */
+      .book-toc .lvl-1 { padding-left: 8px; }
+      .book-toc .lvl-2 { padding-left: 8px; }
+      .book-toc .lvl-3 { padding-left: 22px; font-size: 0.8rem; }
+      .book-toc .lvl-4 { padding-left: 36px; font-size: 0.75rem; color: #666; }
+
+      /* ---- メインコンテンツ ---- */
+      .book-content {
+        flex: 1;
+        min-width: 0;
+        padding: 36px 48px 64px;
+        max-width: 900px;
+      }
+
+      /* ---- モバイル: 縦並びに折り畳み ---- */
+      @media (max-width: 768px) {
+        .book-layout { flex-direction: column; }
+
+        .book-sidebar {
+          width: 100%;
+          height: auto;
+          position: static;
+          border-right: none;
+          border-bottom: 1px solid #ddd;
+          padding: 12px 16px;
+        }
+
+        .sidebar-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          cursor: pointer;
+          user-select: none;
+        }
+
+        .sidebar-header::after {
+          content: '▾';
+          font-size: 1rem;
+          transition: transform 0.2s;
+          color: #888;
+        }
+
+        .book-sidebar.collapsed .sidebar-header::after {
+          transform: rotate(-90deg);
+        }
+
+        .book-sidebar.collapsed .book-toc {
+          display: none;
+        }
+
+        .book-content {
+          padding: 20px 16px 40px;
+        }
+      }
+
+      @media (min-width: 769px) {
+        .sidebar-header { pointer-events: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="book-layout">
+
+      <!-- ===== サイドバー（目次） ===== -->
+      <nav class="book-sidebar" id="bookSidebar">
+        <div class="sidebar-header" id="sidebarHeader" onclick="toggleSidebar()">
+          <p class="sidebar-title">目次</p>
+        </div>
+        <div class="book-toc" id="bookToc"></div>
+      </nav>
+
+      <!-- ===== 本文 ===== -->
+      <main class="book-content" id="bookContent">
+        {{ content }}
+      </main>
+
+    </div>
+
+    <!-- Mermaid -->
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      document.querySelectorAll('pre code.language-mermaid').forEach(code => {
+        const pre = code.parentElement;
+        const div = document.createElement('pre');
+        div.className = 'mermaid';
+        div.textContent = code.textContent;
+        pre.replaceWith(div);
+      });
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+
+    <!-- 目次の自動生成 + スクロール追従 -->
+    <script>
+      (function () {
+        const content = document.getElementById('bookContent');
+        const tocEl   = document.getElementById('bookToc');
+        if (!content || !tocEl) return;
+
+        const headings = Array.from(content.querySelectorAll('h1, h2, h3, h4'));
+        if (headings.length === 0) return;
+
+        let counter = 0;
+        const ul = document.createElement('ul');
+
+        headings.forEach(function (h) {
+          if (!h.id) h.id = 'sec-' + (counter++);
+
+          const level = parseInt(h.tagName.charAt(1), 10);
+          const li    = document.createElement('li');
+          const a     = document.createElement('a');
+
+          a.href      = '#' + h.id;
+          a.textContent = h.textContent.replace(/^#+\s*/, '');
+          a.className = 'lvl-' + level;
+
+          li.appendChild(a);
+          ul.appendChild(li);
+        });
+
+        tocEl.appendChild(ul);
+
+        /* アクティブ見出しをハイライト */
+        const observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              tocEl.querySelectorAll('a').forEach(function (a) {
+                a.classList.remove('active');
+              });
+              const active = tocEl.querySelector('a[href="#' + entry.target.id + '"]');
+              if (active) active.classList.add('active');
+            }
+          });
+        }, { rootMargin: '-5% 0px -75% 0px' });
+
+        headings.forEach(function (h) { observer.observe(h); });
+      })();
+
+      function toggleSidebar() {
+        document.getElementById('bookSidebar').classList.toggle('collapsed');
+      }
+    </script>
+  </body>
+</html>

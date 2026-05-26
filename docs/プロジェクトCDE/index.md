@@ -1,5 +1,5 @@
 ---
-layout: book
+layout: project-cde-book
 title: プロジェクトCDE
 redirect_from:
   - /プロジェクトCDE/index.md
