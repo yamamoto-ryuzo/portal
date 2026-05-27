@@ -2,13 +2,13 @@
 title: "ナレッジベース構築"
 ---
 
-# 3. ナレッジベース構築
+# 4. ナレッジベース構築
 
 > 本章はすべてのエージェントの精度を左右する最重要工程である。  
 > [設計書 11章のRAGスコープ設計](../rag-civil-engineering/11_rag_agent_scope.md)を参照し、  
 > **エージェント別にナレッジベースを分割する**ことを原則とする。
 
-## 3.1 文書分類とナレッジベース対応表
+## 4.1 文書分類とナレッジベース対応表
 
 設計書 11章の①〜⑰区分に対応した登録先を決定する。
 
@@ -21,7 +21,7 @@ title: "ナレッジベース構築"
 | `kb-cases` | 施工報告書・トラブル記録・事例集 | 事例エージェント |
 | `kb-risk` | ⑩（技術系）⑮⑯⑰ ＋ 事例文書 | リスクエージェント |
 
-## 3.2 文書前処理パイプライン
+## 4.2 文書前処理パイプライン
 
 ```mermaid
 flowchart LR
@@ -33,7 +33,7 @@ flowchart LR
     EMBED --> STORE["VectorDB 登録\n（Chroma / pgvector）"]
 ```
 
-### 3.2.1 チャンク設定（推奨値）
+### 4.2.1 チャンク設定（推奨値）
 
 ```python
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -45,7 +45,7 @@ splitter = RecursiveCharacterTextSplitter(
 )
 ```
 
-### 3.2.2 メタデータスキーマ
+### 4.2.2 メタデータスキーマ
 
 各チャンクに以下のメタデータを付与する。
 
@@ -63,7 +63,7 @@ metadata = {
 
 > **⑩通達の分類**: `usage` フィールドで `technical` / `estimation` / `procedure` を明示する（設計書 11.3節参照）。
 
-## 3.3 Track A: Dify でのナレッジベース登録
+## 4.3 Track A: Dify でのナレッジベース登録
 
 1. **Dify 管理画面 → ナレッジ → 作成**
 2. ナレッジ名を `kb-common-law` などの規約名で作成
@@ -82,7 +82,10 @@ metadata = {
 }
 ```
 
-## 3.4 Track B: LangGraph での一括インポート
+## 4.4 Track B: AutoGen 環境での一括インポート
+
+> 文書取り込みには LangChain のローダー/スプリッターを使用する。  
+> ナレッジベース構築スクリプトは AutoGen のエージェントフレームワークと完全に分離しており、Track A/B 共通で利用できる。
 
 ```python
 # knowledge/ingest.py
@@ -102,7 +105,7 @@ def ingest(file_path: str, metadata: dict, collection: str):
                           persist_directory="./chroma_db")
 ```
 
-## 3.5 ナレッジベース品質チェックリスト
+## 4.5 ナレッジベース品質チェックリスト
 
 登録後、以下を確認してから次章へ進む。
 

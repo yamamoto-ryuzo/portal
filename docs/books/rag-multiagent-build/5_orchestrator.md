@@ -2,12 +2,12 @@
 title: "オーケストレーター実装"
 ---
 
-# 4. オーケストレーター実装
+# 5. オーケストレーター実装
 
 > オーケストレーターは**直接 RAG を参照せず、問いを分解してルーティングする**ことに専念する。  
 > 検索と問い分解を同一エージェントに担わせると精度が不安定になる（設計書 11.2節参照）。
 
-## 4.1 役割の明確化
+## 5.1 役割の明確化
 
 ```
 入力: ユーザーの自然言語の問い
@@ -16,7 +16,7 @@ title: "オーケストレーター実装"
 出力: JSON 形式のサブクエリセット
 ```
 
-## 4.2 オーケストレーター・システムプロンプト
+## 5.2 オーケストレーター・システムプロンプト
 
 ```
 あなたは土木事業管理の質問ルーターです。
@@ -37,9 +37,9 @@ title: "オーケストレーター実装"
 - JSON のみ出力し、前後に説明文を付けない
 ```
 
-## 4.3 Track A: Dify 実装
+## 5.3 Track A: Dify 実装
 
-### 4.3.1 Chatflow 設計
+### 5.3.1 Chatflow 設計
 
 ```
 [START] → [LLM ノード: オーケストレーター]
@@ -54,7 +54,7 @@ title: "オーケストレーター実装"
            └─ risk ノード（nullでない場合）
 ```
 
-### 4.3.2 JSON パース コードノード（Dify / Python）
+### 5.3.2 JSON パース コードノード（Dify / Python）
 
 ```python
 import json
@@ -65,31 +65,38 @@ def main(orchestrator_output: str) -> dict:
     return {k: v for k, v in data.items() if v is not None}
 ```
 
-## 4.4 Track B: LangGraph 実装
+## 5.4 Track B: AutoGen 実装
 
 ```python
 # agents/orchestrator.py
-from langchain_openai import ChatOpenAI
-from langchain_core.prompts import ChatPromptTemplate
-import json
+import json, os
+from autogen_agentchat.agents import AssistantAgent
+from autogen_ext.models.openai import AzureOpenAIChatCompletionClient
 
-SYSTEM_PROMPT = """...(4.2節のプロンプト)..."""
+SYSTEM_PROMPT = """...(5.2節のプロンプト)..."""
 
-def orchestrate(state: dict) -> dict:
-    llm = ChatOpenAI(model="gpt-4o", temperature=0)
-    prompt = ChatPromptTemplate.from_messages([
-        ("system", SYSTEM_PROMPT),
-        ("human", "{question}"),
-    ])
-    chain = prompt | llm
-    result = chain.invoke({"question": state["question"]})
-    subqueries = json.loads(result.content)
-    # null を除外
-    state["subqueries"] = {k: v for k, v in subqueries.items() if v}
-    return state
+_model_client = AzureOpenAIChatCompletionClient(
+    model="gpt-4o",
+    api_version="2024-02-01",
+    azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
+    api_key=os.environ["AZURE_OPENAI_API_KEY"],
+)
+
+orchestrator = AssistantAgent(
+    name="orchestrator",
+    system_message=SYSTEM_PROMPT,
+    model_client=_model_client,
+)
+
+async def orchestrate(question: str) -> dict:
+    result = await orchestrator.run(task=question)
+    raw = result.messages[-1].content
+    subqueries = json.loads(raw)
+    # null を除外して有効なサブクエリのみ返す
+    return {k: v for k, v in subqueries.items() if v}
 ```
 
-## 4.5 ルーティング精度の確認
+## 5.5 ルーティング精度の確認
 
 以下のテスト問いでサブクエリ分解を確認する。
 

@@ -2,9 +2,9 @@
 title: "E2Eテスト・品質評価"
 ---
 
-# 8. E2Eテスト・品質評価
+# 9. E2Eテスト・品質評価
 
-## 8.1 評価の3層構造
+## 9.1 評価の3層構造
 
 ```mermaid
 flowchart LR
@@ -12,7 +12,7 @@ flowchart LR
     L2 --> L3["層3: E2E評価\n想定問答セットで品質計測"]
 ```
 
-## 8.2 層1: 単体テスト（エージェント別）
+## 9.2 剆1: 単体テスト（エージェント別）
 
 各エージェントに対して、以下の3パターンを最低1問ずつ実施する。
 
@@ -26,19 +26,22 @@ flowchart LR
 
 ```python
 # tests/test_law_agent.py
-def test_law_agent_normal():
-    state = {
-        "subqueries": {"law": "河川占用許可の根拠法令と許可要件は？"},
-        "agent_results": {},
-    }
-    result = law_agent(state)
-    parsed = json.loads(result["agent_results"]["kb-law-detail"])
+import json, pytest
+from agents.base_agent import build_agent
+from prompts import LAW_PROMPT
+
+law_agent = build_agent(LAW_PROMPT, "kb-law-detail")
+
+@pytest.mark.asyncio
+async def test_law_agent_normal():
+    result_str = await law_agent("河川占用許可の根拠法令と許可要件は？")
+    parsed = json.loads(result_str)
     assert parsed["confidence"] in ("high", "medium")
     assert len(parsed["sources"]) >= 1
     assert "河川法" in parsed["answer"]
 ```
 
-## 8.3 層2: 統合テスト（監理サイクル）
+## 9.3 剆2: 統合テスト（監理サイクル）
 
 監理エージェントの差し戻し・再試行フローを意図的に発生させるテスト。
 
@@ -50,21 +53,21 @@ def test_law_agent_normal():
 
 ```python
 # tests/test_supervisor.py
-def test_supervisor_fail_on_missing_sources():
-    state = {
-        "agent_results": {
-            "kb-law-detail": json.dumps({"answer": "...", "sources": [], "confidence": "low"}),
-            # 他エージェントの結果を省略...
-        },
-        "retry_count": 0,
+import json, pytest
+from agents.supervisor_agent import supervise
+
+@pytest.mark.asyncio
+async def test_supervisor_fail_on_missing_sources():
+    agent_results = {
+        "kb-law-detail": json.dumps({"answer": "...", "sources": [], "confidence": "low"}),
+        # 他エージェントの結果を省略...
     }
-    result = supervise(state)
-    verdict = result["supervisor_verdict"]
+    verdict = await supervise(agent_results, retry_count=0)
     assert verdict["verdict"] == "FAIL"
     assert 2 in verdict["failed_checks"]
 ```
 
-## 8.4 層3: E2E評価（想定問答セット）
+## 9.4 剆3: E2E評価（想定問答セット）
 
 ### 評価問答セット（最低10問推奨）
 
@@ -91,7 +94,7 @@ def test_supervisor_fail_on_missing_sources():
 | **無効軸除去率** | null 軸がセクション省略されている割合 | 100% |
 | **平均レイテンシ** | 問いから最終回答まで | ≤ 30秒（Track A）/ ≤ 15秒（Track B） |
 
-## 8.5 評価ツール（Track B）
+## 9.5 評価ツール（Track B）
 
 ```python
 # tests/e2e_eval.py

@@ -2,9 +2,9 @@
 title: "専門エージェント実装（5エージェント）"
 ---
 
-# 5. 専門エージェント実装（5エージェント）
+# 6. 専門エージェント実装（5エージェント）
 
-## 5.1 共通設計原則
+## 6.1 共通設計原則
 
 全専門エージェントは以下のパターンに従う。
 
@@ -19,7 +19,7 @@ title: "専門エージェント実装（5エージェント）"
 
 ---
 
-## 5.2 法令エージェント
+## 6.2 法令エージェント
 
 **参照ナレッジベース**: `kb-common-law` + `kb-law-detail`
 
@@ -47,7 +47,7 @@ title: "専門エージェント実装（5エージェント）"
 
 ---
 
-## 5.3 行政手続エージェント
+## 6.3 行政手続エージェント
 
 **参照ナレッジベース**: `kb-common-law` + `kb-procedure`
 
@@ -75,7 +75,7 @@ title: "専門エージェント実装（5エージェント）"
 
 ---
 
-## 5.4 技術基準エージェント
+## 6.4 技術基準エージェント
 
 **参照ナレッジベース**: `kb-common-law` + `kb-technical`  
 **モード切替**: `usage` メタデータで `technical`（設計仕様）/ `estimation`（発注・積算）を絞り込む
@@ -102,7 +102,7 @@ title: "専門エージェント実装（5エージェント）"
 
 ---
 
-## 5.5 事例エージェント
+## 6.5 事例エージェント
 
 **参照ナレッジベース**: `kb-cases` （法令文書は補助参照）
 
@@ -130,7 +130,7 @@ title: "専門エージェント実装（5エージェント）"
 
 ---
 
-## 5.6 リスクエージェント
+## 6.6 リスクエージェント
 
 **参照ナレッジベース**: `kb-common-law` + `kb-risk`
 
@@ -153,7 +153,7 @@ title: "専門エージェント実装（5エージェント）"
 
 ---
 
-## 5.7 Track A: Dify での各エージェント設定
+## 6.7 Track A: Dify での各エージェント設定
 
 各専門エージェントは Dify の **Agent ノード** として実装する。
 
@@ -164,36 +164,49 @@ title: "専門エージェント実装（5エージェント）"
 | 検索設定 | Top-K: 5、スコア閾値: 0.5、リランキング: 有効 |
 | 出力変数 | `agent_result`（JSON文字列） |
 
-## 5.8 Track B: LangGraph での共通エージェントファクトリ
+## 6.8 Track B: AutoGen での共通エージェントファクトリ
 
 ```python
 # agents/base_agent.py
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI
-from langchain_chroma import Chroma
+import os
+from typing import Callable
+import chromadb
+from openai import AzureOpenAI
+from autogen_agentchat.agents import AssistantAgent
+from autogen_ext.models.openai import AzureOpenAIChatCompletionClient
 
-def build_agent(system_prompt: str, collection: str):
-    vectorstore = Chroma(
-        collection_name=collection,
-        embedding_function=OpenAIEmbeddings(model="text-embedding-3-large"),
-        persist_directory="./chroma_db",
+def _make_model_client(model: str = "gpt-4o-mini"):
+    return AzureOpenAIChatCompletionClient(
+        model=model,
+        api_version="2024-02-01",
+        azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
+        api_key=os.environ["AZURE_OPENAI_API_KEY"],
     )
-    retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
-    
-    def agent(state: dict) -> dict:
-        subquery = state["subqueries"].get(collection.replace("kb-", "").replace("-", "_"))
-        if not subquery:
-            return state
-        docs = retriever.invoke(subquery)
-        context = "\n\n".join(d.page_content for d in docs)
-        prompt = ChatPromptTemplate.from_messages([
-            ("system", system_prompt),
-            ("human", "【検索結果】\n{context}\n\n【質問】\n{question}"),
-        ])
-        result = (prompt | llm).invoke({"context": context, "question": subquery})
-        state.setdefault("agent_results", {})[collection] = result.content
-        return state
-    
-    return agent
+
+def build_agent(system_prompt: str, collection: str) -> Callable[[str], object]:
+    chroma_client = chromadb.PersistentClient(path="./chroma_db")
+    col = chroma_client.get_collection(collection)
+    embed_client = AzureOpenAI(
+        api_version="2024-02-01",
+        azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
+        api_key=os.environ["AZURE_OPENAI_API_KEY"],
+    )
+    agent = AssistantAgent(
+        name=collection.replace("-", "_"),
+        system_message=system_prompt,
+        model_client=_make_model_client(),
+    )
+
+    async def run(subquery: str) -> str:
+        # VectorDB 検索
+        emb = embed_client.embeddings.create(
+            input=subquery, model="text-embedding-3-large"
+        ).data[0].embedding
+        results = col.query(query_embeddings=[emb], n_results=5)
+        context = "\n\n".join(results["documents"][0])
+        task = f"【検索結果】\n{context}\n\n【質問】\n{subquery}"
+        result = await agent.run(task=task)
+        return result.messages[-1].content
+
+    return run
 ```

@@ -2,12 +2,12 @@
 title: "回答統合エージェント実装"
 ---
 
-# 7. 回答統合エージェント実装
+# 8. 回答統合エージェント実装
 
 > 回答統合エージェントは**直接 RAG を参照しない**。  
 > 監理エージェントが検証済みの情報を受け取り、**根拠付き構造化回答**に仕上げる。
 
-## 7.1 出力フォーマット設計
+## 8.1 出力フォーマット設計
 
 ユーザーに返す最終回答は以下の構造を原則とする。
 
@@ -36,7 +36,7 @@ title: "回答統合エージェント実装"
 - [文書名 p.NN]
 ```
 
-## 7.2 回答統合エージェント・システムプロンプト
+## 8.2 回答統合エージェント・システムプロンプト
 
 ```
 あなたは土木事業管理の回答統合エージェントです。
@@ -58,7 +58,7 @@ title: "回答統合エージェント実装"
 Markdown 形式で出力する。JSON 不要。
 ```
 
-## 7.3 Track A: Dify 実装
+## 8.3 Track A: Dify 実装
 
 | 設定 | 値 |
 |---|---|
@@ -79,35 +79,40 @@ def main(supervisor_verdict: str, combined_results: str) -> dict:
     return {"approved_results": combined_results, "caveat": caveat}
 ```
 
-## 7.4 Track B: LangGraph 実装
+## 8.4 Track B: AutoGen 実装
 
 ```python
 # agents/integration_agent.py
-import json
-from langchain_openai import ChatOpenAI
-from langchain_core.prompts import ChatPromptTemplate
+import json, os
+from autogen_agentchat.agents import AssistantAgent
+from autogen_ext.models.openai import AzureOpenAIChatCompletionClient
 
-INTEGRATION_PROMPT = """...(7.2節のプロンプト)..."""
+INTEGRATION_PROMPT = """...(8.2節のプロンプト)..."""
 
-def integrate(state: dict) -> dict:
-    results = state.get("agent_results", {})
-    verdict  = state.get("supervisor_verdict", {})
-    caveat   = "検証保留" if verdict.get("retry_count", 0) >= 2 else ""
-    
-    llm = ChatOpenAI(model="gpt-4o", temperature=0.2)
-    prompt = ChatPromptTemplate.from_messages([
-        ("system", INTEGRATION_PROMPT),
-        ("human", "【検証済み回答】\n{results}\n\n【注記】\n{caveat}"),
-    ])
-    result = (prompt | llm).invoke({
-        "results": json.dumps(results, ensure_ascii=False),
-        "caveat":  caveat,
-    })
-    state["final_answer"] = result.content
-    return state
+_model_client = AzureOpenAIChatCompletionClient(
+    model="gpt-4o",
+    api_version="2024-02-01",
+    azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
+    api_key=os.environ["AZURE_OPENAI_API_KEY"],
+)
+
+integration_agent = AssistantAgent(
+    name="integration",
+    system_message=INTEGRATION_PROMPT,
+    model_client=_model_client,
+)
+
+async def integrate(agent_results: dict, retry_count: int = 0) -> str:
+    caveat = "検証保留" if retry_count >= 2 else ""
+    task = (
+        f"【検証済み回答】\n{json.dumps(agent_results, ensure_ascii=False)}"
+        f"\n\n【注記】\n{caveat}"
+    )
+    result = await integration_agent.run(task=task)
+    return result.messages[-1].content
 ```
 
-## 7.5 出力品質の確認項目
+## 8.5 出力品質の確認項目
 
 - [ ] 結論が冒頭の「回答サマリー」に明示されている
 - [ ] 全セクションに出典（文書名）が付いている

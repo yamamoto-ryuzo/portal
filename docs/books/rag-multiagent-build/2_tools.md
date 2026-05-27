@@ -198,9 +198,9 @@ def fill_template(template_path: str, fields: dict) -> bytes:
 
 ```mermaid
 flowchart LR
-    CH3["3章\nナレッジベース"] -->|VectorSearch| CH5["5章\nオーケストレーター"]
-    CH3 -->|VectorSearch| CH6["6章\n専門エージェント"]
-    CH4["4章\nプラットフォーム"] -->|実行環境| CH6
+    CH4["4章\nナレッジベース"] -->|VectorSearch| CH5["5章\nオーケストレーター"]
+    CH4 -->|VectorSearch| CH6["6章\n専門エージェント"]
+    CH3["3章\nプラットフォーム"] -->|実行環境| CH6
     CH6 -->|CrossReference| CH7["7章\n監理エージェント"]
     CH7 -->|承認結果| CH8["8章\n回答統合エージェント"]
     T4["DocumentWriter\n(本章 2.3節)"] --> CH8
