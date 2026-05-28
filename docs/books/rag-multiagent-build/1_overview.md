@@ -18,6 +18,162 @@ title: "本書の目的・対象読者・前提知識"
 | RAGスコープの推奨設計 | ナレッジベースの実際の作り方 |
 | KPI・ロードマップ | テスト手順・評価指標の測定方法 |
 
+### 1.1.1 学習データ・ファインチューニング・RAGの違い
+
+LLMが「知識を持つ・使う」方法は大きく3つに分類できる。
+
+```
+① 学習データ（プレトレーニング）
+   └─ AIがすでに知っている知識
+        └─ モデルの重み（パラメータ）に焼き込まれている
+             ＝ 質問しなくても最初から持っている背景知識
+
+② ファインチューニング（Fine-tuning）
+   └─ 追加学習でAIの知識・振る舞いを調整
+        └─ 学習データと同じく、モデル重みとして埋め込む
+             ＝ 「その都度」ではなく、再学習のたびに更新が必要
+
+③ RAG（Retrieval-Augmented Generation）
+   └─ AIがその都度、外部の知識ベースを参照する
+        └─ 質問が来るたびに関連ドキュメントを検索し、コンテキストとして渡す
+             ＝ 「記憶している」のではなく「そのとき読む」
+```
+
+#### 各アプローチの比較
+
+| 区分 | 知識の場所 | 回答の安定性 | 更新方法 | タイミング |
+|---|---|---|---|---|
+| **学習データ（プレトレーニング）** | モデルの重み（パラメータ） | **高い**（常に同じ知識から回答） | モデルの再学習（月〜年単位） | 学習時に確定 |
+| **ファインチューニング** | モデルの重み（追加調整） | **高い**（追加学習後は安定） | 再ファインチューニング（週〜月単位） | 学習時に確定 |
+| **RAG** | 外部の知識ベース（DB・ファイル） | **検索次第**（ヒットしなければ答えられない） | ドキュメントの差し替えのみ（即時） | **推論のたびに参照** |
+
+> **わかりやすい比喩**  
+> - 学習データ／ファインチューニング → 「受験勉強で頭に入れた知識」（試験中は安定して引き出せる）  
+> - RAG → 「持ち込み可の試験で、その都度参考書を引く」（参考書に載っていない問いには答えられない）
+
+#### ファインチューニング（Fine-tuning）の詳細
+
+| 項目 | 内容 |
+|---|---|
+| **仕組み** | 業務データでモデルの重みを再学習し、知識をモデル本体に埋め込む |
+| **メリット** | AIが知識として体得しているため、質問の仕方によらず**安定して回答できる** |
+| **デメリット** | 学習コスト（GPU・時間・費用）が高い。知識更新のたびに再学習が必要 |
+| **向いているケース** | 応答フォーマットの固定化、特定タスクの高速化、API呼び出し削減 |
+
+#### RAG（Retrieval-Augmented Generation）の詳細
+
+| 項目 | 内容 |
+|---|---|
+| **仕組み** | モデルの重みは変えず、質問が届くたびに外部知識ベースを検索してコンテキストとして渡す |
+| **メリット** | 知識の追加・更新がドキュメントの差し替えだけで完結。根拠となる出典を明示できる |
+| **デメリット** | **検索にヒットしなければ答えられない**（組織固有の知識に基づく回答という意味で）。チャンク設計・インデックス品質が直接回答精度を左右する |
+| **向いているケース** | 法令・基準・社内規程など**更新頻度が高い知識**を正確に参照させたい場合 |
+
+> **RAGの根本的な制約**  
+> RAGは「参照できる文書が存在し、かつ検索でヒットして初めて機能する」仕組みである。  
+> 文書が未登録・チャンク分割が不適切・クエリと文書の表現がずれている、いずれの場合も**組織固有の知識に基づく回答はできない**。  
+> これが学習データとの最大の違いであり、**文書の整備・チャンク設計・インデックス品質がRAGの品質そのもの**を決定する。  
+>  
+> （補足）検索ミス時、LLMは自身の学習データで回答しようとするため、意図せず古い情報や誤情報（ハルシネーション）を返すことがある。これを防ぐにはシステムプロンプトで「提供文書にない場合は答えるな」と明示的に指示する。
+
+#### 本書がRAGを採用する理由
+
+```
+土木事業管理の知識基盤
+├─ 建設業法・設計基準・積算基準 → 改訂頻度が高い（学習データには含まれない最新版）
+├─ 過去の事業実績・工事記録   → 蓄積・更新が継続的に発生（組織固有の情報）
+└─ 社内規程・通達・Q&A       → 組織ごとに異なり個別管理が必要（非公開情報）
+```
+
+上記はいずれも**AIがもともと知らない・知れない知識**であり、「モデルに焼き込む」より  
+「その都度参照させる」ほうが合理的である。  
+**本書の主軸はRAGによるリアルタイム知識参照**に置く。
+
+#### ファインチューニングとRAG、正確性はどちらが高いか
+
+**検索がヒットした場合、事実の正確性はRAGの方が高い。** これは直感に反するが、理由は明確である。
+
+| 観点 | ファインチューニング | RAG |
+|---|---|---|
+| **知識の保持方法** | 学習データを重み（パラメータ）に**圧縮して記憶** | 元文書を**そのまま**LLMに渡す |
+| **正確性の問題** | 圧縮の過程で細部が歪む・複数知識が混合する → ハルシネーションの原因になる | 元文書が正確であれば、その内容をそのまま参照できる |
+| **ヒットしない場合** | 不正確でも「何かしら答える」 | 組織固有の知識は答えられない |
+
+> **比喩で整理**  
+> - ファインチューニング = 講義ノートを暗記する（要点は覚えるが、細かい数字や条文は記憶が歪みやすい）  
+> - RAG = 試験中に原文テキストを参照する（見ている文書が正しければ、写し間違えない限り正確）
+
+ファインチューニングが「安定して回答できる」のは事実だが、**知識の細部（法令条文・数値・固有名詞）の正確性においてはRAGが勝る**。これが土木事業管理のような精度要求が高い業務でRAGを主軸とする根拠の一つである。
+
+#### RAGパイプラインは「取りこぼしが少ない」のか
+
+**RAGはファインチューニングではなく、検索システムである。** LLMのパラメータは一切変わらない。
+
+RAGが「取りこぼしが少ない」ように見える理由は、**検索ミス時にLLMが事前学習済み知識で回答しようとするから**であり、これはRAGの機能ではなくLLM自体の挙動である。
+
+```
+RAGパイプラインの回答フロー（正確な理解）
+
+質問
+ │
+ ├─ 外部ベクトルDBを検索
+ │    ├─ ヒット → 検索結果をコンテキストとしてLLMに渡す
+ │    │            → LLMは渡された文書を参照して回答（高精度）
+ │    │
+ │    └─ ミス  → コンテキストに何も渡さない
+ │                → LLMは事前学習済み知識だけで回答（RAGは無関係）
+ │
+ └─ 注意：「検索ミス時の回答」はRAGの機能ではなくLLM本来の挙動
+```
+
+> **「取りこぼしが少ない」は諸刃の剣**  
+> 組織固有の質問（自社規程・個別工事記録など）で**検索ミスが起きたとき、LLMは事前学習済み知識で「それらしい回答」を生成しようとする**。  
+> これが古い情報・一般論・架空情報（ハルシネーション）として出力される原因である。  
+>  
+> RAGシステムが「答えてしまう」のは検索が成功したからではなく、**LLMが検索ミスに気づかず回答するから**である。  
+> これを防ぐにはシステムプロンプトで **「提供文書にない場合は回答しない」と明示指示する**。
+
+#### ハルシネーション対策：「答えるな」より「情報源を推論で分離する」
+
+「提供文書にない場合は答えるな」はシンプルだが、汎用的な質問（用語の定義・一般的な手続きなど）まで遮断してしまう過剰制御になりやすい。より実用的な設計は、**回答の情報源をLLMが自己推論で分類し、明示したうえで答える**ことである。
+
+| 状況 | 情報源 | 扱い方 |
+|---|---|---|
+| RAGにヒット | **SSOT**（組織固有文書） | 出典付きで回答。これが唯一の正解（Single Source of Truth） |
+| RAGにミス・汎用質問 | LLMの学習データ（一般論） | 「一般的な情報として」と明示したうえで回答 |
+| どちらか不明 | 不明 | 推論で分類し「組織文書に根拠なし」とユーザーに提示 |
+
+```
+回答の信頼性を情報源で3分類する設計
+
+質問
+ │
+ ├─ RAGヒット ──────→ [SSOT] 「▶ 規程第○条に基づく回答」（高信頼・出典明示）
+ │
+ ├─ RAGミス＋汎用質問 → [一般論] 「▶ 一般的な解釈として…（組織文書に根拠なし）」
+ │
+ └─ 判断困難 ─────→ [要確認] 「▶ 組織固有の情報が見当たりません。ご確認ください」
+```
+
+この設計の利点：
+- **ハルシネーション = 「組織固有の質問に対してSSOTなしで答えること」** と定義できる
+- 一般論はハルシネーションではなく**意図的な補完**として扱える（取りこぼしが減る）
+- ユーザーが「これはRAGからの回答か、LLMの推測か」を判断できる
+
+> **実装上のポイント**  
+> システムプロンプトに「検索結果が存在する場合は必ず出典を示せ。存在しない場合は『組織文書に根拠なし』と前置きして一般論を述べよ」と指示することで、  
+> LLMが回答前に情報源を自己分類する動作を誘導できる。  
+> マルチエージェント構成ではこの「情報源の判定」を専用エージェント（検証エージェント）に委ねることで精度をさらに高められる（詳細は7章）。
+
+> **ファインチューニングとRAGは独立した技術であり、組み合わせることもできる**  
+> ファインチューニング済みモデルをRAGパイプラインのLLMとして使うことは可能だが、  
+> それぞれの役割は変わらない。  
+> - ファインチューニング → モデルのパラメータを変える（学習）  
+> - RAG → クエリ時に文書を検索してコンテキストに渡す（検索）  
+>  
+> 組み合わせても「RAGが検索システムである」という本質は変わらない。  
+> RAGの品質を上げたいなら「チャンク設計・インデックス精度・検索戦略」を改善する。本書の構成はそのまま流用できる。
+
 ## 1.2 対象読者
 
 | 読者 | 期待する成果 |
@@ -45,7 +201,7 @@ title: "本書の目的・対象読者・前提知識"
 2. **MCP（Model Context Protocol）** — Anthropicが提唱し2025年に事実上の標準となったツール・データソース接続プロトコル([Model Context Protocol](https://modelcontextprotocol.io/))への対応状況。知識源・外部API・Box/M365等との接続手段として評価
 3. **GitHub Copilot 連携** — Copilot を使った開発フローの対応状況（テンプレート・Copilot Studio 等）
 4. **ドキュメント生成** — Pandoc 等によるきめ細かいドキュメント出力の容易さ
-5. **Box AI 接続** — Box AI との接続・コンテンツ取得の容易性（MCP Server経由含む）
+5. **Box API 接続** — Box API との接続・コンテンツ取得の容易性（MCP Server経由含む）
 6. **M365 Copilot 接続** — Microsoft 365 / M365 Copilot との親和性。特に **M365 Copilot Studio（Agent Studio）で作成したエージェントを外部フレームワークからA2A呼び出しできるか**（Azure AI Agent Service経由・A2A Protocol・Power Platform Connector等）を重視して評価
 7. **CLI 利用** — ワークフローをコマンドラインで起動・自動化できる容易さ
 8. **MD知識活用AIの選択性** — [§1.5 技術要素（RAGコアレイヤー）](#15-技術要素ragコアレイヤー) の技術定義MDをAIエージェントが直接読み込み・参照・活用できるか（知識源として組み込める構成の柔軟性）
@@ -54,7 +210,7 @@ title: "本書の目的・対象読者・前提知識"
 
 評価軸1〜8をもとに並べた優先候補一覧。各評価軸の詳細は [§1.4.1](#141-フレームワーク選定基準評価軸) 参照。
 
-| 優先度 | フレームワーク | ①A2A | ②MCP | ③Copilot | ④Doc生成 | ⑤BoxAI | ⑥M365 | ⑦CLI | ⑧MD活用 | ライセンス |
+| 優先度 | フレームワーク | ①A2A | ②MCP | ③Copilot | ④Doc生成 | ⑤BoxAPI | ⑥M365 | ⑦CLI | ⑧MD活用 | ライセンス |
 |---:|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|---|
 | 1 | Microsoft AutoGen | ◎ | ◎ | ◎ | ◎ | ◎ | ◎ | ◎ | ◎ | OSS |
 | 2 | LangGraph | ◎ | ◎ | ○ | ◎ | ◎ | △ | ◎ | ◎ | OSS |
@@ -77,7 +233,7 @@ title: "本書の目的・対象読者・前提知識"
 
 - **Microsoft AutoGen（1位）** — A2A Protocol（Google標準）への対応が進んでおり、AutoGen Studio・AutoGen Core等でマルチエージェント協調設計が充実。MCP対応は `autogen-ext` のMCPToolAdapterで実現し、Box/M365等の外部サービスにMCP Server経由で接続できる。GitHub Copilot との親和性が高く、MDをエージェント知識源として直接組み込める構成も組みやすく、CLI化はSDKでヘッドレス実行が可能。**M365 Copilot Studio（Agent Studio）で作成したエージェントとのA2A連携は、`autogen-ext` の `AzureAIAgent` クラスで Azure AI Agent Service 上の Copilot Studio エージェントを直接呼び出す方法が最もシームレス。Microsoft Agents SDK（A2A Protocol対応）経由での連携も同一エコシステム内で最小実装で実現できる。**
 - **LangGraph（2位）** — グラフでA2Aワークフローを厳密に設計可能。**LangGraph は LangChain を依存として内包するため、`pip install langgraph` 一発で LangChain の DocLoader・チェーン・ツール類がすべて利用可能**。MCP対応は `langchain-mcp-adapters` でネイティブに実現し、MCP ServerとのBridge機能も提供。MDファイルをRAG知識として取り込み・BoxとのAPI連携・CLIでのワークフロー起動まで、LangGraph 単体で7軸（①〜⑤・⑦⑧）に対応できる（⑥M365 は △）。
-- **MetaGPT（3位）** — 開発工程の自動化（仕様→コード→ドキュメント生成）に優れる。MDファイルをインプットとした自動化パイプラインが構築しやすく、Copilot併用で開発効率が向上。MCP対応はコミュニティプラグイン段階（△）のため、Box AI・M365の接続は追加実装が必要。
+- **MetaGPT（3位）** — 開発工程の自動化（仕様→コード→ドキュメント生成）に優れる。MDファイルをインプットとした自動化パイプラインが構築しやすく、Copilot併用で開発効率が向上。MCP対応はコミュニティプラグイン段階（△）のため、Box API・M365の接続は追加実装が必要。
 - **CrewAI（4位）** — 役割モデルでA2Aを直感的に組め、ローコードでPoC立上げが速い。MCP対応は `crewai-tools` の **MCPServerAdapter が公式サポート**（◎）で、LangGraph の `langchain-mcp-adapters` と同等レベル。**MDファイルは `Knowledge` クラスの `MDXKnowledgeSource` でネイティブにナレッジ指定でき**（◎）、エージェントが直接参照できる構成を最小実装で組める。①A2A は CrewAI Flows でエージェント間連携は可能だが Google A2A Protocol への公式準拠は未対応（○）。M365 Copilot 専用統合は別途検討が必要（△）。
 - **LangChain（5位）** — LLMアプリ基盤として汎用性が高く、MCPは `langchain-mcp-adapters` でネイティブ対応（◎）。DocLoaderによるMD取り込みが標準的に用意されている。A2A協調ワークフローはLangGraph併用を推奨。CLIやバッチ実行に適する。
 - **LlamaIndex（6位）** — ドキュメント索引・RAGに特化し、MCP対応は `llama-index-tools-mcp` でMCP Server接続が可能（◎）。MDファイルを最短でインデックス化・検索可能にできる。Pandocとの組合せで文書生成パイプラインも構築しやすい。A2A協調は外部フレームワーク補完が前提。
@@ -137,4 +293,379 @@ title: "本書の目的・対象読者・前提知識"
 | **ドメインオントロジー** | `entity_dictionary.md`＋制約ルール | 用語正規化・明示した制約の遵守 | SHACL網羅検証・OWL自動推論は不可 |
 
 > 簡易代替は Track A（PoC段階）での早期検証に有効。精度・スケールの限界に達した時点でフル実装（4章）へ移行する。
+
+## 1.6 システム構成（公開・認証アーキテクチャ）
+
+### 1.6.1 概要
+
+本書で構築する AutoGen アプリは **Azure Container Apps + Microsoft Entra ID（旧 Azure AD）** の組み合わせで、  
+**インターネット経由・VPN不要・組織アカウント限定**での公開が可能である。
+
+```
+社外ネットワーク（自宅・出先・スマホ等）
+  │
+  │ HTTPS
+  ▼
+Azure Container Apps
+  ├─ Easy Auth（組み込み認証）
+  │    └─ Microsoftログイン画面にリダイレクト
+  │         └─ Microsoft Entra ID で認証
+  │              ├─ 認証成功 → AutoGen アプリへ到達 ✅
+  │              └─ 認証失敗（未ログイン・別テナント） → 403 ❌
+  │
+  └─ AutoGen API（FastAPI / AutoGen Studio）
+       └─ Azure OpenAI / OpenAI API（LLM推論）
+```
+
+### 1.6.2 構成コンポーネント
+
+| コンポーネント | 役割 | 備考 |
+|---|---|---|
+| **Azure Container Apps** | AutoGen アプリのホスティング | スケールアウト対応・HTTPS自動付与 |
+| **Azure Container Registry（ACR）** | Dockerイメージの保管 | Container Apps と同一RGに配置推奨 |
+| **Microsoft Entra ID** | ユーザー認証・アクセス制御 | M365テナントをそのまま流用可 |
+| **Easy Auth（組み込み認証）** | Entra ID との認証連携 | アプリコード変更不要 |
+| **Azure OpenAI Service** | LLM推論エンドポイント | APIキー管理はKey Vault推奨 |
+
+### 1.6.3 アクセス制御の粒度
+
+| レベル | 設定箇所 | 効果 |
+|---|---|---|
+| **テナント全体（社員全員）** | Entra ID アプリ登録 → アカウント種別を「単一テナント」 | 組織メンバー全員がアクセス可 |
+| **特定グループのみ** | エンタープライズアプリ → 「割り当て必須」ON → グループ追加 | 指定グループ外は弾く |
+| **ロールベース（閲覧/管理）** | アプリロールを定義 → RBAC で割り当て | 権限レベルで機能を分岐 |
+
+### 1.6.4 デプロイ手順（概要）
+
+```bash
+# 1. コンテナイメージをビルドして ACR へプッシュ
+az acr build --registry <ACR名> --image myautogen:latest .
+
+# 2. Container Apps を作成（外部公開・ポート8000）
+az containerapp create \
+  --name my-autogen-app \
+  --resource-group <RG名> \
+  --image <ACR名>.azurecr.io/myautogen:latest \
+  --ingress external --target-port 8000
+
+# 3. Entra ID 認証（Easy Auth）を有効化
+az containerapp auth microsoft update \
+  --name my-autogen-app \
+  --resource-group <RG名> \
+  --client-id <アプリ登録のクライアントID> \
+  --client-secret <シークレット> \
+  --tenant-id <テナントID>
+```
+
+> **前提条件**  
+> - Azure サブスクリプションと M365（Entra ID）テナントが紐づいていること  
+> - Azure CLI がインストール済みで `az login` 済みであること  
+> - Entra ID でアプリ登録（App Registration）を事前に作成し、クライアントIDとシークレットを取得していること
+
+### 1.6.5 開発・運用サイクル
+
+本書の想定する開発から運用までのライフサイクルを以下に示す。
+
+```
+【開発】ローカル PC（デスクトップ）
+  ├─ python main.py でエージェント動作確認
+  ├─ プロンプト・ナレッジ・ツール設定を修正
+  └─ git commit / git push → GitHub リポジトリ
+          │
+          │ CI/CD（GitHub Actions 等）
+          ▼
+【ビルド】Docker コンテナ化
+  └─ az acr build → Azure Container Registry にイメージ登録
+          │
+          ▼
+【公開】Azure Container Apps
+  ├─ Entra ID 認証で組織内ユーザーに限定公開
+  ├─ HTTPS エンドポイントを共有 → チームが利用開始
+  └─ ログ・メトリクスを Azure Monitor で確認
+          │
+          │ 改善サイクル
+          ▼
+【改善】ローカルで修正 → push → 自動ビルド・再デプロイ
+```
+
+| フェーズ | 環境 | 主な作業 | 担当者 |
+|---|---|---|---|
+| **開発** | ローカル PC | エージェント実装・プロンプト調整・単体テスト | バックエンドエンジニア |
+| **PoC公開** | Azure Container Apps | チームへの共有・受入テスト実施 | AI導入担当者 |
+| **本番移行** | Azure Container Apps | アクセス制御・監視設定・SLA策定 | 運用担当者 |
+| **継続改善** | ローカル → Azure | KPIモニタリング・精度改善・新機能追加 | 全担当者 |
+
+> **ローカルと Azure の環境差異を最小化するポイント**  
+> - 環境変数（APIキー・エンドポイント）は `.env` ファイルと Azure の「シークレット」で統一管理  
+> - `requirements.txt` でライブラリバージョンを固定し、ローカルと Docker イメージを同一にする  
+> - `docker run` でローカルからもコンテナ動作を検証できる構成にすることで、「ローカルでは動くがAzureで動かない」を防ぐ
+
+### 1.6.6 Azure Container Apps で動かせるアプリの範囲
+
+Azure Container Apps は **「Dockerコンテナが動く場所」** であり、AutoGen に限らずコンテナ化できるアプリであれば言語・フレームワークを問わず動作する。
+
+| アプリ種別 | 動作 | 備考 |
+|---|:---:|---|
+| AutoGen（本書のメイン） | ✅ | ヘッドレス実行・FastAPI経由でWebUI公開 |
+| FastAPI / Flask / Django | ✅ | WebサーバーとしてHTTPS公開 |
+| LangGraph / CrewAI 等 | ✅ | 本書の他フレームワークも同様にデプロイ可 |
+| Node.js / Go / Java 等 | ✅ | 言語不問・Dockerfile があれば動く |
+| AutoGen Studio（Web UI） | ✅ | `autogenstudio ui` をコンテナ化して公開 |
+| GUIアプリ（tkinter 等） | ❌ | サーバー側に画面がないため不可 |
+| `C:\Users\...` 依存の処理 | ❌ | Windowsローカルパスはコンテナ内に存在しない |
+| Windows専用DLL依存アプリ | ❌ | コンテナはLinuxベースが標準のため |
+
+> **結論：「ヘッドレス（画面なし）で動くPythonアプリ」はそのままAzureへ持っていける。**  
+> デスクトップで `python main.py` が動く構成であれば、`Dockerfile` を1枚追加するだけで Azure Container Apps にデプロイできる。
+
+### 1.6.7 Docker を使わない場合の代替サービス
+
+`Dockerfile` を書かずに Python アプリを Azure で公開したい場合は、**Azure App Service** が最も手軽な選択肢となる。
+
+| サービス | Docker不要 | 向いているケース | Entra ID認証 |
+|---|:---:|---|:---:|
+| **Azure App Service** | ✅ | WebアプリをZIPまたはGitで直接デプロイ | ✅（Easy Auth） |
+| **Azure Functions** | ✅ | イベント駆動・バッチ処理・API単体公開 | ✅ |
+| **Azure Container Apps** | ❌（要Docker） | コンテナ化済みアプリの本番運用 | ✅（Easy Auth） |
+
+**Azure App Service でのデプロイ（Docker不要）:**
+
+```bash
+# requirements.txt と main.py があればそのままデプロイできる
+az webapp up \
+  --name my-autogen-app \
+  --resource-group <RG名> \
+  --runtime "PYTHON:3.11" \
+  --sku B1
+```
+
+> **App Service の制約**  
+> - 常駐プロセス（長時間実行エージェント）は `B1` 以上のプランが必要  
+> - AutoGen のような非同期・長時間タスクは **タイムアウト設定（230秒制限）** に注意  
+> - 長時間実行が必要な場合は Azure Container Apps または Azure Functions（Durable Functions）を推奨
+
+### 1.6.8 Windows EXE（コマンドライン）をAzureで動かす方法
+
+デスクトップで動く `.exe` ファイルをAzure上で実行し、結果を取得したい場合の選択肢を示す。
+
+| 方法 | 概要 | 向いているケース |
+|---|---|---|
+| **① App Service（Windowsプラン）+ subprocess** | Python から `subprocess.run("tool.exe")` で呼び出す。EXEをアプリと一緒にデプロイ | Webトリガーで単発実行・結果をAPIで返す |
+| **② Azure VM（Windows）** | WindowsのVMをそのまま立ててEXEを常駐 | 既存の複雑なEXE・DLL依存・GUI補助ツール |
+| **③ Azure Batch** | 大量ジョブをバッチ実行し結果をストレージに保存 | 定期バッチ・並列処理・大量ファイル変換 |
+| **④ ローカル実行＋結果アップロード** | EXEはデスクトップで動かし、結果ファイルだけAzureに送る | EXEの移植が難しい場合の最小構成 |
+
+**① App Service（Windowsプラン）でのEXE呼び出し例（Python）:**
+
+```python
+import subprocess
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.post("/run")
+def run_tool(input: str):
+    result = subprocess.run(
+        ["mytool.exe", "--input", input],
+        capture_output=True, text=True, timeout=60
+    )
+    return {"stdout": result.stdout, "returncode": result.returncode}
+```
+
+```bash
+# Windows プランで App Service を作成（EXEが動くWindows環境）
+az webapp up \
+  --name my-tool-app \
+  --resource-group <RG名> \
+  --runtime "PYTHON:3.11" \
+  --os-type Windows \
+  --sku B1
+```
+
+**④ ローカル実行＋結果アップロード（最小構成）:**
+
+```python
+import subprocess, json
+from azure.storage.blob import BlobServiceClient
+
+# EXE をローカルで実行
+result = subprocess.run(["mytool.exe", "--input", "data.csv"],
+                        capture_output=True, text=True)
+
+# 結果を Azure Blob Storage にアップロード
+client = BlobServiceClient.from_connection_string("<接続文字列>")
+client.get_blob_client("results", "output.json").upload_blob(
+    json.dumps({"output": result.stdout}), overwrite=True
+)
+```
+
+> **EXEをAzureで動かす際の注意点**  
+> - Linux系（Container Apps / App Service Linux）では `.exe` は動かない → **Windows プランまたはVM必須**  
+> - EXEが他のDLLや外部ツールに依存する場合は、依存ファイルも一緒にデプロイすること  
+> - Entra ID 認証は方法①②③いずれでも Easy Auth または Azure AD で設定可能
+
+### 1.6.9 Azure VM ベースの AutoGen 公開構成（推奨構成）
+
+**Azure VM + Azure AD Application Proxy** の組み合わせは、  
+Docker不要・EXEも動く・Entra ID認証付き という3条件を満たす構成として実用性が高い。
+
+```
+インターネット上のユーザー
+  │ HTTPS
+  ▼
+Microsoft Entra ID（認証）
+  │ 認証成功後
+  ▼
+Azure AD Application Proxy（中継・Entra ID認証ゲートウェイ）
+  │ 内部転送（VMに公開IPなし）
+  ▼
+Azure VM（Windows / Linux）
+  ├─ AutoGen API（FastAPI: python main.py）
+  ├─ AutoGen Studio（autogenstudio ui）
+  └─ Windows EXE ツール群（必要に応じて subprocess で呼び出し）
+       └─ Azure OpenAI API（LLM推論）
+```
+
+**この構成の利点:**
+
+| 項目 | 内容 |
+|---|---|
+| **Docker不要** | VMに直接 Python + AutoGen をインストール |
+| **Windows EXE対応** | VM上でそのまま `.exe` が動く |
+| **公開IPなし** | VMにパブリックIPを付けずに済む（セキュリティ高） |
+| **Entra ID認証** | Application Proxy が認証ゲートウェイとして機能 |
+| **VPN不要** | インターネットからEntra IDでアクセス可能 |
+
+**セットアップ手順（概要）:**
+
+```bash
+# ① Azure VM を作成（Linux推奨・Windowsも可）
+az vm create \
+  --name autogen-vm \
+  --resource-group <RG名> \
+  --image Ubuntu2204 \
+  --size Standard_B2s \
+  --admin-username azureuser \
+  --generate-ssh-keys
+
+# ② VM上にAutoGenをインストール（SSHで接続後）
+pip install autogen-agentchat autogen-ext fastapi uvicorn
+
+# ③ AutoGen APIをサービスとして起動（systemd）
+# /etc/systemd/system/autogen.service に登録して常駐化
+uvicorn main:app --host 127.0.0.1 --port 8000
+
+# ④ Azure AD Application Proxy コネクタをVM上にインストール
+#    → Azure Portal: Entra ID > アプリケーション プロキシ > コネクタのダウンロード
+#    → コネクタがVM内からAzureへのアウトバウンド接続を確立（インバウンド開放不要）
+
+# ⑤ Application Proxy でアプリを公開
+#    → Azure Portal: Entra ID > エンタープライズアプリケーション > 新しいアプリ
+#    → 内部URL: http://127.0.0.1:8000
+#    → 外部URL: https://autogen-app.msappproxy.net（自動発行）
+#    → 事前認証: Microsoft Entra ID
+```
+
+> **Application Proxy の動作原理**  
+> VMからAzureへのアウトバウンド接続（ポート80/443）のみで動作するため、  
+> **VMのNSGでインバウンドを完全に閉じたまま**インターネット公開できる。  
+> これはContainer Appsのインバウンド公開より安全な構成となる。
+
+> **運用コスト目安（2026年時点）**  
+> Standard_B2s（2vCPU/4GB）: 約 ¥6,000〜8,000／月  
+> Application Proxy: Entra ID P1 ライセンスが必要（M365 Business Premium に含まれる場合あり）
+
+## 1.7 RAGパイプライン機能を持つシステム一覧
+
+**RAGパイプラインはAIのファインチューニングとは無関係であり、本質は検索システムの構築である。**
+
+> **RAGとファインチューニングの根本的な違い**
+>
+> | 観点 | ファインチューニング | RAGパイプライン |
+> |---|---|---|
+> | **何を変えるか** | LLMのモデルパラメータ（重み） | ベクトルDB（外部の検索インデックス） |
+> | **LLMは変わるか** | 変わる（再学習） | **変わらない** |
+> | **回答品質を決めるもの** | モデルの能力 | **検索の精度**（チャンク・埋め込み・クエリ設計） |
+> | **改善の作業** | GPU学習・データ整備 | **文書整備・インデックス設計・検索チューニング** |
+>
+> RAGパイプラインをいくら改善しても、LLMは賢くならない。  
+> 逆に、どれだけ優れたLLMを使っても、インデックスが粗ければ組織固有の知識は取り出せない。  
+> **RAGの品質 = 検索システムの品質** である。
+
+> **RAGの品質を決めるのはフレームワークではなく検索システムの選択である**  
+> AutoGen・LangGraph・CrewAI といったフレームワークは「エージェントの指示・連携・ツール呼び出し」を担うオーケストレーション層であり、  
+> RAGの検索品質には直接関与しない。  
+>  
+> RAGで最も重要なのは「クエリに対して適切な文書がヒットすること」であり、  
+> これを決めるのは以下の検索システム側の設計である：  
+>  
+> | 検索品質を左右する要素 | 具体的な選択・設計内容 |
+> |---|---|
+> | **インデックスシステム** | Azure AI Search / Chroma / Qdrant / OpenSearch 等の選択 |
+> | **埋め込みモデル** | text-embedding-3-small / ada-002 / BGE 等の選択とドメイン適合性 |
+> | **チャンク戦略** | チャンクサイズ・オーバーラップ・分割単位（段落/文/見出し） |
+> | **検索戦略** | ベクトル検索 / ハイブリッド検索 / セマンティックランキング |
+> | **再ランキング** | Cross-Encoder による検索結果の再順位付け |
+>  
+> フレームワークはこの検索システムを「ツール」として呼び出すだけである。  
+> **AutoGen + Azure AI Search** も **CrewAI + Chroma** も、フレームワークが異なっても  
+> 検索システムの設計次第でRAG品質は大きく変わる。  
+>  
+> 本書が §1.7 の表で評価しているのも「インデックス化が自動化されているか」という検索システム観点であり、  
+> フレームワーク選定（§1.4）とは独立した評価軸である。
+
+| システム | インデックス化の自動化 | ベクトル化処理の実体 | 備考 |
+|---|:---:|---|---|
+| **LlamaIndex** | ◎ | ドキュメントを指定するとチャンク・埋め込み・ベクトルストア格納まで自動実行。RAGインデックス化が中核機能 | インデックス化の最も信頼性が高い |
+| **Dify（Knowledge Base）** | ◎ | ファイルをアップロードするとチャンク分割・埋め込み・インデックス化を自動実行。チャンク設定もGUIで変更可 | Track A（PoC）の主力 |
+| **Azure AI Foundry（AI Search）** | ◎ | Azure AI Search がドキュメントをチャンク・ベクトル化してインデックス。インデックス状態をポータルで確認可能 | インデックス品質の可視化が最も充実 |
+| **Amazon Bedrock Knowledge Bases** | ◎ | S3に置いたドキュメントをBedrock KBがチャンク・埋め込みし OpenSearch Serverless に格納 | AWS完結で管理が容易 |
+| **Google Vertex AI RAG Engine** | ◎ | Google Cloud Storageのドキュメントを自動チャンク・埋め込みし Vertex AI Vector Search に格納 | GraphRAG対応も提供 |
+| **AnythingLLM** | ○ | アップロードした文書をChroma等にベクトル化して格納。ファイル単位でインデックス状態を確認できる | セルフホスト可・UIが直感的 |
+| **OpenWebUI** | ○ | ドキュメントをChroma等にベクトル化して格納。コレクション単位で管理 | セルフホスト可 |
+| **CrewAI（Knowledge class）** | ○ | `MDXKnowledgeSource` 等でファイルを指定するとフレームワーク内蔵のベクトルストアにインデックス化 | コード1行で指定可能 |
+| **Flowise** | ○ | VectorStoreノードにドキュメントローダーを接続するとインデックス化。ノード設定でチャンク・埋め込みを選択可 | GUI構築 |
+| **AutoGen / LangGraph** | △ | **フレームワーク自身はインデックス機能を持たない**。Azure AI Search・Chroma・Qdrant等の外部ベクトルストアを別途構築し、ツールとして接続する必要がある | 外部ストアと組み合わせれば◎ |
+| **LangChain / Semantic Kernel** | △ | 同上。外部ベクトルストアへのDocLoader・Embedderを自分で実装して初めてインデックス化が起きる | |
+| **Microsoft Graph API** | △ | SharePoint/OneDriveの**既存のMicrosoftインデックス**を利用。新規ドキュメントのインデックス化タイミング・チャンク戦略はユーザーが制御できない | RAGではなくMicrosoft Graph検索 |
+| **Box API** | △ | Boxの**既存の内部インデックス**を利用。ユーザーがベクトル化・チャンク設計を操作できない | Box内コンテンツに限定 |
+
+> **凡例** ◎ = 指定と同時に自動でインデックス化が行われる  ○ = 設定すればインデックス化される  △ = 外部依存または不透明
+
+> **AutoGen / LangGraph の補足**  
+> これらはフレームワークであり「どのベクトルストアを使うか」を選択できる設計になっている。  
+> Azure AI Search（◎）を外部ストアとして接続すれば、LlamaIndex相当のインデックス品質を実現できる。  
+> 「AutoGenを使う＝RAGのインデックス化は別途設計が必要」であることを認識しておく必要がある。
+
+> **Microsoft Graph API / Box API の補足**  
+> どちらも「既存のクラウドインデックス（Microsoft Graph / Box Search）を参照している」のが実態であり、  
+> ユーザーが文書を追加してもインデックス反映のタイミング・品質は制御できない。  
+> 本書では両者を「RAG知識を指定するシステム」ではなく「検索APIを持つ外部サービス」として扱い、  
+> AutoGen のツールとして MCP Server 経由で接続する構成を採る。
+
+### 1.7.1 選定の考え方
+
+```
+目的・制約
+ │
+ ├─ すぐ動かしたい（PoC）・インデックス化を手動で意識したくない
+ │    └─ Dify → Track A（2章）
+ │
+ ├─ 本番品質・マルチエージェント・インデックス設計を自分で制御
+ │    └─ AutoGen / LangGraph + Azure AI Search → Track B（3〜9章）
+ │
+ ├─ クラウド完結・インデックス管理もクラウドに任せる
+ │    └─ Azure AI Foundry / Amazon Bedrock KB / Google Vertex AI
+ │
+ ├─ M365/SharePoint の既存コンテンツをそのまま使う
+ │    └─ Microsoft Graph API（ただしインデックス制御なし）
+ │
+ └─ Box 上のドキュメントを検索ソースとして利用
+      └─ Box API（MCP Server経由でAutoGenに接続・インデックス制御なし）
+```
+
+> **本書の主軸は Track A（Dify）と Track B（AutoGen + Azure AI Search）**。  
+> Microsoft Graph API・Box API はインデックス設計が不可なため、Track B の出力先・検索ツールとして接続する位置づけとなる。詳細は 3章・8章を参照。
+
+
 
