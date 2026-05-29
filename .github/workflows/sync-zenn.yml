@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - 'docs/プロジェクトCDE/index.md'
+      - 'docs/books/rag-multiagent-build/**'
+      - 'docs/RAGシステム/INDEX.md'
 
 jobs:
   sync:
@@ -14,14 +16,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Convert index.md to Zenn format
+      - name: Convert project CDE index to Zenn format
         run: |
-          python3 .github/scripts/sync_zenn.py
+          python3 .github/scripts/sync_zenn.py .github/scripts/zenn_config.yaml
 
-      - name: Commit and push
+      - name: Prepare RAG multiagent book for Zenn
+        run: |
+          python3 scripts/prepare_zenn_book.py docs/books/rag-multiagent-build zenn/content/books/rag-multiagent-build
+
+      - name: Convert RAG index to Zenn format
+        run: |
+          python3 .github/scripts/sync_zenn.py .github/scripts/zenn_config_rag.yaml
+
+      - name: Commit and push Zenn content
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add articles/project-cde-guide.md
-          git diff --cached --quiet || git commit -m "chore: sync project-cde article from index.md"
-          git push
+          git add articles/project-cde-guide.md || true
+          git add zenn/content/books/rag-multiagent-build || true
+          git diff --cached --quiet || (git commit -m "chore: sync Zenn content" && git push)

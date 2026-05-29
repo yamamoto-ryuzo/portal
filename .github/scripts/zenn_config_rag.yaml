@@ -1,0 +1,17 @@
+src: "docs/RAGシステム/INDEX.md"
+dst: "zenn/content/books/rag-civil-engineering/index.md"
+title: "RAGマルチエージェント実装ガイド（要約）"
+emoji: "🤖"
+type: "book"
+topics:
+  - "ai"
+  - "rag"
+  - "multi-agent"
+  - "土木"
+published: true
+canonical_url: "https://zenn.dev/yamamoto_ryuzo/books/rag-civil-engineering"
+publication_name: "dx_junkyard"
+toc_depth: 3
+zenn_prepare_cmd: "python scripts/prepare_zenn_book.py docs/books/rag-multiagent-build zenn/content/books/rag-multiagent-build"
+zenn_publish_cmd: "npx zenn publish --slug rag-civil-engineering"
+note: "Source is docs/RAGシステム/INDEX.md"
