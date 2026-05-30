@@ -1,5 +1,5 @@
 ---
-title: "RAGマルチエージェント実装ガイド（要約）"
+title: "RAGマルチエージェント実装ガイド（草案）"
 type: "idea"
 emoji: "🦾"
 published: true
@@ -19,5 +19,3 @@ toc_depth: 4
 
 [![本体（フル版・公開先](https://yamamoto-ryuzo.github.io/portal/RAG_System/images/cover.png)](https://zenn.dev/yamamoto_ryuzo/books/rag-civil-engineering)
 
----
-更新: 要約の修正や追記が必要であれば教えてください。
