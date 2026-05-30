@@ -1,6 +1,6 @@
 src: "docs/RAGシステム/INDEX.md"
-dst: "zenn/content/books/rag-civil-engineering/index.md"
-title: "RAGマルチエージェント実装ガイド（要約）"
+dst: "articles/rag-multiagent-guide-summary.md"
+title: "RAGマルチエージェント実装ガイド（草案）"
 emoji: "🤖"
 type: "book"
 topics:
