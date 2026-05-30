@@ -3,7 +3,7 @@ title: "RAGマルチエージェント実装ガイド（要約）"
 type: "idea"
 emoji: "🦾"
 published: true
-topics: :["ai","rag","multi-agent","dify","langgraph","llm","土木"]
+topics: :["ai","rag","知識管理","llm","土木"]
 publication_name: "dx_junkyard"
 toc_depth: 4
 ---
