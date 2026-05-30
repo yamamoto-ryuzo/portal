@@ -4,9 +4,8 @@ emoji: "🗺️"
 type: "idea"
 topics: ["gis", "cde", "bim", "公共事業", "土木"]
 published: true
-canonical_url: "https://yamamoto-ryuzo.github.io/portal/%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88CDE/"
+canonical_url: "https://yamamoto-ryuzo.github.io/portal/Project_CDE/"
 publication_name: "dx_junkyard"
-toc_depth: 4
 ---
 # プロジェクトCDE
 
