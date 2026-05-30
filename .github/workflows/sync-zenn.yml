@@ -5,7 +5,7 @@ on:
     paths:
       - 'docs/プロジェクトCDE/index.md'
       - 'docs/books/rag-multiagent-build/**'
-      - 'docs/RAGシステム/INDEX.md'
+      - 'docs/RAG_System/index.md'
 
 jobs:
   sync:

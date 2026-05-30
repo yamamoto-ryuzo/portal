@@ -1,7 +1,7 @@
 import pathlib
 from datetime import datetime
 
-SRC = pathlib.Path('docs/RAGシステム/INDEX.md')
+SRC = pathlib.Path('docs/RAG_Sysyem/INDEX.md')
 DST = pathlib.Path('articles/rag-multiagent-guide-summary.md')
 
 FRONTMATTER = '''---

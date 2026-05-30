@@ -3,7 +3,7 @@ name: Deploy Zenn to Zenn.dev
 on:
   push:
     paths:
-      - 'docs/RAGシステム/INDEX.md'
+      - 'docs/RAG_Sysyem/INDEX.md'
       - 'zenn.json'
       - '.github/workflows/zenn-deploy.yml'
     branches:
