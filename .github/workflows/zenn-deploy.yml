@@ -3,7 +3,8 @@ name: Deploy Zenn to Zenn.dev
 on:
   push:
     paths:
-      - 'docs/RAG_System/INDEX.md'
+      - 'docs/RAG_System/index.md'
+      - 'docs/Project_CDE/index.md'
       - 'zenn.json'
       - '.github/workflows/zenn-deploy.yml'
     branches:

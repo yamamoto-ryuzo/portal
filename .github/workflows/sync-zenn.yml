@@ -6,6 +6,7 @@ on:
       - 'docs/Project_CDE/index.md'
       - 'docs/books/rag-multiagent-build/**'
       - 'docs/RAG_System/index.md'
+  workflow_dispatch: {}
 
 jobs:
   sync:
@@ -30,6 +31,9 @@ jobs:
 
       - name: Commit and push Zenn content
         run: |
+          ls -la articles || true
+          ls -la books || true
+          git status --porcelain || true
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add articles/project-cde-guide.md || true
