@@ -25,7 +25,7 @@ redirect_from:
 [PAGES_RAG_System](./RAG_System/)  
 ![土木事業管理RAG_TrackA+C_構築ガイド](./RAG_System/images/TrackA+C_構築ガイド.png)　　
 ### [事業監理におけるプロジェクトCDEの実現](./Project_CDE/)
-![プロジェクトCDE](プロジェクトCDE\プロジェクトCDE.png)
+![プロジェクトCDE](./Project_CDE/プロジェクトCDE.png)
 
 ## [DX全般](./DX/)  
  ・とりあえず書き始め。。。  
