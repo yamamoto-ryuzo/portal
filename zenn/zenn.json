@@ -1,0 +1,6 @@
+{
+  "title": "Zennコンテンツ集",
+  "type": "book",
+  "description": "Zenn用記事・ブックの管理用設定ファイルです。",
+  "allowGithubActions": true
+}

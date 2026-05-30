@@ -3,6 +3,7 @@ title: "RAGマルチエージェント実装ガイド（要約）"
 type: "article"
 emoji: "🦾"
 published: false
+category: idea
 ---
 
 # RAGマルチエージェント実装ガイド（要約）
