@@ -1,0 +1,33 @@
+name: Deploy Zenn to Zenn.dev
+
+on:
+  push:
+    paths:
+      - 'docs/RAGシステム/INDEX.md'
+      - 'zenn.json'
+      - '.github/workflows/zenn-deploy.yml'
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Install Zenn CLI
+        run: npm install -g zenn-cli
+
+      - name: Publish to Zenn.dev
+        env:
+          ZENN_TOKEN: ${{ secrets.ZENN_TOKEN }}
+        run: |
+          zenn preview &
+          sleep 10
+          zenn deploy
