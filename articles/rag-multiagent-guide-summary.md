@@ -1,5 +1,8 @@
 ---
 title: "RAGマルチエージェント実装ガイド（要約）"
+type: "article"
+emoji: "🦾"
+published: false
 ---
 
 # RAGマルチエージェント実装ガイド（要約）
