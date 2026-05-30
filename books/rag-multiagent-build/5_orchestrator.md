@@ -58,3 +58,53 @@ title: "オーケストレーター実装"
 
 ```python
 import json
+
+def main(orchestrator_output: str) -> dict:
+    data = json.loads(orchestrator_output)
+    # null を除外して有効なサブクエリのみ返す
+    return {k: v for k, v in data.items() if v is not None}
+```
+
+## 5.4 Track B: AutoGen 実装
+
+```python
+# agents/orchestrator.py
+import json, os
+from autogen_agentchat.agents import AssistantAgent
+from autogen_ext.models.openai import AzureOpenAIChatCompletionClient
+
+SYSTEM_PROMPT = """...(5.2節のプロンプト)..."""
+
+_model_client = AzureOpenAIChatCompletionClient(
+    model="gpt-4o",
+    api_version="2024-02-01",
+    azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
+    api_key=os.environ["AZURE_OPENAI_API_KEY"],
+)
+
+orchestrator = AssistantAgent(
+    name="orchestrator",
+    system_message=SYSTEM_PROMPT,
+    model_client=_model_client,
+)
+
+async def orchestrate(question: str) -> dict:
+    result = await orchestrator.run(task=question)
+    raw = result.messages[-1].content
+    subqueries = json.loads(raw)
+    # null を除外して有効なサブクエリのみ返す
+    return {k: v for k, v in subqueries.items() if v}
+```
+
+## 5.5 ルーティング精度の確認
+
+以下のテスト問いでサブクエリ分解を確認する。
+
+| テスト問い | 期待する有効軸 |
+|---|---|
+| 「河川占用許可の手順を教えてください」 | law / procedure |
+| 「コンクリート構造物の設計基準は？」 | technical |
+| 「斜面崩壊のリスク対策事例は？」 | case / risk |
+| 「工事施工中の河川流量制限と届出義務は？」 | law / procedure / technical / risk |
+
+各テスト問いに対し、不要な軸が `null` になっていることを確認する。

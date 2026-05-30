@@ -57,3 +57,45 @@ Chatflow（オーケストレーター）
 ## 3.3 Track B: AutoGen 環境構築
 
 ### 3.3.1 前提
+
+- Python 3.10 以上
+- uv または pip
+
+### 3.3.2 インストール
+
+```bash
+uv init rag-multiagent
+cd rag-multiagent
+uv add autogen-agentchat autogen-ext chromadb openai
+# MCP・Azure AI 連携オプション
+uv add "autogen-ext[mcp]" "autogen-ext[azure]"
+```
+
+### 3.3.3 プロジェクト構成（推奨）
+
+```
+rag-multiagent/
+├── agents/
+│   ├── base_agent.py      # 専門エージェントファクトリ
+│   ├── orchestrator.py
+│   ├── supervisor_agent.py
+│   └── integration_agent.py
+├── knowledge/
+│   ├── ingest.py          # 文書インポートスクリプト
+│   └── vectorstore.py     # VectorDB ラッパー
+├── prompts/               # プロンプトテンプレート
+├── main.py                # パイプライン定義 & CLI エントリポイント
+└── tests/
+```
+
+## 3.4 プラットフォーム決定フロー
+
+```mermaid
+flowchart TD
+    Q1{M365テナントを\n既に保有？} -- Yes --> Q2{IT部門の\nコード開発支援あり？}
+    Q1 -- No --> Q3{PoC段階？}
+    Q2 -- Yes --> B["Track B\nAutoGen"]
+    Q2 -- No --> CS["M365 Copilot Studio"]
+    Q3 -- Yes --> A["Track A\nDify"]
+    Q3 -- No --> B
+```

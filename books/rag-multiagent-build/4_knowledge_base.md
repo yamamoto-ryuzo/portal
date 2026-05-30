@@ -58,3 +58,59 @@ metadata = {
     "agent":        ["law", "common"],       # 参照エージェント
     "last_updated": "2024-04-01",
     "source_url":   "https://elaws.e-gov.go.jp/...",
+}
+```
+
+> **⑩通達の分類**: `usage` フィールドで `technical` / `estimation` / `procedure` を明示する（設計書 11.3節参照）。
+
+## 4.3 Track A: Dify でのナレッジベース登録
+
+1. **Dify 管理画面 → ナレッジ → 作成**
+2. ナレッジ名を `kb-common-law` などの規約名で作成
+3. **設定 > インデックスモード**: `高品質（Embedding＋リランキング）`
+4. チャンク設定: サイズ 800 / オーバーラップ 150
+5. 文書をアップロードし、メタデータを「カスタムメタデータ」欄に JSON で入力
+
+### Dify メタデータ入力例
+
+```json
+{
+  "category": "①法律",
+  "usage": "law",
+  "phase": "plan,design",
+  "agent": "law,common"
+}
+```
+
+## 4.4 Track B: AutoGen 環境での一括インポート
+
+> 文書取り込みには LangChain のローダー/スプリッターを使用する。  
+> ナレッジベース構築スクリプトは AutoGen のエージェントフレームワークと完全に分離しており、Track A/B 共通で利用できる。
+
+```python
+# knowledge/ingest.py
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_openai import OpenAIEmbeddings
+from langchain_chroma import Chroma
+
+def ingest(file_path: str, metadata: dict, collection: str):
+    loader = PyPDFLoader(file_path)
+    docs = loader.load()
+    for doc in docs:
+        doc.metadata.update(metadata)
+    splitter = RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=150)
+    chunks = splitter.split_documents(docs)
+    embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
+    Chroma.from_documents(chunks, embeddings, collection_name=collection,
+                          persist_directory="./chroma_db")
+```
+
+## 4.5 ナレッジベース品質チェックリスト
+
+登録後、以下を確認してから次章へ進む。
+
+- [ ] 全ナレッジベースに最低50チャンク以上が登録されている
+- [ ] ⑩通達に `usage` メタデータが全件付与されている
+- [ ] `kb-common-law` が全エージェントから参照可能になっている
+- [ ] テスト検索（「河川法の適用基準は？」）で関連チャンクが上位5件に返る
+- [ ] PDF の表・図がテキスト化されてチャンクに含まれている
