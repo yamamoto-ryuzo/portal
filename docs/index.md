@@ -24,7 +24,7 @@ redirect_from:
 ### [土木事業管理における知識・判断継承のためのRAG_System構築提案書](https://zenn.dev/yamamoto_ryuzo/books/rag-civil-engineering)  
 [PAGES_RAG_System](./RAG_System/)  
 ![土木事業管理RAG_TrackA+C_構築ガイド](./RAG_System/images/TrackA+C_構築ガイド.png)　　
-### [事業監理におけるプロジェクトCDEの実現](./プロジェクトCDE/)
+### [事業監理におけるプロジェクトCDEの実現](./Project_CDE/)
 ![プロジェクトCDE](プロジェクトCDE\プロジェクトCDE.png)
 
 ## [DX全般](./DX/)  

@@ -16,4 +16,4 @@ toc_depth: 4
 
 > 参考資料：[2025.3.7_プロジェクトCDEを中心としたデータマネジメントの取組案について（国土技術政策総合研究所）](https://www.nilim.go.jp/lab/peg/img/file2256.pdf)
 > 
-![プロジェクトCDEマネジメント](https://yamamoto-ryuzo.github.io/portal/プロジェクトCDE/images/00_プロジェクトCDEマネジメント.png)
+![プロジェクトCDEマネジメント](https://yamamoto-ryuzo.github.io/portal/Project_CDE/images/00_プロジェクトCDEマネジメント.png)

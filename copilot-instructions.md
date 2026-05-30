@@ -1,7 +1,7 @@
 # Zenn公開ワークフロー・同期手順まとめ（最新版）
 
 1. **原稿・章構成の管理**
-    - `docs/books/<slug>/` や `docs/プロジェクトCDE/` などでMarkdown原稿・画像・`config.yaml`（章リスト・タイトル・概要）を管理
+    - `docs/books/<slug>/` や `docs/Project_CDE/` などでMarkdown原稿・画像・`config.yaml`（章リスト・タイトル・概要）を管理
     - 必要に応じてGitでバージョン管理
 2. **Zenn用データへの同期（変換）**
     - `python scripts/prepare_zenn_book.py <src> <dst>` を実行

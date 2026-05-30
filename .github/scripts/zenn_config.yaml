@@ -1,4 +1,4 @@
-src: "docs/プロジェクトCDE/index.md"
+src: "docs/Project_CDE/index.md"
 dst: "articles/project-cde-guide.md"
 title: "プロジェクトCDE — 検討メモ（草案）"
 emoji: "🗺️"
@@ -15,7 +15,7 @@ publication_name: "dx_junkyard"
 toc_depth: 4
 
 # Zenn publishing entry for rag-multiagent-build
-src: "docs/プロジェクトCDE/index.md"
+src: "docs/Project_CDE/index.md"
 dst: "articles/project-cde-guide.md"
 title: "プロジェクトCDE — 検討メモ（草案)"
 emoji: "🗺️"

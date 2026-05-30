@@ -3,7 +3,7 @@ name: Sync to Zenn article
 on:
   push:
     paths:
-      - 'docs/プロジェクトCDE/index.md'
+      - 'docs/Project_CDE/index.md'
       - 'docs/books/rag-multiagent-build/**'
       - 'docs/RAG_System/index.md'
 
