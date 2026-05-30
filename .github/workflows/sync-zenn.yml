@@ -22,7 +22,7 @@ jobs:
 
       - name: Prepare RAG multiagent book for Zenn
         run: |
-          python3 scripts/prepare_zenn_book.py docs/books/rag-multiagent-build books/rag-multiagent-build
+          python3 .github/scripts/prepare_zenn_book.py docs/books/rag-multiagent-build books/rag-multiagent-build
 
       - name: Convert RAG index to Zenn format
         run: |
