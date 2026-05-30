@@ -12,13 +12,4 @@ published: true
 price: 0
 publication_name: "dx_junkyard"
 chapters:
-  - 1_overview
-  - 2_tools
-  - 3_platform
-  - 4_knowledge_base
-  - 5_orchestrator
-  - 6_specialist_agents
-  - 7_supervisor_agent
-  - 8_integration_agent
-  - 9_testing
-  - 10_deployment
+
