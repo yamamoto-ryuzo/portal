@@ -22,7 +22,7 @@ jobs:
 
       - name: Prepare RAG multiagent book for Zenn
         run: |
-          python3 scripts/prepare_zenn_book.py docs/books/rag-multiagent-build zenn/content/books/rag-multiagent-build
+          python3 scripts/prepare_zenn_book.py docs/books/rag-multiagent-build zenn/books/rag-multiagent-build
 
       - name: Convert RAG index to Zenn format
         run: |
@@ -33,5 +33,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add articles/project-cde-guide.md || true
-          git add zenn/content/books/rag-multiagent-build || true
+          git add zenn/books/rag-multiagent-build || true
           git diff --cached --quiet || (git commit -m "chore: sync Zenn content" && git push)
