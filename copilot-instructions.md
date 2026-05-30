@@ -8,8 +8,8 @@
     - 例: `python scripts/prepare_zenn_book.py docs/books/rag-multiagent-build zenn/content/books/rag-multiagent-build`
     - スクリプトは `config.yaml` を読み、指定章のmdをコピーし、Zenn用 `index.md` を自動生成
 3. **Zenn公式ディレクトリへの移動**
-    - 記事: `zenn/content/articles/` → `zenn/articles/`
-    - ブック: `zenn/content/books/` → `zenn/books/`
+    - 記事: `articles/`
+    - ブック: `books/`
     - 必要に応じて `xcopy` やエクスプローラーで移動
 4. **Zenn CLIでプレビュー・公開**
     - `npx zenn preview` でローカルプレビュー
