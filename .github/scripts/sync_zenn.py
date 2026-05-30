@@ -84,7 +84,7 @@ def main():
 		cfg_arg = sys.argv[1]
 		cfg_path = cfg_arg if os.path.isabs(cfg_arg) else os.path.join(ROOT, cfg_arg)
 	else:
-		cfg_path = os.path.join(os.path.dirname(__file__), 'zenn_config.yaml')
+		cfg_path = os.path.join(os.path.dirname(__file__), 'zenn_config_CDE.yaml')
 	if not os.path.exists(cfg_path):
 		print(f'config not found: {cfg_path}', file=sys.stderr)
 		sys.exit(1)

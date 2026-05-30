@@ -18,7 +18,7 @@ jobs:
 
       - name: Convert project CDE index to Zenn format
         run: |
-          python3 .github/scripts/sync_zenn.py .github/scripts/zenn_config.yaml
+          python3 .github/scripts/sync_zenn.py .github/scripts/zenn_config_CDE.yaml
 
       - name: Prepare RAG multiagent book for Zenn
         run: |

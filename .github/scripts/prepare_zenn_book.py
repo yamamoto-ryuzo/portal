@@ -3,7 +3,7 @@
 Prepare a Zenn-compatible book folder by copying a docs/books/<slug> folder.
 
 Usage:
-  python scripts/prepare_zenn_book.py docs/books/rag-multiagent-build zenn/books/rag-multiagent-build
+  python scripts/prepare_zenn_book.py docs/books/rag-multiagent-build books/rag-multiagent-build
 
 This script requires PyYAML: `pip install pyyaml`
 """
