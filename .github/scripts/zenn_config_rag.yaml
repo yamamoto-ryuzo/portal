@@ -1,4 +1,4 @@
-src: "docs/RAGシステム/INDEX.md"
+src: "docs/RAGシステム/index.md"
 dst: "articles/rag-multiagent-guide-summary.md"
 title: "RAGマルチエージェント実装ガイド（草案）"
 emoji: "🤖"
@@ -14,4 +14,4 @@ publication_name: "dx_junkyard"
 toc_depth: 3
 zenn_prepare_cmd: "python scripts/prepare_zenn_book.py docs/books/rag-multiagent-build zenn/content/books/rag-multiagent-build"
 zenn_publish_cmd: "npx zenn publish --slug rag-civil-engineering"
-note: "Source is docs/RAGシステム/INDEX.md"
+note: "Source is docs/RAGシステム/index.md"
