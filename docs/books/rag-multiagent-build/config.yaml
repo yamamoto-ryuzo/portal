@@ -1,5 +1,5 @@
 title: "RAGマルチエージェント実装ガイド（素案）"
-summary: "土木事業管理RAG_Sysyemを実際に動かすマルチエージェント実装の手引き。Dify・LangGraph・Copilot Studioを対象に、オーケストレーター〜回答統合までの8エージェント構成を段階的に構築する実践ガイド。"
+summary: "土木事業管理RAG_Systemを実際に動かすマルチエージェント実装の手引き。Dify・LangGraph・Copilot Studioを対象に、オーケストレーター〜回答統合までの8エージェント構成を段階的に構築する実践ガイド。"
 topics:
   - "ai"
   - "rag"

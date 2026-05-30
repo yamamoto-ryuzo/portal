@@ -1,5 +1,5 @@
-title: "土木事業管理 RAG_Sysyem構築ガイド（素案）"
-summary: "GraphRAG・VectorRAG・CogGRAG・ドメインオントロジーを統合した土木分野向けRAG_Sysyemの設計・実装ガイド。PoCから本番までのロードマップと法令体系整理を収録。"
+title: "土木事業管理 RAG_System構築ガイド（素案）"
+summary: "GraphRAG・VectorRAG・CogGRAG・ドメインオントロジーを統合した土木分野向けRAG_Systemの設計・実装ガイド。PoCから本番までのロードマップと法令体系整理を収録。"
 topics:
   - "ai"
   - "rag"

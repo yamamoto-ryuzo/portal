@@ -7,7 +7,7 @@
     - `python scripts/prepare_zenn_book.py <src> <dst>` を実行
     - 例: `python scripts/prepare_zenn_book.py docs/books/rag-multiagent-build zenn/content/books/rag-multiagent-build`
     - スクリプトは `config.yaml` を読み、指定章のmdをコピーし、Zenn用 `index.md` を自動生成
-    - `docs/RAG_Sysyem/INDEX.md` を編集した場合は `python scripts/sync_rag_summary.py` を実行し、`articles/rag-multiagent-guide-summary.md` を自動同期
+    - `docs/RAG_System/INDEX.md` を編集した場合は `python scripts/sync_rag_summary.py` を実行し、`articles/rag-multiagent-guide-summary.md` を自動同期
 3. **Zenn公式ディレクトリへの移動**
     - 記事: `articles/`
     - ブック: `books/`
