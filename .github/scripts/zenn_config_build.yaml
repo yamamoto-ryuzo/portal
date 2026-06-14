@@ -1,0 +1,18 @@
+src: "docs/RAG-Build/index.md"
+dst: "articles/rag-multiagent-build-summary.md"
+title: "SSOT + LoRA + RAG 統合アーキテクチャ（紹介）"
+emoji: "🏗️"
+type: "tech"
+topics:
+  - "ai"
+  - "rag"
+  - "multi-agent"
+  - "dify"
+  - "langgraph"
+  - "llm"
+  - "土木"
+published: true
+canonical_url: "https://zenn.dev/yamamoto_ryuzo/books/rag-multiagent-build"
+publication_name: "dx_junkyard"
+toc_depth: 3
+note: "Source is docs/RAG-Build/index.md"

@@ -6,6 +6,7 @@ on:
       - 'docs/Project_CDE/index.md'
       - 'docs/books/rag-multiagent-build/**'
       - 'docs/RAG_System/index.md'
+      - 'docs/RAG-Build/index.md'
   workflow_dispatch: {}
 
 jobs:
@@ -29,6 +30,10 @@ jobs:
         run: |
           python3 .github/scripts/sync_zenn.py .github/scripts/zenn_config_rag.yaml
 
+      - name: Convert RAG Build index to Zenn format
+        run: |
+          python3 .github/scripts/sync_zenn.py .github/scripts/zenn_config_build.yaml
+
       - name: Commit and push Zenn content
         run: |
           ls -la articles || true
@@ -37,5 +42,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add articles/project-cde-guide.md || true
+          git add articles/rag-multiagent-build-summary.md || true
           git add books/rag-multiagent-build || true
           git diff --cached --quiet || (git commit -m "chore: sync Zenn content" && git push)

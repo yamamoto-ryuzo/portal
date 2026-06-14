@@ -5,6 +5,7 @@ on:
     paths:
       - 'docs/RAG_System/index.md'
       - 'docs/Project_CDE/index.md'
+      - 'docs/RAG-Build/index.md'
       - 'zenn.json'
       - '.github/workflows/zenn-deploy.yml'
     branches:
@@ -20,6 +21,10 @@ jobs:
       - name: Generate rag-multiagent-guide-summary.md from INDEX.md
         run: |
           python3 .github/scripts/sync_zenn.py .github/scripts/zenn_config_rag.yaml
+
+      - name: Generate rag-multiagent-build-summary.md from INDEX.md
+        run: |
+          python3 .github/scripts/sync_zenn.py .github/scripts/zenn_config_build.yaml
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
