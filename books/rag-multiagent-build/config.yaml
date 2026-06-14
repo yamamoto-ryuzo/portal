@@ -18,3 +18,4 @@ chapters:
   - 4_multiagent_architecture.md
   - 5_lora_system_architecture.md
   - 6_deployment_architecture.md
+  - 7_continuous_learning_and_integration.md

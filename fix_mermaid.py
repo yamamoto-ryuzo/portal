@@ -22,13 +22,15 @@ flowchart TD
     Agent_Legal[法務ワーカー]
     L_Legal[法務専用LoRA] -.ロード.-> Agent_Legal
     Base2[(中規模ベースモデル<br>※メモリ共有)] --> Agent_Legal
-    RAG_Legal[(法務SSOT専用<br>ベクトルDB)] <-->|根拠検索| Agent_Legal
+    Search_API_Legal[[既存検索API / SSOT抽出]] <-->|検索・絞り込み| RAG_Legal[(法務SSOT DB)]
+    Search_API_Legal <-->|4つのRAG推論| Agent_Legal
 
     %% 技術ワーカー層
     Agent_Tech[技術・積算ワーカー]
     L_Tech[積算専用LoRA] -.ロード.-> Agent_Tech
     Base3[(中規模ベースモデル<br>※メモリ共有)] --> Agent_Tech
-    RAG_Tech[(技術SSOT専用<br>ベクトルDB)] <-->|根拠検索| Agent_Tech
+    Search_API_Tech[[既存検索API / SSOT抽出]] <-->|検索・絞り込み| RAG_Tech[(技術SSOT DB)]
+    Search_API_Tech <-->|4つのRAG推論| Agent_Tech
 
     %% 回収と出力
     Agent_Legal -->|3. 法務レポート| Orchestrator
