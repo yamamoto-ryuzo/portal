@@ -12,4 +12,9 @@ published: true
 price: 0
 publication_name: "dx_junkyard"
 chapters:
-
+  - 1_overview.md
+  - 2_ssot_strategy.md
+  - 3_search_technology.md
+  - 4_multiagent_architecture.md
+  - 5_lora_system_architecture.md
+  - 6_deployment_architecture.md
