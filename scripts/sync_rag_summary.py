@@ -5,7 +5,7 @@ SRC = pathlib.Path('docs/RAG_System/INDEX.md')
 DST = pathlib.Path('articles/rag-multiagent-guide-summary.md')
 
 FRONTMATTER = '''---
-title: "RAGマルチエージェント実装ガイド（要約）"
+title: "SSOT + LoRA + RAG 統合アーキテクチャ（要約）"
 type: "idea"
 emoji: "🦾"
 published: true

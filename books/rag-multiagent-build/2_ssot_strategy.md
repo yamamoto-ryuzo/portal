@@ -1,5 +1,5 @@
 ---
-title: "第2章 RAGの基本理論とSSOT戦略"
+title: "RAGの基本理論とSSOT戦略"
 ---
 
 # 第2章 RAGの基本理論とSSOT戦略
