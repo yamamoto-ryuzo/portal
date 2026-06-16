@@ -10,7 +10,7 @@ title: "閉鎖環境におけるLoRAとSSOTの完全統合"
 
 また、閉鎖環境でのマルチエージェント運用において、LoRAは以下のような技術アーキテクチャで組み込まれる：
 
-![7_LoRaとSSOTによる継続的学習システム](https://yamamoto-ryuzo.github.io/portal/RAG-Build\images\7_LoRaとSSOTによる継続的学習システム.png)
+![7_LoRaとSSOTによる継続的学習システム](https://yamamoto-ryuzo.github.io/portal/RAG-Build/images/7_LoRaとSSOTによる継続的学習システム.png)
 
 **【図解】中規模モデル＋Multi-LoRAによる非対称マルチエージェント構成（完成形）**
 

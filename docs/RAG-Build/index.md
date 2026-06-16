@@ -14,7 +14,7 @@ title: "SSOT + LoRA + RAG 統合アーキテクチャ"
 
 ## 本書が解決すること
 
-前作の [土木事業管理 RAG_System構築ガイド](../RAG_System/) では、マルチエージェント構成の**理論と設計方針**を示しました。  
+前作の [土木事業管理 RAG_System構築ガイド](https://zenn.dev/books/rag-civil-engineering/edit) では、マルチエージェント構成の**理論と設計方針**を示しました。  
 本書はその続編として、SSOT（信頼できる唯一の情報源）、LoRA（ファインチューニングによる背景知識）、そしてRAGを三位一体で統合し、**実際に動くシステムを手順通りに組み立てる**ための「SSOT + LoRA + RAG 統合アーキテクチャ」実装ガイドです。
 
 | 設計書（rag-civil-engineering） | 本書（rag-multiagent-build） |
