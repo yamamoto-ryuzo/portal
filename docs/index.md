@@ -1,6 +1,8 @@
 ---
 redirect_from:
   - /index.md
+title: トップページ
+date: 2026-05-30
 ---
 
 # パソコンOTAKU
@@ -9,7 +11,20 @@ redirect_from:
 　その後、大学の専攻が農業土木だったため、幅広く農業や土木を学ぶことができ、現在の土木の仕事につながっています。  
 
 　[自己紹介のビジュアル化はこんな感じ！](山本竜三　自己紹介.pdf)
- 
+
+## サイト内検索
+
+{% include search-box.html %}
+
+[タグ索引はこちら](./tags/)
+
+## 最近更新した記事
+
+{% assign recent_pages = site.pages | where_exp: "p", "p.date" | sort: "date" | reverse -%}
+{% for p in recent_pages limit: 10 -%}
+- {{ p.date | date: "%Y-%m-%d" }} [{{ p.title | default: p.name }}]({{ p.url | relative_url }})
+{% endfor %}
+
 ## 主な活動  
 ### Vector  
 　　https://www.vector.co.jp/vpack/browse/person/an063250.html  

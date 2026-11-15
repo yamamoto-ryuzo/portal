@@ -1,5 +1,7 @@
 ---
 title: "SSOT + LoRA + RAG 統合アーキテクチャ"
+date: 2026-06-16
+tags: [RAG, LLM, SSOT, LoRA]
 ---
 
 # SSOT + LoRA + RAG 統合アーキテクチャ

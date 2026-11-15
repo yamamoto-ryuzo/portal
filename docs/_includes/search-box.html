@@ -1,0 +1,10 @@
+<div class="site-search" style="margin: 8px 0 16px;">
+  <input type="search" id="site-search-input" placeholder="サイト内を検索（例: RAG, QGIS）"
+         aria-label="サイト内検索" autocomplete="off"
+         style="width: 100%; max-width: 480px; padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px;">
+  <ul id="site-search-results" style="list-style: none; padding-left: 0; margin-top: 8px;"></ul>
+</div>
+<script>
+  window.PORTAL_SEARCH_INDEX_URL = {{ '/search.json' | relative_url | jsonify }};
+</script>
+<script src="{{ '/assets/js/search.js' | relative_url }}" defer></script>
