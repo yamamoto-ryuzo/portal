@@ -1,0 +1,152 @@
+{
+  "component": "portal",
+  "component_type": "jekyll_pages",
+  "version": "",
+  "driver": {
+    "type": "static",
+    "detect": "-",
+    "launch": "-",
+    "ready": "-",
+    "control": "-",
+    "detected_from": "manifest"
+  },
+  "updated": "2026-11-15T22:57:22+09:00",
+  "features": [
+    {
+      "id": "site.top_live",
+      "kind": "ui_control",
+      "name": "トップページ配信",
+      "source": "docs/index.md",
+      "signature": "GET /portal/",
+      "summary": "index.md レンダリング 200",
+      "needs_runtime": true,
+      "standalone_ok": false,
+      "depends": [
+        "GitHub Pages"
+      ],
+      "verify": {
+        "standalone": "",
+        "integrated": ""
+      },
+      "last_result": "pass",
+      "last_verified": "2026-11-15T22:57:22+09:00",
+      "note": "Jekyllレンダリング済HTML返却(パソコンOTAKU)"
+    },
+    {
+      "id": "site.link.rag_system",
+      "kind": "ui_control",
+      "name": "RAG_Systemリンク",
+      "source": "docs/index.md",
+      "signature": "GET /portal/RAG_System/",
+      "summary": "./RAG_System/ リンク",
+      "needs_runtime": true,
+      "standalone_ok": false,
+      "depends": [
+        "GitHub Pages"
+      ],
+      "verify": {
+        "standalone": "",
+        "integrated": ""
+      },
+      "last_result": "pass",
+      "last_verified": "2026-11-15T22:57:22+09:00",
+      "note": "200"
+    },
+    {
+      "id": "site.link.project_cde",
+      "kind": "ui_control",
+      "name": "Project_CDEリンク",
+      "source": "docs/index.md",
+      "signature": "GET /portal/Project_CDE/",
+      "summary": "./Project_CDE/ リンク",
+      "needs_runtime": true,
+      "standalone_ok": false,
+      "depends": [
+        "GitHub Pages"
+      ],
+      "verify": {
+        "standalone": "",
+        "integrated": ""
+      },
+      "last_result": "pass",
+      "last_verified": "2026-11-15T22:57:22+09:00",
+      "note": "200"
+    },
+    {
+      "id": "site.link.foss4g",
+      "kind": "ui_control",
+      "name": "FOSS4Gもくもく会リンク",
+      "source": "docs/index.md:34",
+      "signature": "GET",
+      "summary": "FOSS4G .md リンク",
+      "needs_runtime": true,
+      "standalone_ok": false,
+      "depends": [
+        "GitHub Pages"
+      ],
+      "verify": {
+        "standalone": "",
+        "integrated": ""
+      },
+      "last_result": "pass",
+      "last_verified": "2026-11-15T22:57:22+09:00",
+      "note": "200(.md raw配信)"
+    },
+    {
+      "id": "site.link.dx",
+      "kind": "ui_control",
+      "name": "DX全般リンク",
+      "source": "docs/index.md:30",
+      "signature": "GET /portal/DX/",
+      "summary": "./DX/ リンク",
+      "needs_runtime": true,
+      "standalone_ok": false,
+      "depends": [
+        "GitHub Pages"
+      ],
+      "verify": {
+        "standalone": "",
+        "integrated": ""
+      },
+      "last_result": "fail",
+      "last_verified": "2026-11-15T22:57:22+09:00",
+      "note": "DX/ が公開対象 docs/ 外(repo直下)のため404 → Issue yamamoto-ryuzo/portal#24"
+    },
+    {
+      "id": "site.pages_source",
+      "kind": "data_source",
+      "name": "Pages公開ソース",
+      "source": "repo settings",
+      "signature": "source=main /docs",
+      "summary": "Pages APIで /docs 公開を確認",
+      "needs_runtime": false,
+      "standalone_ok": true,
+      "depends": [],
+      "verify": {
+        "standalone": "静的検証",
+        "integrated": ""
+      },
+      "last_result": "pass",
+      "last_verified": "2026-11-15T22:57:22+09:00",
+      "note": "status=built"
+    },
+    {
+      "id": "content.zenn_books",
+      "kind": "data_source",
+      "name": "Zenn books/articles",
+      "source": "books/ articles/",
+      "signature": "-",
+      "summary": "Zenn用コンテンツ群(config.yaml等)",
+      "needs_runtime": false,
+      "standalone_ok": true,
+      "depends": [],
+      "verify": {
+        "standalone": "静的検証",
+        "integrated": ""
+      },
+      "last_result": "pass",
+      "last_verified": "2026-11-15T22:57:22+09:00",
+      "note": "books×2 + articles×3 + zenn.json 実在"
+    }
+  ]
+}
