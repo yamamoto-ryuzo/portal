@@ -1,0 +1,3292 @@
+---
+title: プロジェクトCDE
+date: 2026-05-30
+tags: [プロジェクトCDE, DX, 土木]
+---
+<h1 id="プロジェクトcde">プロジェクトCDE</h1>
+<p><a href="https://youtu.be/YwE_zVfDn24">youtube／プロジェクトCDE：5層のブループリント</a></p>
+<p>本資料はプロジェクトCDEのアジャイルな検討を目的とした草案（ドラフト）です。内容は整理途中であり、本資料にはAI支援ツールを用いて整理・作成した情報が含まれます。AIの出力は参考情報であり、事実関係や技術的妥当性の最終判断・承認は人が行ってください。実務で使用したり外部へ提示する前に、必ず関係者による確認・検証・正式な承認を行ってください。</p>
+<blockquote>
+<p>参考資料：<a href="https://www.nilim.go.jp/lab/peg/img/file2256.pdf">2025.3.7_プロジェクトCDEを中心としたデータマネジメントの取組案について（国土技術政策総合研究所）</a></p>
+<figure>
+<img src="https://yamamoto-ryuzo.github.io/portal/Project_CDE/images/00_プロジェクトCDEマネジメント.png" alt="プロジェクトCDEマネジメント" />
+<figcaption aria-hidden="true">プロジェクトCDEマネジメント</figcaption>
+</figure>
+</blockquote>
+<hr />
+<h1 id="プロジェクトcdeの定義と全体構造">1. プロジェクトCDEの定義と全体構造</h1>
+<h2 id="定義と目的">1.1 定義と目的</h2>
+<ul>
+<li><strong>定義</strong>: プロジェクトCDEとは、事業の計画・設計・施工・維持管理にわたる<strong>業務そのものをCDE（Common Data Environment）によって管理・統制する仕組み</strong>であり、単なるデータ保管庫ではない。各業務フェーズで生まれるデータをSSOT（唯一の正本）として管理しながら、<strong>可視化・共有</strong>を通じて事業関係者全体の意思決定を支える。</li>
+<li><strong>目的</strong>: 各フェーズで生成されるデータをSSOT（Single Source of Truth）として保持し、可視化・共有を通じて関係者の意思決定を支援する。公開用の派生物も必ずSSOTから生成・配信して整合性を担保する。</li>
+<li><strong>管理対象</strong>: 文書・図面・BIM/IFC・点群・台帳系属性など、事業管理・設計・施工管理・維持管理に関わるすべての成果データ。</li>
+</ul>
+<figure>
+<img src="https://yamamoto-ryuzo.github.io/portal/Project_CDE/images/01_プロジェクトCDEの定義と全体構造.png" alt="プロジェクトCDEの定義と全体構造" />
+<figcaption aria-hidden="true">プロジェクトCDEの定義と全体構造</figcaption>
+</figure>
+<h2 id="運用ワークフローiso-19650準拠">1.2 運用ワークフロー（ISO 19650準拠）</h2>
+<p>ISO 19650準拠のステータス管理により、権威あるマスター（SSOT）を確立する。タスクチームの作業はCDE外で準備され、WIPへの提出をもって正式なCDE管理が開始される。</p>
+<p><strong>表1-1　CDEの決裁フロー（WIP → Shared → Published / Archived）</strong></p>
+<table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 15%" />
+<col style="width: 23%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr>
+<th>ステータス</th>
+<th>場所</th>
+<th>公開対象</th>
+<th>変更</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Exchange【やり取り】</strong></td>
+<td>CDE外</td>
+<td>当該チームのみ</td>
+<td>可</td>
+<td>CDE外からのやり取りファイルの一時保管（例外措置）</td>
+</tr>
+<tr>
+<td><strong>TaskTeam【タスクチーム】</strong></td>
+<td>CDE外</td>
+<td>当該チームのみ</td>
+<td>可</td>
+<td>草稿・内部調整・WIP提出前の作業</td>
+</tr>
+<tr>
+<td><strong>WIP【作業中】</strong></td>
+<td>CDE内</td>
+<td>当該タスクチームのみ</td>
+<td>可</td>
+<td>正式CDE管理の入口・作業・指摘対応</td>
+</tr>
+<tr>
+<td><strong>Shared【共有】</strong></td>
+<td>CDE内</td>
+<td>プロジェクト関係者全員</td>
+<td>不可</td>
+<td>発注者による審査・承認待ち（契約上の受理）</td>
+</tr>
+<tr>
+<td><strong>Published【活用】</strong></td>
+<td>CDE内</td>
+<td>関係機関・外部関係者</td>
+<td>不可</td>
+<td>承認済み現行版・関係機関等での活用</td>
+</tr>
+<tr>
+<td><strong>Archived【アーカイブ】</strong></td>
+<td>CDE内</td>
+<td>全関係者</td>
+<td>不可（確定）</td>
+<td>業務・フェーズ完了単位の報告書・納品物の保管</td>
+</tr>
+</tbody>
+</table>
+<h2 id="管理対象業務フェーズ">1.3 管理対象業務フェーズ</h2>
+<p>プロジェクトCDEは以下の業務フェーズを包括的に管理する。</p>
+<pre class="mermaid"><code>graph TD
+    subgraph CDE[&quot;プロジェクトCDE（＝SSOT管理基盤）&quot;]
+        EM[&quot;事業管理&lt;br/&gt;工程・コスト・関係者調整&quot;]
+
+        subgraph 実施層[&quot;事業管理が統括する実施層&quot;]
+            P[&quot;計画&quot;] --&gt; Ch[&quot;調査（現況・支障物件・既存施設・他事業/計画調査）&quot;] --&gt; S[&quot;測量（現況取得）&quot;] --&gt; D[&quot;設計（基本設計・実施設計）&quot;] --&gt; C[&quot;施工管理&quot;] --&gt; M[&quot;維持管理&quot;]
+        end
+
+        EM -.統括.-&gt; 実施層
+    end</code></pre>
+<ul>
+<li><p>調査（現況・支障物件・既存施設・他事業/計画調査）</p>
+<ul>
+<li>目的: 現況把握、支障物件の洗い出しと影響評価、既存施設・権利関係の確認、他事業との整合性確認。</li>
+<li>主な成果物: 調査報告書（PDF）、支障物件台帳（CSV/GeoJSON）、既存施設図面（PDF/DWG）、ジオタグ写真・撮影ログ（JPEG/MP4）、調査位置リスト（CSV/GeoJSON）。</li>
+<li>空間データ形式: GeoJSON, GeoPackage, Shapefile, CSV（座標付き）、写真はEXIF/GPSを付与。</li>
+<li>メタデータ（必須）: <code>調査日</code>、<code>担当者</code>、<code>手法</code>、<code>信頼度（精度）</code>、<code>参照元</code>、<code>関連事業ID</code>、<code>ssot_id</code>。</li>
+<li>調査方法の留意点: 現地踏査＋既存図面照合を基本とし、支障箇所は位置・所有者・使用状況・移設可否・概算費用を記載する。既存施設は構造・材質・更新履歴を確認する。</li>
+<li>運用: 原本はCDEで保管し、支障物件・既存施設はGISレイヤとして登録。<code>ssot_id</code>で他データ（設計・測量・施工）と連携してトレーサビリティを確保する。</li>
+<li>検証ポイント: 既存図面との差分リスト、優先度（緊急/高/中/低）、行政手続きや補償の要否、施策案の推奨。</li>
+<li>台帳例（支障物件）: <code>id,title,epsg,lon,lat,owner,status,impact_level,remediation_estimate,file_url</code></li>
+</ul></li>
+<li><p>測量（基準測量・詳細測量・観測）</p>
+<ul>
+<li>制御点・基準点座標：CSV/TXT（EPSG 明記）, GeoJSON, Shapefile, GPX</li>
+<li>GNSS観測データ：RINEX, NMEA</li>
+<li>トータルステーション出力：機器固有形式（.dat 等）/CSV</li>
+<li>点群データ（LiDAR/TLS）：LAS/LAZ, E57, XYZ/TXT</li>
+<li>オルソモザイク・DSM/DTM：GeoTIFF, ASCII GRID</li>
+<li>等高線・地形ベクトル：Shapefile, GeoPackage, DXF</li>
+<li>ジオタグ写真／動画：JPEG(+EXIF/GPS), MP4</li>
+</ul></li>
+<li><p>設計（基本設計・実施設計・BIM）</p>
+<ul>
+<li>設計図面：DWG, DXF, PDF</li>
+<li>BIM／3Dモデル：IFC, Revit (.rvt), OBJ, FBX</li>
+<li>土木設計データ（縦断・横断・線形）：LandXML, CSV/TXT（チェーンエイジ/標高）</li>
+<li>土量・切盛土モデル：TIN/メッシュ（OBJ/PLY）, LandXML, GeoTIFF DEM</li>
+<li>数量・積算：Excel (.xlsx), CSV, XML</li>
+<li>仕様書・技術報告書：PDF, Word</li>
+<li>施工用ステークアウトデータ：CSV（座標リスト）, DXF, LandXML</li>
+</ul></li>
+<li><p>共通の運用ポイント（CDE連携）</p>
+<ul>
+<li>座標系（EPSG コード）とメタデータ（作成者・作成日・精度・処理履歴）を必須化（ISO 19115 推奨）。</li>
+<li>納品・保管はオープンフォーマット優先（GeoPackage, GeoJSON, GeoTIFF, LAS/LAZ, IFC 等）。</li>
+<li>可視化はCDEと連携：2DはGeoServer/QGIS Server＋Lizmap/Leaflet、3DはCesium/3DTiles、点群はEntwine/Potree、BIMはIFC.js/BIMserver 等を想定。</li>
+<li>CAD⇄GIS、BIM⇄IFC、点群⇄メッシュの変換ルール、命名規則、バージョン管理を事前に合意し手順を文書化する。</li>
+<li>納品パッケージ例：図面(PDF/DWG) + 座標CSV + GISレイヤ(GeoPackage) + 点群(LAS) + 仕様書(PDF) + メタデータ(JSON)</li>
+</ul>
+<p>#### 空間データ可視化基盤への連携 調査・測量・設計で生成されたデータはCDEでの原本管理と並行して、空間データ可視化基盤で統合・加工・配信されます。代表的な連携フローは次の通りです。</p>
+<ul>
+<li>ベクタ（Shapefile/GeoJSON/GeoPackage） → PostGIS 等の空間 DB に格納 → GeoServer/QGIS Server 経由で OGC（WMS/WFS）やベクタタイル配信 → Lizmap/Leaflet 等で2D可視化</li>
+<li>ラスタ（GeoTIFF / DSM / DTM） → タイル化（GeoServer/TMS）→ 地図・解析ビューで配信</li>
+<li>点群（LAS/LAZ/E57） → PDAL/Entwine による処理・タイル化 → Potree / 3DTiles 等でブラウザ表示</li>
+<li>BIM/3Dモデル（IFC/Revit/OBJ） → IFC→3DTILES/glTF 変換（IFC.js, BIMserver 等）→ Cesium/3D ビューアで閲覧</li>
+<li>文書・図面（PDF/DWG/Excel） → CDEで原本管理、可視化基盤はサムネ・メタデータ・リンクを参照して関連情報を表示</li>
+</ul>
+<p>運用要点：</p>
+<ul>
+<li><p>全データに座標系（EPSG）とメタデータ（作成者・作成日・精度・処理履歴）を付与し、可視化基盤はこれを参照して整合性を担保する。</p></li>
+<li><p>ETL（GDAL/OGR、PDAL、変換パイプライン）は自動化し、SSOT（CDE）→ 派生物（可視化用タイル/モデル）生成をCI化する。</p></li>
+<li><p>アクセス制御はCDE側で原本を管理し、可視化基盤は派生ビューに対して公開レイヤ（認証／限定共有／公開共有）を適用する。</p></li>
+<li><p>文書・図面は単なるリンク参照に留めず、GIS属性（SSOT ID／文書種別／承認ステータス／作成日／関連地物ID 等）として取り込み、地物の属性クエリや GetFeatureInfo で即時参照・ダウンロードできるようにする。これにより位置情報と文書が一体化し、事業全体の統合的参照・意思決定が可能になる。</p></li>
+</ul></li>
+</ul>
+<h5 id="文書図面の属性スキーマ例">文書・図面の属性スキーマ（例）</h5>
+<pre><code>    下は GIS の属性テーブルやメタデータカタログに保存する想定の最小スキーマ例です。プロジェクト要件に応じて拡張してください。
+
+    - `ssot_id` (string, 必須): SSOT 一意 ID（例: UUID）
+    - `doc_id` (string, 必須): 文書/図面の識別子（例: DOC-2026-001）
+    - `title` (string): 文書タイトル
+    - `doc_type` (string): 種別（例: 調査報告書／設計図／写真／点群）
+    - `related_feature_id` (string, 任意): 関連する地物／要素の ID（地物側の主キーと整合）
+    - `related_feature_type` (string, 任意): 地物種別（例: road, bridge, manhole）
+    - `epsg` (integer, 推奨): 座標系 EPSG コード（該当する場合）
+    - `created_at` (datetime): 作成日時
+    - `creator` (string): 作成者（担当者名／組織）
+    - `accuracy` (string/float, 任意): 精度・信頼度（例: 0.05m）
+    - `approval_status` (string): 承認ステータス（WIP/Shared/Published）
+    - `file_url` (string, 必須): CDE 上の原本ダウンロード／参照 URL
+    - `thumbnail_url` (string, 任意): サムネ画像 URL
+    - `metadata_json` (jsonb, 任意): 拡張メタデータ（元ファイルの処理履歴・センサー情報等）
+
+    例：メタデータ JSON（GeoJSON の `properties` に埋める想定）
+
+    {
+        &quot;ssot_id&quot;: &quot;b6f9d8e2-4c2a-4f1a-9e2b-0a1b2c3d4e5f&quot;,
+        &quot;doc_id&quot;: &quot;DOC-2026-001&quot;,
+        &quot;title&quot;: &quot;現況写真_道路A_20260501&quot;,
+        &quot;doc_type&quot;: &quot;photo&quot;,
+        &quot;related_feature_id&quot;: &quot;FT-000123&quot;,
+        &quot;related_feature_type&quot;: &quot;manhole&quot;,
+        &quot;epsg&quot;: 6669,
+        &quot;created_at&quot;: &quot;2026-05-01T10:23:00+09:00&quot;,
+        &quot;creator&quot;: &quot;測量チームA&quot;,
+        &quot;accuracy&quot;: null,
+        &quot;approval_status&quot;: &quot;WIP&quot;,
+        &quot;file_url&quot;: &quot;https://box.example.com/s/abcd1234&quot;,
+        &quot;thumbnail_url&quot;: &quot;https://box.example.com/s/thumb_abcd1234.jpg&quot;,
+        &quot;metadata_json&quot;: {&quot;camera_model&quot;:&quot;CannonXYZ&quot;,&quot;exif_gps&quot;:true}
+    }</code></pre>
+<h5 id="実装チェックリスト導入時">実装チェックリスト（導入時）</h5>
+<pre><code>    - CDE に原本保管：ファイルとメタデータの分離（ファイルは Box 等、メタデータは PostGIS/Elasticsearch）
+    - 一意 ID 運用：`ssot_id` を全システムでキーにする（UUID を推奨）
+    - GIS 属性追加：地物テーブルに `doc_links` または `doc_count` 等の列を追加し GetFeatureInfo で参照可能にする
+    - メタデータ格納：PostGIS の JSONB カラムか専用メタデータテーブルで管理し全文検索を有効化する
+    - API/Viewer 統合：GeoServer の GetFeatureInfo / feature attributes で `file_url` を返すよう設定
+    - 権限連携：CDE のアクセス権と可視化基盤の表示制御を紐付ける（SSO / token 検証）
+    - ETL 自動化：ファイル登録時にメタデータを自動抽出・インジェストするパイプラインを構築（例: Lambda/Cloud Function / CI）
+    - テスト：代表的な文書（PDF）、図面（DWG）、写真（ジオタグ付）で GetFeatureInfo→ファイル参照→ダウンロードまでの実行検証
+
+    上記を実行すれば、GIS 上で地物をクリックすると該当する文書・図面が即参照でき、位置情報と文書が一体化した運用が実現します。
+
+「4. 空間データ可視化基盤」は、上の流れを前提に具体的な構成・技術選定・運用を記載します。</code></pre>
+<h2 id="機能構成全体像">1.4 機能構成（全体像）</h2>
+<p>プロジェクトCDEは<strong>5層構造</strong>で成立する。下位3層（第1〜3層）はデータの蓄積・統合・高度化を担う技術基盤であり、上位2層（第4〜5層）はそのデータを活用して事業をマネジメントし、関係者と共有・公開するガバナンス層である。技術基盤だけでは「データを保管しているだけ」になり、ガバナンス層だけでは根拠となるデータが整備されない。この5層が一体となって初めてプロジェクトCDEは機能する。</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 23%" />
+<col style="width: 23%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: right;">層</th>
+<th>層名</th>
+<th>主な役割</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">第5層</td>
+<td>目的・公開層（SSOT共有・公開）</td>
+<td>承認済みデータの配信</td>
+<td>関係機関・市民・行政へ承認済データを確実に届ける。公開用派生物の管理と配信ポリシーを担う。</td>
+</tr>
+<tr>
+<td style="text-align: right;">第4層</td>
+<td>事業監理層（AI支援）</td>
+<td>予測・要約・意思決定支援</td>
+<td>第1〜3層のデータを用い、概算・予測・要約・検索を通じて事業監理の意思決定を支援する。</td>
+</tr>
+<tr>
+<td style="text-align: right;">第3層</td>
+<td>デジタルツイン活用層</td>
+<td>BIM/点群/IoT統合・シミュレーション</td>
+<td>BIM/IFC・点群・都市モデルとIoTを統合し、リアルタイム同期やシミュレーションで現場の高度な分析・検証を行う。</td>
+</tr>
+<tr>
+<td style="text-align: right;">第2層</td>
+<td>統合・可視化層（GIS基盤）</td>
+<td>空間データ管理・配信・可視化</td>
+<td>2D/3Dタイル配信、OGC/OGC API対応、地図レンダリング・タイルキャッシュ等の可視化基盤を提供する。</td>
+</tr>
+<tr>
+<td style="text-align: right;">第1層</td>
+<td>蓄積・保管層</td>
+<td>SSOT保管・RAG基盤</td>
+<td>文書・図面・BIM/IFC・点群等をSSOTで保管し、RAG向けのインデクシング・ベクトルDB・メタデータ管理を備え、AIチャットボットや要約・生成支援を支える基盤を提供する。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>第1層：蓄積・保管層</strong></p>
+<dl>
+<dt><strong>蓄積・保管層（業務データ基盤）</strong></dt>
+<dd>
+目的: SSOT（原本）を確実に保持し、業務データの取り込み・長期保管・ETL・メタデータ管理・高速API提供を行う基盤。RAG用のインデクシングや埋め込み生成を組み込み、AI支援機能へのデータ供給を想定する。
+</dd>
+</dl>
+<ul>
+<li>主な機能: ファイル原本管理、バージョン管理、メタデータカタログ、バックアップ、監査ログ、データライフサイクル管理、大容量ファイルの効率的保存（IFC/LAS/GeoTIFF 等）。</li>
+<li>RAG対応: 埋め込みパイプライン、ベクトルDB＋メタデータストア、再インデックス化ポリシー、応答品質評価と出典トレーサビリティ。</li>
+</ul>
+<dl>
+<dt><strong>蓄積・保管層（アクセス制御とデータ共有）</strong></dt>
+<dd>
+概要: 認証・認可・共有ポリシー・監査ログは蓄積層の核となる機能であり、誰がどのデータをどの条件で閲覧・取得・操作できるかを厳密に定義・実施する。Exchange/WIP/Shared/Published の各ステータスに応じた共有ルール、共有方法の種類（限定共有／公開共有）、有効期限・ダウンロード制御・匿名化ポリシーなどをここで管理する。
+</dd>
+</dl>
+<ul>
+<li>主な機能: ID管理（OIDC/OAuth2）、アクセス制御リスト／ロール、共有方法管理（限定共有／公開共有の有効期限・パスワード・ダウンロード可否）、監査ログ・操作記録、データマスキングとPII対策。</li>
+<li>運用要点: 権限分離（最小権限）、承認ワークフロー連携（WIP→Shared→Published）、定期監査、国内DCやガバメントクラウド方針対応。</li>
+</ul>
+<dl>
+<dt><strong>第2層：統合・可視化層（GIS基盤）</strong></dt>
+<dd>
+目的: 空間データ（ベクタ・ラスタ・点群・BIM）の統合・変換・配信・可視化を担う。
+</dd>
+</dl>
+<ul>
+<li>主な機能: 空間DB(PostGIS)・OGC配信(WMS/WFS/3DTILES/MVT)、2D/3Dタイル化、タイルキャッシュ、ビューア連携（Cesium, Leaflet 等）。</li>
+<li>運用要点: 派生物はSSOT起点でCI化して生成、GetFeatureInfo等で文書と紐付けて即時参照可能にする。</li>
+</ul>
+<dl>
+<dt><strong>第3層：デジタルツイン活用層</strong></dt>
+<dd>
+目的: BIM/点群/センサを統合し、現場の同期・シミュレーション・検証を行う層。
+</dd>
+</dl>
+<ul>
+<li>主な機能: モデル統合・時間同期・シミュレーション・解析（出来形・安全性・影響評価）、VR/AR 表示。</li>
+<li>運用要点: 時系列管理とリアルタイムデータパイプライン、モデル整合ルールの明文化。</li>
+</ul>
+<dl>
+<dt>: <strong>第4層：事業監理層（AI支援）</strong></dt>
+<dd>
+目的: 第1〜3層のデータを活用し、事業監理の意思決定支援（概算・予測・要約・検索）を提供する層。
+</dd>
+</dl>
+<ul>
+<li>主な機能: 予測分析、概算算出支援、要約・レポート生成、インテリジェント検索（RAG）、異常検知、ワークフロー自動化。</li>
+<li>推奨構成: 埋め込み → ベクトルDB → レトリーバ → LLM（出典付きプロンプト）＋出力トレーサビリティ。</li>
+<li>運用ポイント: 事業監理が前提・精度目標・最終承認を担い、AI支援はデータ準備・自動算出・レポート作成を実行。概算は「意思決定資料」として入札用積算と明確に区別する。</li>
+</ul>
+<dl>
+<dt><strong>第5層：公開・ガバナンス層（SSOT共有・公開）</strong></dt>
+<dd>
+目的: 承認済みデータの配信と公開ポリシー適用。Published のデータのみ公開し、派生物の整合性を保証する。
+</dd>
+</dl>
+<ul>
+<li>主な機能: 公開用派生物管理、アクセス制御・ライセンス表示、公開版のライフサイクル管理、公開監査ログ。</li>
+<li>運用要点: SSOT起点の派生生成を必須とし、公開データの出所・ライセンス・更新履歴を明示する。</li>
+</ul>
+<h2 id="業務フォルダとデータの使い分け方針">1.5 業務フォルダとデータの使い分け方針</h2>
+<p>CDEで扱うデータは性質が異なるため、以下のように使い分けることが現実的である。</p>
+<pre><code>【文書・図面系】設計書・報告書・会議録・CAD図面・写真
+    → ファイルストレージ（Box を標準推奨 / NAS は暫定）で管理
+
+【GIS・BIM系】空間データ・IFC・点群・3Dモデル
+    → GIS/BIMプラットフォームと連携（別途選定）
+    ただし元ファイルの保管先はファイルストレージと統一が望ましい</code></pre>
+<figure>
+<img src="https://yamamoto-ryuzo.github.io/portal/Project_CDE/images/01_05_事業を支える5層のブループリント.png" alt="事業を支える5層のブループリント" />
+<figcaption aria-hidden="true">事業を支える5層のブループリント</figcaption>
+</figure>
+<p><strong>表1-2　調査・測量・設計・監理の役割分担（事業管理視点）</strong></p>
+<table>
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 36%" />
+<col style="width: 45%" />
+</colgroup>
+<thead>
+<tr>
+<th>業務</th>
+<th>主データ形式</th>
+<th>管理ツール・方針</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>調査（支障物件・既存施設・他事業/計画調査）</td>
+<td>調査報告書・支障物件台帳・他事業計画参照（CSV/GEOJSON等）</td>
+<td>CDEで原本保管。メタデータ（位置・調査日・担当・信頼度・参照先）を必須化</td>
+</tr>
+<tr>
+<td>測量（現況取得）</td>
+<td>点群（LAS/LAZ）・写真</td>
+<td>CDEの原本として保管。座標系・精度情報を付与しPotree等で共有</td>
+</tr>
+<tr>
+<td>設計</td>
+<td>IFC・DWG</td>
+<td>WIP→Shared→PublishedのCDEワークフローで運用</td>
+</tr>
+<tr>
+<td>監理</td>
+<td>GIS（属性・台帳）</td>
+<td>GISレイヤで一元管理。派生3D（3DTILES/glTF）を紐付けて可視化</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>ID連携</strong>: BIM要素・点群領域・GIS地物に一意IDを付し、トレーサビリティを担保する。</li>
+<li><strong>ソース規定</strong>: どのシステム上のどのステータスが権威（SSOT）かを明文化する（例: 設計は <code>Published</code> のIFC、監理は <code>Published</code> のGIS属性テーブル）。</li>
+<li><strong>派生物ワークフロー</strong>: IFC/点群からは公開用の3DTILES/glTF/タイル点群を自動生成し、監理・公開用に配備する。</li>
+</ul>
+<hr />
+<h1 id="蓄積保管層業務データ基盤">2. 蓄積・保管層（業務データ基盤）</h1>
+<p>ストレージが決まらなければ、GIS基盤も業務データ連携も成立しない。まずデータを保存・管理できるストレージの選定を行う。</p>
+<figure>
+<img src="https://yamamoto-ryuzo.github.io/portal/Project_CDE/images/02_業務データ基盤_ストレージ選定.png" alt="業務データ基盤_ストレージ選定" />
+<figcaption aria-hidden="true">業務データ基盤_ストレージ選定</figcaption>
+</figure>
+<h2 id="選定要件">2.1 選定要件</h2>
+<p>要件は「<strong>必須条件（KO条件）</strong>」と「<strong>評価要件（重みづけ）</strong>」の2段階で設定する。KO条件を満たさない候補はその時点で不適合となる。</p>
+<h3 id="必須条件ko条件">必須条件（KO条件）</h3>
+<p><strong>表2-1　必須条件（KO条件）一覧</strong></p>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 28%" />
+<col style="width: 57%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>要件</th>
+<th>必須とする理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>KO-A</strong></td>
+<td><strong>認証付き外部共有（アカウント相当）</strong></td>
+<td>許認可機関・ライフライン事業者等との公式な協議・承認には、アカウント認証＋アクセス権限管理＋操作ログを備えた外部共有機能が必要。パスワード付きURLのみの場合はアクセス者の特定・証跡管理が困難なためKO-A不適合とする（住民向け閲覧公開等の低リスク用途には公開共有で補完可）</td>
+</tr>
+<tr>
+<td><strong>KO-B</strong></td>
+<td><strong>国内データセンター（または同等のセキュリティ保証）</strong></td>
+<td>公共事業データの所在国要件・ガバメントクラウド方針への適合。発注者のセキュリティポリシー上、原則として国内DC必須</td>
+</tr>
+</tbody>
+</table>
+<h3 id="評価要件重みづけ">評価要件（重みづけ）</h3>
+<blockquote>
+<p>評価点：◎＝3点 ／ ○＝2点 ／ △＝1点　　R8（コスト）は低いほど高得点（低〜中＝3、中＝2、初期高＝1）</p>
+</blockquote>
+<p><strong>表2-2　評価要件（重みづけ）一覧</strong></p>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 24%" />
+<col style="width: 24%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>要件</th>
+<th style="text-align: center;">重み</th>
+<th>重みの根拠</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td>複数人・複数組織からのアクセス</td>
+<td style="text-align: center;">×2</td>
+<td>同時アクセス数・組織数に応じた品質差が業務に影響</td>
+</tr>
+<tr>
+<td>R2</td>
+<td>フォルダ・ファイル単位のアクセス権限管理</td>
+<td style="text-align: center;">×3</td>
+<td>ISO 19650のWIP/Shared/PublishedステータスとSSOT管理の根幹。<strong>最重要</strong></td>
+</tr>
+<tr>
+<td>R3</td>
+<td>バージョン管理・変更履歴</td>
+<td style="text-align: center;">×2</td>
+<td>SSOTの改訂履歴の保持。設計変更の追跡可能性に必要</td>
+</tr>
+<tr>
+<td>R4</td>
+<td>大容量ファイル対応</td>
+<td style="text-align: center;">×2</td>
+<td>BIM/CIM・点群データは数GB〜数十GBになる。<strong>容量無制限</strong>かどうかが評価の分岐点</td>
+</tr>
+<tr>
+<td>R7</td>
+<td>既存業務ツールとの親和性</td>
+<td style="text-align: center;">×1</td>
+<td>導入効果・学習コストに関わるが教育で補える部分もある</td>
+</tr>
+<tr>
+<td>R8</td>
+<td>長期運用コスト</td>
+<td style="text-align: center;">×1</td>
+<td>セキュリティ・機能要件を優先したうえでの比較要素</td>
+</tr>
+<tr>
+<td>R9</td>
+<td>外部関係機関の操作ログ・承認証跡</td>
+<td style="text-align: center;">×2</td>
+<td>公共事業の協議記録・承認は法的証跡としての意味を持つ</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ストレージ候補の比較総合評価">2.2 ストレージ候補の比較・総合評価</h2>
+<blockquote>
+<p>KO判定が⚠️・❌の候補の総合点は<strong>参考値</strong>（KO要件の解消を前提とした場合の機能評価）。</p>
+</blockquote>
+<p><strong>表2-3　ストレージ候補の比較・総合評価</strong></p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 8%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+</colgroup>
+<thead>
+<tr>
+<th>ストレージ</th>
+<th>種別</th>
+<th style="text-align: center;">KO-A</th>
+<th style="text-align: center;">KO-B</th>
+<th style="text-align: center;"><strong>KO判定</strong></th>
+<th style="text-align: center;">R1×2</th>
+<th style="text-align: center;">R2×3</th>
+<th style="text-align: center;">R3×2</th>
+<th style="text-align: center;">R4×2</th>
+<th style="text-align: center;">R7×1</th>
+<th style="text-align: center;">R8×1</th>
+<th style="text-align: center;">R9×2</th>
+<th style="text-align: center;"><strong>総合点</strong>（/39点）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Box</strong></td>
+<td>クラウド</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;"><strong>✅ 適合</strong></td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">○</td>
+<td style="text-align: center;">中</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;"><strong>37</strong></td>
+</tr>
+<tr>
+<td><strong>SharePoint / OneDrive</strong></td>
+<td>クラウド</td>
+<td style="text-align: center;">○（※4）</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;"><strong>⚠️ 要確認</strong></td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">○</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">中</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;"><em>36（参考）</em></td>
+</tr>
+<tr>
+<td><strong>Dropbox Business</strong></td>
+<td>クラウド</td>
+<td style="text-align: center;">○（※3）</td>
+<td style="text-align: center;">○（※1）</td>
+<td style="text-align: center;"><strong>⚠️ 要確認</strong></td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">○</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">○</td>
+<td style="text-align: center;">○</td>
+<td style="text-align: center;">中</td>
+<td style="text-align: center;">△</td>
+<td style="text-align: center;"><em>28（参考）</em></td>
+</tr>
+<tr>
+<td><strong>Google Drive / Workspace</strong></td>
+<td>クラウド</td>
+<td style="text-align: center;">○（※3）</td>
+<td style="text-align: center;">△（※1）</td>
+<td style="text-align: center;"><strong>⚠️ 要確認</strong></td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">○</td>
+<td style="text-align: center;">○</td>
+<td style="text-align: center;">○</td>
+<td style="text-align: center;">○</td>
+<td style="text-align: center;">低〜中</td>
+<td style="text-align: center;">△</td>
+<td style="text-align: center;"><em>27（参考）</em></td>
+</tr>
+<tr>
+<td><strong>NAS（オンプレミス）</strong></td>
+<td>自前サーバ</td>
+<td style="text-align: center;">△（※2）</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;"><strong>❌ 不適合</strong></td>
+<td style="text-align: center;">△</td>
+<td style="text-align: center;">○</td>
+<td style="text-align: center;">△</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">○</td>
+<td style="text-align: center;">初期高</td>
+<td style="text-align: center;">△</td>
+<td style="text-align: center;"><em>21（参考）</em></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>※1 Dropbox Business・Google WorkspaceはISMAP登録済みだが、データセンター所在国の扱いは発注者のセキュリティポリシー確認が必要なため「要確認」とする。<br />
+※2 NASは外部組織との共有にVPN設定が必要で認証付き外部共有手段がなく、KO-A不適合とする。<br />
+※3 Google Workspace・Dropbox BusinessのKO-Aは○。外部共有に相手方アカウントが必要で、アカウントを持たない場合は成立しない。KO判定が⚠️なのは<strong>KO-B（国内DC）が満たせていないため</strong>。<br />
+※4 SharePointのKO-Aは○：Azure AD B2Bゲスト招待は相手方Microsoftアカウントまたは相手方組織のゲスト許可が前提。許認可機関・行政機関では制限されるケースが多く、M365非保持者への代替手段（ゲストリンク・パスワード付きURL）はKO-Aが定義する「パスワード付きURLのみ＝不適合」に該当するため、<strong>公共事業では実質的にKO-A不適合となるケースが大半。CDE用途には推奨しない。</strong><br />
+※R4評価：Box◎＝<strong>容量無制限</strong>（Business以上）／SharePoint○＝1TBベース＋ライセンス加算・1ファイル上限250GB／Dropbox○＝プランにより上限あり／Google○＝共有プール制／NAS◎＝増設で無制限だが初期コスト大</p>
+</blockquote>
+<h2 id="ismap登録状況">2.3 ISMAP登録状況</h2>
+<p><strong>表2-4　ISMAP登録状況（2026年4月時点）</strong></p>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 35%" />
+<col style="width: 15%" />
+<col style="width: 22%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">登録番号</th>
+<th>クラウドサービス名称</th>
+<th>事業者名</th>
+<th>ホームページ</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">C21-0013-2</td>
+<td>Microsoft Office 365（SharePoint / OneDrive 等）</td>
+<td>日本マイクロソフト株式会社</td>
+<td>https://www.office.com/</td>
+<td>2026/04/24：登録情報更新</td>
+</tr>
+<tr>
+<td style="text-align: center;">C21-0017-2</td>
+<td>Box</td>
+<td>Box, Inc.</td>
+<td>https://www.box.com/ja-jp/home</td>
+<td>2026/02/27：登録情報更新</td>
+</tr>
+<tr>
+<td style="text-align: center;">C21-0005-2</td>
+<td>Google Workspace</td>
+<td>Google LLC</td>
+<td>https://workspace.google.com/</td>
+<td>2025/09/01：登録情報更新</td>
+</tr>
+<tr>
+<td style="text-align: center;">C24-0075-2</td>
+<td>Dropbox Business</td>
+<td>Dropbox, Inc.</td>
+<td>https://www.dropbox.com</td>
+<td>2025/12/22：登録情報更新</td>
+</tr>
+<tr>
+<td style="text-align: center;">—</td>
+<td>NAS（オンプレミス）</td>
+<td>—</td>
+<td>—</td>
+<td>クラウドサービスではないためISMAP対象外</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>出典：<a href="https://www.ismap.go.jp/csm?id=cloud_service_list">ISMAPクラウドサービスリスト</a>（2026年4月時点）</p>
+</blockquote>
+<h2 id="推奨">2.4 推奨　</h2>
+<p><strong>表2-5　推奨ストレージ一覧</strong></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>状況</th>
+<th>推奨</th>
+<th>根拠</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>外部共有が伴うほぼすべての案件（標準推奨）</strong></td>
+<td><strong>Box</strong></td>
+<td>ISMAP登録済み（C21-0017-2）。アカウント（コラボレータ）共有と限定共有（署名付き短期URL／パスワード付き・有効期限・ダウンロード制御）の両方を提供できるため、相手方のアカウント有無にかかわらずKO-Aを満たせる。大容量ファイル（BIM/CIM・点群）も容量無制限で対応。</td>
+</tr>
+<tr>
+<td><strong>ISMAP要件確認が取れない・調達が間に合わない</strong></td>
+<td><strong>NAS + VPN（暫定）</strong></td>
+<td>庁内・事務所内に閉じた環境として暫定利用可。外部共有はVPN接続が必要で長期運用には適さない。</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>SharePoint (Microsoft 365) はISMAP登録済みだが、M365非保持者への代替手段（ゲストリンク・パスワード付きURL）がKO-Aの「パスワード付きURLのみ＝不適合」に該当する。公共事業では許認可機関・行政機関側でゲスト招待を制限しているケースが多く、CDEとしての採用要件を満たさないため推奨から除外した。</p>
+</blockquote>
+<h2 id="推奨フォルダ構成例box">2.5 推奨フォルダ構成例（Box）</h2>
+<p><strong>フォルダ階層の設計方針</strong>：ステータス（Exchange / TaskTeam / WIP / Shared / Published / Archived）を最上位に置き、業務フォルダは下位にまとめる。これにより権限付与はステータス単位で済み、設定ミスやメンテナンスコストを低減できる。</p>
+<figure>
+<img src="https://yamamoto-ryuzo.github.io/portal/Project_CDE/images/02_05_推奨フォルダ構成例.png" alt="業務データ基盤_推奨フォルダ構成例" />
+<figcaption aria-hidden="true">業務データ基盤_推奨フォルダ構成例</figcaption>
+</figure>
+<h3 id="要点短く">要点（短く）</h3>
+<ul>
+<li>ステータスを最上位にする（検索・権限制御の一貫性）</li>
+<li>協議（外部向け）は <code>03_.../Published</code> まで到達させる</li>
+<li>内部会議記録は横断フォルダ <code>00_会議・議事録</code> に集約する</li>
+<li>実データ（正本）は <code>06_External_SSOT</code> に置き、CDE には必ずマニフェストを置く</li>
+</ul>
+<h3 id="会議協議の使い分け簡潔表">会議・協議の使い分け（簡潔表）</h3>
+<table>
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 25%" />
+<col style="width: 31%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>種別</th>
+<th>格納先</th>
+<th>CDEフロー</th>
+<th>典型例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>協議（外部折衝）</td>
+<td><code>03_地元及び関係行政機関等との協議</code></td>
+<td>WIP → Shared → <strong>Published</strong>（外部提出・承認の証跡）</td>
+<td>行政機関協議、住民説明会の配布資料・議事録</td>
+</tr>
+<tr>
+<td>会議（内部調整）</td>
+<td><code>00_会議・議事録</code>（横断）</td>
+<td>WIP → <strong>Shared</strong>（原則内部保存）</td>
+<td>事業調整会議、設計レビュー、BIM/CIM調整</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>補足：<code>00_会議・議事録</code> は横断的に参照できるようにして、内部会議の検索性を担保する。</p>
+</blockquote>
+<h3 id="推奨フォルダ構成詳細ツリー">推奨フォルダ構成（詳細ツリー）</h3>
+<pre><code>📁 [事業名]-プロジェクトCDE
+│
+├── 📁 00_Exchange【やり取り】   ← 【例外措置】CDE外からの受領ファイルを一時保管する場所
+│   │              ※業務分類は行わず、年月等で管理。重要なものは後でShared等に移す。
+│   │              ※送信控えはここではなく送信時にShared/Publishedで管理すること
+│   ├── 📁 202604_〇〇省から受領
+│   └── 📁 202604_ライフライン事業者から受領
+│
+├── 📁 01_TaskTeam【タスクチーム】   ← CDE上の各チーム作業フォルダ（当該チームのみアクセス可）
+│   └── 📁 [業務名]
+│       ├── 📁 00_会議・議事録        ← 【横断】事業調整会議・定例会議・設計レビュー等の議事録
+│       ├── 📁 01_事業全体計画の整理
+│       ├── 📁 02_測量・調査・設計業務等の指導・調整等
+│       ├── 📁 03_地元及び関係行政機関等との協議   ← 協議（外部機関との正式な折衝）の成果物
+│       ├── 📁 04_事業管理
+│       ├── 📁 05_施工管理
+│       ├── 📁 06_BIM-CIM（統合モデル）活用支援
+│       └── 📁 07_その他（維持管理・電子納品等）
+│
+├── 📁 02_WIP【作業中】        ← 当該タスクチームのみ書込可・正式CDE管理の入口
+│   └── 📁 [業務名]
+│       ├── 📁 00_会議・議事録        ← 【横断】事業調整会議・定例会議・設計レビュー等の議事録
+│       ├── 📁 01_事業全体計画の整理
+│       ├── 📁 02_測量・調査・設計業務等の指導・調整等
+│       ├── 📁 03_地元及び関係行政機関等との協議
+│       ├── 📁 04_事業管理
+│       ├── 📁 05_施工管理
+│       ├── 📁 06_BIM-CIM（統合モデル）活用支援
+│       └── 📁 07_その他（維持管理・電子納品等）
+│
+├── 📁 03_Shared【共有】     ← 承認済み・プロジェクト関係者全員閲覧可
+│   ├── 📁 00_会議・議事録        ← 【横断】承認済み議事録（事業調整会議・定例会議等はここが最終到達点）
+│   ├── 📁 01_事業全体計画の整理
+│   ├── 📁 02_測量・調査・設計業務等の指導・調整等
+│   ├── 📁 03_地元及び関係行政機関等との協議
+│   ├── 📁 04_事業管理
+│   ├── 📁 05_施工管理
+│   ├── 📁 06_BIM-CIM（統合モデル）活用支援
+│   └── 📁 07_その他（維持管理・電子納品等）
+│
+├── 📁 04_Published【活用】  ← 承認済み現行版（関係機関等での活用）
+│   │                       ※ 00_会議・議事録は通常ここに昇格しない（内部文書のため）
+│   ├── 📁 01_事業全体計画の整理
+│   ├── 📁 02_測量・調査・設計業務等の指導・調整等
+│   ├── 📁 03_地元及び関係行政機関等との協議   ← 協議議事録・配布資料はPublishedまで通す
+│   ├── 📁 04_事業管理
+│   ├── 📁 05_施工管理
+│   ├── 📁 06_BIM-CIM（統合モデル）活用支援
+│   └── 📁 07_その他（維持管理・電子納品等）
+│
+├── 📁 05_Archived【アーカイブ】   ← 変更不可。業務・工事完了時の成果物・納品物を保管
+│   ├── 📁 01_土木設計業務等   ← 設計・測量・調査・事業管理等の業務完了時の報告書・成果品
+│   └── 📁 02_工事完成図書     ← 工事完了時の完成図・施工記録・出来形・品質管理書類等
+│
+└── 📁 06_External_SSOT【外部SSOT】   ← 実データはS3等に配置。Box には必ずマニフェストを置く
+    ├── 📁 01_CAD・BIM-CIM　　　　　　　← ACC/FORMA等の外部CAD・BIMプラットフォームへのマニフェスト
+    ├── 📁 02_GIS【地理空間データ】     ← ラスタ（高解像度）、ベクタ、タイル、点群、タイル配信設定
+    ├── 📁 03_DT【デジタルツイン】     ← 3Dタイル、BIM同期データ、時系列センサデータ
+    └── 📁 04_RAG【検索／RAG用埋め込み】← 埋め込みベクトル、ベクタDB参照、原文テキストの索引</code></pre>
+<blockquote>
+<p><strong>ガイドラインとの関係</strong>：業務分類 01〜07 は事業監理業務の標準分類（国土技術政策総合研究所等の提案に基づく）に準拠している。<code>00_会議・議事録</code> は業務横断的な性質を考慮した実務上の追加であり、01〜07 の分類体系を変更するものではない。</p>
+</blockquote>
+<h3 id="external_ssot-の具体構成"><code>06_External_SSOT</code> の具体構成</h3>
+<ul>
+<li><code>01_CAD・BIM-CIM/</code> — ACC/FORMA 等の外部CAD・BIMプラットフォームに格納された Published IFC/DWG へのマニフェスト（実ファイルは外部プラットフォーム上）</li>
+<li><code>02_GIS/</code> — GeoTIFF 等ラスタ、タイル、ベクトル、点群バックエンド（CRS/解像度等のメタを含む）</li>
+<li><code>03_DT/</code> — 3Dタイル、BIM 同期データ、時系列センサデータ（バージョン管理・同期ログ）</li>
+<li><code>04_RAG/</code> — 前処理テキストの索引用マニフェスト／埋め込み参照情報（埋め込み本体は専用ベクタDBへ）</li>
+</ul>
+<p>（注）元文書の受領・前処理は内部DMS等で行い、公開用正本が必要な場合に限り <code>06_External_SSOT</code> に配置して Box のマニフェストで紐付ける運用としてください。</p>
+<h3 id="マニフェストcde-側-最低限の必須項目">マニフェスト（CDE 側） — 最低限の必須項目</h3>
+<ul>
+<li><code>ssot_id</code> — 正本の一意識別子</li>
+<li><code>consumer</code> — CAD/GIS/DT/RAG 等のカテゴリ</li>
+<li><code>s3_path</code> / <code>db_uri</code> — 正本の実体参照</li>
+<li><code>checksum</code> — 整合性確認用</li>
+<li><code>version</code> — バージョン</li>
+<li><code>published_at</code> — 公開日時</li>
+<li><code>owner</code> — 所有部署／担当者</li>
+<li><code>access_policy</code> — アクセス制御情報（署名付きURL TTL 等）</li>
+</ul>
+<h3 id="運用フロー簡潔">運用フロー（簡潔）</h3>
+<ol type="1">
+<li>協議で外部提供合意成立 → 担当が実データを External SSOT に登録</li>
+<li>マニフェスト（<code>published_manifest_&lt;案件&gt;.yaml</code>）を <code>03/.../Published</code> に配置して承認メタを残す</li>
+<li>承認後、署名付き URL や API を発行・通知（Webhook による通知を推奨）</li>
+</ol>
+<h3 id="注意点要点のみ">注意点（要点のみ）</h3>
+<ul>
+<li>マニフェストは検索性と監査の鍵。<code>ssot_id</code> と <code>consumer</code> を必須にすること</li>
+<li>マニフェスト索引（横断索引）はプロジェクト要件に応じて別途運用（必要時に設置）してください</li>
+<li>実データは配信性能や保存要件に応じて S3/PostGIS/専用DB を使い分ける</li>
+</ul>
+<h2 id="exchangeやり取りの運用ルール例外措置">2.6 Exchange【やり取り】の運用ルール（例外措置）</h2>
+<p>CDEの理想は「全関係者が同じシステム上で完結すること」だが、実務上はメール添付やチャット等でCDE外にファイルが流れる。<code>Exchange</code> フォルダはやり取りの一時バッファとして許容するが、正本（SSOT）と同列扱いにしてはいけない。</p>
+<p><strong>位置づけ（一次受領）</strong> - 正式受領はアカウント（コラボレータ）共有（認証付き）で行う。<code>Exchange</code> はコラボレータ外からの例外的な受領や緊急時の一時バッファとしてのみ使用する。 - <code>Exchange</code> で受領したファイルは速やかに検査・分類し、重要なものはTaskTeamで整理した上でWIPに提出し、承認プロセスを経てShared/Published等の正式フォルダへ移行する。</p>
+<p><strong>受信方針</strong> - 外部正式受領はBoxの <code>File Request</code> を使用する。 - 組織内のメール添付は <code>Box for Outlook</code> でBoxに保存し、限定共有を利用して添付の重複と追跡不備を防ぐ。</p>
+<p><strong>送信方針</strong> - 送信はアカウント（コラボレータ）共有（認証付き）を基本とする。限定共有は、受信者がBoxアカウントを持たない等の例外的な場合に限定する。 - デフォルトの共有設定はview-only。必要に応じて有効期限・パスワード・ダウンロード可否を設定する。</p>
+<p><strong>アクセス制御</strong> - <code>Exchange</code> は一次受領用バッファとし、<code>WIP</code>/<code>Shared</code>/<code>Published</code> 等の正式フォルダはコラボレータ限定で厳格に管理する。 - 移行期限: <code>Exchange</code> 内の重要ファイルは原則72時間以内に分類・WIPへ提出する。</p>
+<hr />
+<h2 id="external_ssot外部ssotの運用ルール例外措置">2.7 External_SSOT【外部SSOT】の運用ルール（例外措置）</h2>
+<p>目的: <code>06_External_SSOT</code> 配下を子フォルダ単位で整理し、各フォルダで扱うデータ、保存先、最小運用要件を明確にする（<code>06_External_SSOT</code>での利用として）。</p>
+<p>注: <code>06_External_SSOT</code> は、<code>01</code>〜<code>05</code> の業務分類で管理される原本（CDE側の一次ソース）を置き換えるものではありません。CDE（01–05）がメタデータ・承認・一次管理を担う一方で、外部システム連携や配信要件に応じて外部ストレージに正本の複写を作成・整理し、配信／参照を行うための運用領域として位置づけます。 以下は <code>06_External_SSOT/</code> の子フォルダ別の簡潔な説明と運用要件（CAD・BIM-CIM/GIS/DT/RAG に集約）。</p>
+<h3 id="cadbim-cim-cadbimcim">01_CAD・BIM-CIM — CAD・BIM/CIM</h3>
+<ul>
+<li>役割: ACC / FORMA 等の外部CAD・BIMプラットフォームに格納された Published IFC/DWG ファイルへのマニフェスト管理。実ファイルは外部プラットフォーム上に存在し、Box にはマニフェストのみを置く。</li>
+<li>保存先（実データ）: Autodesk Construction Cloud（ACC）/ FORMA / 専用BIMストレージ</li>
+<li>要件: プラットフォームURL・ファイルID・バージョン・承認日を含むマニフェストを必置。常に変化する作業中CADは対象外（TaskTeam管理）。Published 相当のファイルのみを対象とする。</li>
+</ul>
+<h3 id="gis-地理空間データ">02_GIS — 地理空間データ</h3>
+<ul>
+<li>役割: ラスタ（GeoTIFF等）、タイル、ベクトル、点群の正本管理。</li>
+<li>保存先: S3（ラスタ/タイル）、PostGIS（ベクトル）、点群タイルストア</li>
+<li>要件: CRS・解像度等のジオメタデータを含め、タイル化・配信要件を明示する。</li>
+</ul>
+<h3 id="dt-デジタルツイン">03_DT — デジタルツイン</h3>
+<ul>
+<li>役割: 3Dタイル、BIM 同期データ、時系列センサデータの正本管理。</li>
+<li>保存先: S3 / 専用BIMストレージ / 時系列DB</li>
+<li>要件: バージョン管理・同期ログ・時間解像度メタを保持する。</li>
+</ul>
+<h3 id="rag-検索rag用埋め込み">04_RAG — 検索／RAG用埋め込み</h3>
+<ul>
+<li>役割: 前処理テキスト、索引用メタ、埋め込み参照情報（埋め込み本体は専用ベクタDBで管理）</li>
+<li>保存先: 前処理テキストは Box（レビュー用）／埋め込みは専用ベクタDB</li>
+<li>要件: 前処理手順・モデルID等の再現性メタを保持し、個人情報は除去または匿名化する。</li>
+</ul>
+<p>共通の必須運用要件（要点） - マニフェストは Box に置き、<code>ssot_id</code> / <code>consumer</code>（CAD-BIM/GIS/DT/RAG 等） / <code>s3_path</code>または<code>db_uri</code> / <code>version</code> / <code>owner</code> / <code>access_policy</code> を明記すること。 - 実データは External SSOT に正本を置き、Box はメタデータ・承認証跡・サムネイル等の参照用に用いる。 - 元文書の前処理は内部DMS等で行い、公開用正本は <code>06_External_SSOT</code> に保管して Box のマニフェストで紐付ける。</p>
+<h1 id="蓄積保管層アクセス制御とデータ共有">3. 蓄積・保管層（アクセス制御とデータ共有）</h1>
+<figure>
+<img src="https://yamamoto-ryuzo.github.io/portal/Project_CDE/images/03_アクセス制御とデータ共有.png" alt="アクセス制御とデータ共有" />
+<figcaption aria-hidden="true">アクセス制御とデータ共有</figcaption>
+</figure>
+<h2 id="アクセス制御データ共有の三層概要">3.1 アクセス制御・データ共有の三層（概要）</h2>
+<p>プロジェクトCDEでは、データの共有方法とアクセス制御を「三つの共有レベル（層）」で定義します。各層ごとに許容されるデータ粒度・認証レベル・配信手段が異なり、適切な共有方法を選ぶことが設計上の重要課題です。</p>
+<p><strong>意思決定フロー</strong> 1. データ分類（機密度・個人情報の有無） 2. 層の決定（共有レベル：層1（設計編集） / 層2（関係者共有） / 層3（公開）） 3. 必要なセキュリティ対策（認証・匿名化・ネットワーク制御・監査） 4. アプリ／配信方式の選定（例: Revit/Navisworks/KOLC+ は層1、Cesium は層2、Re:Earth/Lizmap は層1〜層3対応） 5. 公開タイミング（<code>Published</code> 承認後、派生物を配信）</p>
+<p>ここでの「層」は、主に「共有方法（アカウント認証／限定共有／公開共有）」と「アクセス制御レベル」を指します。以下の表や説明は、この対応を前提としています。</p>
+<p><strong>表3-1　アクセス制御・データ共有の三層（概要）</strong></p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 23%" />
+<col style="width: 23%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: right;">層</th>
+<th>共有方法</th>
+<th>対象フェーズ</th>
+<th>対象者（想定）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">層1</td>
+<td>アカウント（認証付き）</td>
+<td>設計・詳細設計・モデリング</td>
+<td>設計者、BIMコーディネータ、モデラー</td>
+</tr>
+<tr>
+<td style="text-align: right;">層2</td>
+<td>アカウント または 限定共有（署名付き短期URL／ID＋パスワード）※</td>
+<td>調整・承認・施工前確認・施工管理</td>
+<td>発注者担当、施工管理者、監理者、関係機関</td>
+</tr>
+<tr>
+<td style="text-align: right;">層3</td>
+<td>公開共有（パブリック）</td>
+<td>広報・住民説明・公表資料</td>
+<td>住民、広報担当、一般閲覧者</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>※ 層2の「または」は相手に応じた使い分けを意味し、<strong>両方の方法を同時に提供できる状態にすることが必須</strong>。アカウント共有のみに限定すると、許認可機関・ライフライン事業者・下請け等の共有先に有料アカウントの取得を強いることになり、ほとんどのニーズに対応できない。</p>
+</blockquote>
+<h3 id="共有方法">共有方法</h3>
+<ul>
+<li><strong>アカウント（認証付き）</strong>: 組織アカウントでのアクセス。SSO/MFA・RBAC・監査ログにより高忠実度データの安全共有に適する。プロビジョニング（SCIM）とライフサイクル管理を組み合わせ、外部ユーザには短期トークンでのアクセスを推奨する。</li>
+<li><strong>限定共有（署名付き短期URL／ID＋パスワード）</strong>: 外部委託先や関係機関向けの限定共有。有効期限・ダウンロード制御・パスワードで安全性を高める。可能なら署名付き短期URL（HMAC/JWTベースの署名・TTL・ワンタイム）を優先する。</li>
+<li><strong>公開共有（パブリック）</strong>: アカウント不要の一般公開リンク。公開対象は匿名化・軽量化した派生物のみに限定し、CDN/WAF/レート制限で配信する。</li>
+</ul>
+<figure>
+<img src="https://yamamoto-ryuzo.github.io/portal/Project_CDE/images/03_01_データ共有の三層（概要）.png" alt="03_01_データ共有の三層（概要）.png" />
+<figcaption aria-hidden="true">03_01_データ共有の三層（概要）.png</figcaption>
+</figure>
+<h2 id="層1-設計編集高保護編集可">3.2 層1 — 設計編集（高保護・編集可）</h2>
+<ul>
+<li><strong>共有方法</strong>: CDE内のShared領域またはAPI経由の署名付き配布パイプライン。手動配布／メール添付は禁止。</li>
+<li><strong>認証</strong>: SSO（OIDC/SAML）＋厳格MFA（ハードトークン/OTP）、短いセッション有効期限（例: 30分）。</li>
+<li><strong>認可</strong>: RBAC＋細粒度ACL（オブジェクト／属性レベル）。最小権限で編集ロールを付与。</li>
+<li><strong>配布</strong>: APIゲートウェイ経由、署名・ハッシュ付き派生物、バージョン管理。VPN/ゼロトラスト・IP制限を要求。</li>
+<li><strong>監査</strong>: 変更ログを完全記録しSIEMへ集約。差分ロールバック対応。</li>
+<li><strong>運用</strong>: 編集は承認ワークフロー必須（WIP→Shared）。エクスポート時の自動DLPチェックを実施。</li>
+</ul>
+<h2 id="層2-関係者共有制御付き参照">3.3 層2 — 関係者共有（制御付き参照）</h2>
+<ul>
+<li><strong>共有方法</strong>: アカウントベース（SSO/MFA）と 限定共有（署名付き短期URL／ID＋パスワード・有効期限・ダウンロード制御）の<strong>両方を併用</strong>する。プロジェクト内チームや主要パートナー等アカウントを取得できる相手にはアカウント共有、許認可機関・ライフライン事業者・下請け等アカウント取得が困難な相手には限定共有を使用する。アカウントのみに限定すると共有先に有料アカウント購入を強いる事態となり現実的でない。</li>
+<li><strong>認証</strong>: SSO＋MFA推奨。外部ユーザはSCIM等でプロビジョニングし短期トークンを発行。</li>
+<li><strong>認可</strong>: ロールベースに加え時間・用途ベース制御（スコープ・有効期限）。原本の直接ダウンロードは原則制限。</li>
+<li><strong>配布</strong>: 必要最小属性で派生物を生成、署名・ハッシュで整合性を担保。</li>
+<li><strong>監査</strong>: アクセス／ダウンロードログを保持し定期レビュー。承認メタデータ（承認者・日時・派生物ID）を必須化。</li>
+<li><strong>運用</strong>: 限定共有は申請→承認→発行履歴を残す。期限切れ後は自動無効化。</li>
+</ul>
+<h2 id="層3-公開低リスク広報向け">3.4 層3 — 公開（低リスク・広報向け）</h2>
+<ul>
+<li><strong>共有方法</strong>: 公開共有（CDN配信）で公開。公開前に完全匿名化・マスキング・解像度低減した派生物のみを公開し、公開期限と監視を設定する。</li>
+<li><strong>認証</strong>: 閲覧は基本不要。公開設定変更は管理者のSSO権限（MFA）で保護。</li>
+<li><strong>認可</strong>: 公開はPublishedを通過した派生物のみ許可。</li>
+<li><strong>配布</strong>: CDN＋WAF＋RateLimitで配信。公開派生物は署名・バージョン・元SSOT IDを持つ。</li>
+<li><strong>監査</strong>: アクセス統計・監視ログで追跡。個人情報を含む公開は厳禁。</li>
+<li><strong>運用</strong>: 公開前にSSOTと照合し、公開後は定期チェックと期限管理。削除・訂正要求の対応フローを整備。</li>
+</ul>
+<h2 id="共通要件全層">3.5 共通要件（全層）</h2>
+<ul>
+<li><strong>認証基盤</strong>: OIDC/SAML IdP、SCIMによるプロビジョニング。MFAを原則。</li>
+<li><strong>認可基盤</strong>: RBAC／ABACの実装、APIゲートウェイでスコープ管理。</li>
+<li><strong>通信</strong>: TLS 1.2/1.3による暗号化。</li>
+<li><strong>ログ/監査</strong>: 全アクセス・操作ログをSIEMへ集約し最低90日保持。</li>
+<li><strong>データ所在</strong>: 公共案件は国内DC／ISMAP等を確認。バックアップの所在を明示。</li>
+<li><strong>自動化</strong>: 変換・バージョン・配信は自動パイプライン化し、配布前に承認チェックを必須化。手動配布は禁止。</li>
+</ul>
+<h2 id="事業管理の運用原則">3.6 事業管理の運用原則</h2>
+<ul>
+<li>フェーズ毎に承認ゲート（WIP→Shared→Published）を設定し、承認済み派生物のみ上位層へ流通させる。</li>
+<li>編集権限は最小権限で付与し、外部委託には期限付き・用途限定の編集ロールを発行する。</li>
+<li>事業管理はアクセスレビューと定期監査を主導し、ポリシー適合性を担保する。</li>
+<li>フェーズ毎のアクセスポリシーと承認責任者を明記し、承認メタデータを必須化する。</li>
+</ul>
+<h2 id="役割別工事関係者の可視化層割当例">3.7 役割別：工事関係者の可視化層割当（例）</h2>
+<p><strong>表3-2　役割別：工事関係者の可視化層割当（例）</strong></p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>役割</th>
+<th>可視化層</th>
+<th>推奨共有方法</th>
+<th>推奨アプリ・備考</th>
+<th>アカウント要否</th>
+<th>KO条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>施工管理者（現場監督）</td>
+<td>層2</td>
+<td>アカウント（組織アカウント持ち向け）＋限定共有（アカウント不問の相手向け）— <strong>両方を提供できる状態が必須</strong></td>
+<td>Trimble Connect, Cesium</td>
+<td>相手による。組織アカウント持ちは要、持たない相手は限定共有で対応</td>
+<td>要確認（官公庁案件は国内DC/ISMAP要件）</td>
+</tr>
+<tr>
+<td>現場技術者（測量・出来形担当）</td>
+<td>層1＋層2</td>
+<td>層1: アカウント（認証付き）／層2: アカウント＋限定共有（<strong>両方を提供できる状態が必須</strong>）</td>
+<td>Potree・Navisworks（層1）、QGIS/Cesium（層2）</td>
+<td>層1は要（有料ライセンスあり）。層2は限定共有で無アカウント対応可</td>
+<td>要確認</td>
+</tr>
+<tr>
+<td>下請け業者</td>
+<td>層2</td>
+<td>限定共有（基本。アカウント購入を強いない）＋アカウント（継続参加者への付与を推奨）</td>
+<td>Cesium / Lizmap</td>
+<td>原則不要（限定共有で対応）。継続参加者にはアカウント発行を推奨</td>
+<td>要確認</td>
+</tr>
+<tr>
+<td>BIMコーディネータ / モデラー</td>
+<td>層1</td>
+<td>アカウント（認証付き）</td>
+<td>Revit / Navisworks / Bentley iTwin</td>
+<td>要（有料ライセンス）</td>
+<td>要確認</td>
+</tr>
+<tr>
+<td>品質管理・監理（第三者）</td>
+<td>層2</td>
+<td>アカウント（組織アカウント持ち向け）＋限定共有（アカウント取得困難な機関向け）— <strong>両方を提供できる状態が必須</strong></td>
+<td>QGIS/Lizmap、Cesium</td>
+<td>相手による。組織アカウント持ちは要、取得困難な場合は限定共有で対応</td>
+<td>要確認</td>
+</tr>
+<tr>
+<td>発注者・行政（窓口担当）</td>
+<td>層2＋層3（広報用抜粋）</td>
+<td>層2: アカウント（発注者組織・主要行政）＋限定共有（アカウント不問の関係行政機関）／層3: 公開共有</td>
+<td>層2: Lizmap など（限定共有対応ツール）／層3: Re:Earth・ArcGIS Online</td>
+<td>発注者・主要行政は要。関係行政機関は限定共有で対応可</td>
+<td>KO: 国内DC/ISMAP等遵守が必須</td>
+</tr>
+<tr>
+<td>広報担当 / 住民向け公開</td>
+<td>層3</td>
+<td>公開共有（パブリック）</td>
+<td>Re:Earth, ArcGIS Online, Lizmap</td>
+<td>不要（公開共有で可）</td>
+<td>公開物は匿名化が必須</td>
+</tr>
+</tbody>
+</table>
+<h2 id="関係機関との情報共有">3.8 関係機関との情報共有</h2>
+<h3 id="主な関係機関と共有内容">主な関係機関と共有内容</h3>
+<p><strong>表3-3　主な関係機関と共有内容</strong></p>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 34%" />
+<col style="width: 23%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>関係機関</th>
+<th>共有が必要な情報</th>
+<th>タイミング</th>
+<th>共有手段</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>発注者（国・自治体）</td>
+<td>進捗・設計承認・出来形・報告書</td>
+<td>随時・節目ごと</td>
+<td>SSOT参照権限付与・報告書送付</td>
+</tr>
+<tr>
+<td>許認可機関（河川・道路管理者等）</td>
+<td>設計図・施工計画・協議資料</td>
+<td>協議時</td>
+<td>図面・資料の外部共有URL</td>
+</tr>
+<tr>
+<td>ライフライン事業者（電力・ガス・水道等）</td>
+<td>埋設物位置・施工範囲・工程</td>
+<td>着工前・施工中</td>
+<td>GIS地図共有・平面図</td>
+</tr>
+<tr>
+<td>地方自治体（市区町村）</td>
+<td>事業概要・工程・住民説明資料</td>
+<td>計画〜施工中</td>
+<td>閲覧URL・説明会資料</td>
+</tr>
+<tr>
+<td>住民・地権者</td>
+<td>事業概要・工程・影響範囲・騒音振動情報</td>
+<td>説明会・随時</td>
+<td>パスワード付き閲覧URL・VR</td>
+</tr>
+<tr>
+<td>隣接工事・他事業者</td>
+<td>施工範囲・工程・仮設計画</td>
+<td>施工調整時</td>
+<td>図面・工程表の共有</td>
+</tr>
+</tbody>
+</table>
+<h3 id="情報共有の設計方針">情報共有の設計方針</h3>
+<p><strong>表3-4　情報共有の設計方針</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>方針</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SSOTからの派生共有</td>
+<td>関係機関への提供データは必ずSSOT（Published）から生成し、手動複製・メール添付による情報の分岐を排除する</td>
+</tr>
+<tr>
+<td>機関別アクセス権限</td>
+<td>各関係機関に必要最小限のデータへのアクセス権限のみを付与する</td>
+</tr>
+<tr>
+<td>共有ログの保持</td>
+<td>誰にいつ何を共有したかを記録し、協議・承認の証跡として活用する</td>
+</tr>
+<tr>
+<td>フォーマットの柔軟対応</td>
+<td>相手機関のシステムに合わせてDWG・PDF・CSV・GEOJSONなど形式を変換して提供する</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="蓄積保管層タスクチーム作業環境">4. 蓄積・保管層（タスクチーム作業環境）</h1>
+<p>タスクチームの作業環境は<strong>CDEの外側・各チーム裁量</strong>であり、CDE（SSOT）ストレージとは目的・要件が根本的に異なる。CDE選定で課したKO-A（認証付き外部共有）・KO-B（国内DC）は<strong>基本的に不要</strong>。代わりに、チーム内共有・ツール統合・CDEへの搬入しやすさが重要な評価軸となる。</p>
+<figure>
+<img src="https://yamamoto-ryuzo.github.io/portal/Project_CDE/images/06_タスクチーム作業環境.png" alt="タスクチーム作業環境" />
+<figcaption aria-hidden="true">タスクチーム作業環境</figcaption>
+</figure>
+<h2 id="作業環境の分類前提条件">4.1 作業環境の分類（前提条件）</h2>
+<p>候補を評価する前に、<strong>チームがどのネット環境で作業するか</strong>を先に確認する。</p>
+<blockquote>
+<p><strong>重要</strong>: 建設・インフラプロジェクトの大多数のチームは「事務所＋現場の両方で作業する」。オフライン同期の主体は<strong>個人PCではなくNAS（チーム共有ストレージ）</strong>である。個人PCのOneDrive/Box Driveキャッシュは各自に分散するため、チームで同じファイルに同時アクセスすると<strong>同期競合が発生</strong>する。<strong>NASをチームの共有作業ベースに置き、ネット復帰時にNAS→CDEへ定期同期する構成</strong>が現実的な標準パターン。</p>
+</blockquote>
+<pre class="mermaid"><code>flowchart TD
+    Q0{&quot;社内ポリシーで&lt;br/&gt;外部クラウドへの&lt;br/&gt;直接接続が禁止？&quot;}
+    Q0 --&gt;|はい| C[&quot;〔C〕自社VPN型&lt;br/&gt;大手ゼネコン・設計事務所等&quot;]
+    Q0 --&gt;|いいえ| Q1
+
+    Q1{&quot;作業拠点の回線は&lt;br/&gt;光1Gbps以上か？&lt;br/&gt;（事務所・現場ともに）&quot;}
+    Q1 --&gt;|はい| Q2
+    Q1 --&gt;|いいえ| B[&quot;〔B〕NAS＋CDE同期型（大多数）&lt;br/&gt;設計者・施工者・測量・コンサル等&lt;br/&gt;NASで作業 → ネット接続時にCDE WIPへ同期&quot;]
+
+    Q2{&quot;BIM/CIMファイルを&lt;br/&gt;複数人が同時並行で&lt;br/&gt;編集する作業があるか？&quot;}
+    Q2 --&gt;|いいえ| A[&quot;〔A〕高速常時接続型（少数）&lt;br/&gt;発注者窓口・自治体担当等&lt;br/&gt;クラウド直接アクセス可・NAS不要&quot;]
+    Q2 --&gt;|はい| ABIM[&quot;〔A-BIM〕BIM/CIM同時並行編集&lt;br/&gt;① ACC（クラウド共同編集）&lt;br/&gt;② NAS＋CDE同期（〔B〕と同構成）も可&quot;]</code></pre>
+<p><strong>表4-1　タスクチーム作業環境の分類（前提条件）</strong></p>
+<table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 32%" />
+<col style="width: 20%" />
+<col style="width: 32%" />
+</colgroup>
+<thead>
+<tr>
+<th>分類</th>
+<th>典型的なチーム</th>
+<th>前提条件</th>
+<th>作業環境の実態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>〔A〕高速常時接続型</strong>（少数）</td>
+<td>発注者窓口・自治体担当</td>
+<td><strong>光1Gbps以上（事務所固定回線）が前提</strong></td>
+<td>クラウド直接アクセス可。NAS不要</td>
+</tr>
+<tr>
+<td><strong>〔B〕NAS＋CDE同期型</strong>（<strong>大多数</strong>）</td>
+<td>設計者・施工者・測量・コンサル</td>
+<td>現場・移動中はネット不安定</td>
+<td><strong>NASがチーム共有作業の基盤</strong>。ネット復帰時にNAS→CDE WIPへ同期</td>
+</tr>
+<tr>
+<td><strong>〔A-BIM〕BIM/CIM同時並行編集</strong></td>
+<td>BIM/CIM担当（Revit・Civil 3D等）かつ高速回線確保済み</td>
+<td>複数人がBIM/CIMファイルを同時並行編集する</td>
+<td><strong>①ACCクラウド共同編集</strong>または<strong>②NAS＋CDE同期（〔B〕と同構成）</strong></td>
+</tr>
+<tr>
+<td><strong>〔C〕自社VPN型</strong></td>
+<td>大手ゼネコン・設計事務所（VPN必須）</td>
+<td>社内ポリシー上、外部クラウドへの直接接続不可</td>
+<td>自社サーバ＋VPN。CDEへの提出は専用経路</td>
+</tr>
+</tbody>
+</table>
+<h2 id="評価要件t1t5">4.2 評価要件（T1〜T5）</h2>
+<p><strong>表4-2　タスクチーム作業環境の評価要件（T1〜T5）</strong></p>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 24%" />
+<col style="width: 24%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>要件</th>
+<th style="text-align: center;">重み</th>
+<th>重みの根拠</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1</td>
+<td>チーム内共有・同時編集</td>
+<td style="text-align: center;">×3</td>
+<td>複数メンバーが並行して草稿を作成・調整する場面が日常的に発生</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>既存ツールとの統合（CAD・Office・BIM等）</td>
+<td style="text-align: center;">×3</td>
+<td>設計者・施工者が普段使うツールと連携できれば学習コスト・摩擦がなくなる</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>バージョン管理・変更履歴</td>
+<td style="text-align: center;">×2</td>
+<td>草稿段階での誤上書き・誤削除からの復元</td>
+</tr>
+<tr>
+<td>T4</td>
+<td>CDEへの搬入しやすさ（WIP提出）</td>
+<td style="text-align: center;">×3</td>
+<td>WIPへの提出が手間だと提出漏れ・遅延が発生しSSOTが崩れる</td>
+</tr>
+<tr>
+<td>T5</td>
+<td>コスト・導入障壁</td>
+<td style="text-align: center;">×2</td>
+<td>各チームが追加費用なく使えることが普及の前提</td>
+</tr>
+</tbody>
+</table>
+<h2 id="候補総合評価">4.3 候補・総合評価</h2>
+<p>各チームが<strong>すでに持っている環境を使うのが現実的</strong>。強制統一はコスト・運用負荷が高く不要。</p>
+<h3 id="bnascde同期型大多数のチームが該当">〔B〕NAS＋CDE同期型（大多数のチームが該当）</h3>
+<p><strong>表4-3　〔B〕NAS＋CDE同期型 候補・総合評価</strong></p>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 23%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr>
+<th>環境</th>
+<th>想定チーム</th>
+<th style="text-align: center;">T1×3</th>
+<th style="text-align: center;">T2×3</th>
+<th style="text-align: center;">T3×2</th>
+<th style="text-align: center;">T4×3</th>
+<th style="text-align: center;">T5×2</th>
+<th style="text-align: center;"><strong>総合点</strong>（/39点）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NAS ＋ Box同期</strong></td>
+<td>Box を CDE として採用（標準推奨）</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">◎（※a）</td>
+<td style="text-align: center;">○</td>
+<td style="text-align: center;"><strong>37</strong></td>
+</tr>
+<tr>
+<td><strong>NAS ＋ 手動アップロード</strong></td>
+<td>クラウドサービス未契約チーム</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">○（※b）</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;"><strong>35</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="a-bimbimcim同時並行編集">〔A-BIM〕BIM/CIM同時並行編集</h3>
+<p><strong>表4-4　〔A-BIM〕BIM/CIM同時並行編集 候補・総合評価</strong></p>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 23%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr>
+<th>環境</th>
+<th>想定チーム</th>
+<th style="text-align: center;">T1×3</th>
+<th style="text-align: center;">T2×3</th>
+<th style="text-align: center;">T3×2</th>
+<th style="text-align: center;">T4×3</th>
+<th style="text-align: center;">T5×2</th>
+<th style="text-align: center;"><strong>総合点</strong>（/39点）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ACC（Autodesk Construction Cloud）</strong></td>
+<td>BIM/CIM担当・光1Gbps以上・ACCライセンスあり</td>
+<td style="text-align: center;">◎（※f）</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">△（※c）</td>
+<td style="text-align: center;">○</td>
+<td style="text-align: center;"><strong>31</strong></td>
+</tr>
+<tr>
+<td><strong>NAS ＋ Box同期</strong>（〔B〕と同構成）</td>
+<td>BIM/CIM担当・ACCライセンスなし等</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">◎（※a）</td>
+<td style="text-align: center;">○</td>
+<td style="text-align: center;"><strong>37</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="c自社vpn型">〔C〕自社VPN型</h3>
+<p><strong>表4-5　〔C〕自社VPN型 候補・総合評価</strong></p>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 23%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">環境</th>
+<th>想定チーム</th>
+<th style="text-align: center;">T1×3</th>
+<th style="text-align: center;">T2×3</th>
+<th style="text-align: center;">T3×2</th>
+<th style="text-align: center;">T4×3</th>
+<th style="text-align: center;">T5×2</th>
+<th style="text-align: center;"><strong>総合点</strong>（/39点）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>自社サーバ・VPN環境</strong></td>
+<td>ゼネコン・大手設計事務所（VPN必須）</td>
+<td style="text-align: center;">○</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">○</td>
+<td style="text-align: center;">△（※c）</td>
+<td style="text-align: center;">△</td>
+<td style="text-align: center;"><strong>24</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>※a NASをCDEと同一サービスの同期対象に設定することで、NAS上の更新ファイルがWIPに自動または半自動で反映できる。<br />
+※b 手動アップロードの場合は「提出ルール（ファイル命名・提出連絡）」の徹底が提出漏れ防止の鍵<br />
+※c 提出時はNAS→CDEへのコピーまたはエクスポート操作が必要。提出ミス・タイムラグが生じやすい<br />
+※f ACCはAutodesk専用プラットフォームであり、Box等の汎用クラウドストレージとは別物。BIM/CIM作業ファイルを汎用クラウドストレージに直接保存・同期することは非推奨または動作保証外。CDEをBoxとする場合、BIM/CIMチームの作業ファイルはACC内に留まり、完成成果物（IFC・PDF・点群等）をCDE（Box）のWIPへエクスポート提出するワークフローが基本。</p>
+</blockquote>
+<h2 id="cdeとの接続ルール重要">4.4 CDEとの接続ルール（重要）</h2>
+<p>タスクチーム作業環境が何であれ、<strong>WIPへの提出ルールを統一</strong>することが最重要。環境を強制統一するより、提出プロセスを標準化する方が現実的。</p>
+<pre><code>提出ルール（例）
+① 成果物がチーム内でレビュー・合意済みであること
+② ファイル命名規則に従っていること（[事業コード]_[図面番号]_[版数]_[日付]）
+③ CDEのWIPフォルダの所定の場所にアップロード
+④ 提出連絡（チャット・メール等）で発注者担当に通知
+→ 以降はCDE管理（Shared→Published）へ移行</code></pre>
+<blockquote>
+<p><strong>統合パターン（理想）</strong>: CDEをBoxとした場合、同一サービスの別フォルダをタスクチーム作業環境として使うことで、提出操作がフォルダ間の移動・コピーで完結する。ただしタスクチームフォルダのアクセス権限をCDE（WIP以降）と明確に分離することが必要。</p>
+</blockquote>
+<hr />
+<h1 id="統合可視化層gis基盤">5. 統合・可視化層（GIS基盤）</h1>
+<blockquote>
+<p><strong>GISとデジタルツインの整理</strong></p>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 22%" />
+<col style="width: 44%" />
+</colgroup>
+<thead>
+<tr>
+<th>概念</th>
+<th>役割</th>
+<th>主目的</th>
+<th>本書での位置づけ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GIS基盤</strong>（本章）</td>
+<td>地理空間データの管理・配信・2D/3D可視化</td>
+<td>空間的意思決定支援・台帳管理・データ配信</td>
+<td>空間データ統合の基盤（手段）</td>
+</tr>
+<tr>
+<td><strong>デジタルツイン活用層</strong>（第5章）</td>
+<td>GIS/BIM/IoTを統合し現実をデジタルで再現・同期</td>
+<td>状態監視・シミュレーション・AR/VR活用</td>
+<td>GIS基盤を活用する上位層（目指す姿）</td>
+</tr>
+</tbody>
+</table>
+<p>本章はGIS基盤（空間データの管理・配信・可視化）を扱う。デジタルツイン的な活用（リアルタイム同期・シミュレーション・XR）は第5章で整理する。</p>
+</blockquote>
+<figure>
+<img src="https://yamamoto-ryuzo.github.io/portal/Project_CDE/images/04_空間データ可視化基盤.png" alt="空間データ可視化基盤" />
+<figcaption aria-hidden="true">空間データ可視化基盤</figcaption>
+</figure>
+<h2 id="全体構成と役割">5.1 全体構成と役割</h2>
+<p>GIS基盤・空間データ可視化基盤は、CDEで管理されるSSOTデータを<strong>位置情報（座標系）という共通軸</strong>で統合・加工・配信し、関係者が地図・3D・グラフで直感的に状況を把握できるようにする。CDE本体（ストレージ・権限管理）とは分離するが、データの流れは一方向ではない。</p>
+<ul>
+<li><strong>CDE → GIS（派生物生成）</strong>: SSOTの変更を起点に、ETLで自動変換した派生物をPostGIS・タイルストアに格納して配信する。</li>
+<li><strong>GIS固有属性の管理（GIS主導）</strong>: 現地調査・台帳補正・新規地物追加など、GIS層が正本となる属性はPostGISに直接書き込み（OGC API - Features / WFS-T / QGISなど、層1のみ）、変更履歴を保持したうえでCDEへバックシンクしてSSOTとの整合性を維持する。</li>
+</ul>
+<pre><code>[SSOT（CDE / Box等）] ←── バックシンク（GeoPackage/GeoJSON・CDE WIPワークフロー経由）
+    ↓ ETLパイプライン（GDAL / PDAL / IFC変換 等）
+[空間DB（PostGIS）・タイルストア（MBTiles / 3DTILES）]
+    ↑ GIS属性編集・補正・新規追加（OGC API - Features / WFS-T / QGIS等、層1のみ）
+    ↓ OGC API / 3DTILES配信
+[配信サーバ（GeoServer / TileServer GL / Cesium Server）]
+    ↓ 認証・CDN
+[クライアント（Cesium / MapLibre GL / Lizmap 等）]</code></pre>
+<p><strong>表5-1　空間データ可視化基盤の構成要素</strong></p>
+<table>
+<colgroup>
+<col style="width: 62%" />
+<col style="width: 37%" />
+</colgroup>
+<thead>
+<tr>
+<th>構成要素</th>
+<th>役割</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ETLパイプライン</td>
+<td>SSOT変更を起点に、座標変換・フォーマット変換・タイル生成を自動実行（CI化）</td>
+</tr>
+<tr>
+<td>空間DB（PostGIS）</td>
+<td>ベクタ地物・属性・メタデータ・文書リンク（<code>file_url</code>）を一元管理。GIS固有属性の書き込み・補正・追加の起点でもある</td>
+</tr>
+<tr>
+<td>タイル・3Dストア</td>
+<td>3DTILES（BIM/点群/地形）・MBTiles（ラスタ/ベクタタイル）を保管・配信</td>
+</tr>
+<tr>
+<td>配信サーバ</td>
+<td>GeoServer/TileServer GL等でOGC/3DTILES/MVTを配信。リバースプロキシで保護</td>
+</tr>
+<tr>
+<td>クライアント</td>
+<td>Cesium（3D）・MapLibre GL（2D）・Lizmap（地図ポータル）等。層1/2/3の権限に応じて表示・編集制御</td>
+</tr>
+</tbody>
+</table>
+<h2 id="データ処理パイプラインetl自動化">5.2 データ処理パイプライン（ETL自動化）</h2>
+<p>調査・測量・設計で生成された各データ（<code>1.3.1</code> 記載）はCDEで原本を保管した上で、ファイル登録イベントをトリガーに可視化用の「派生物」を自動生成する。</p>
+<p><strong>表5-2　データ処理パイプライン（ETL処理内容）</strong></p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 32%" />
+<col style="width: 18%" />
+<col style="width: 14%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr>
+<th>データ種別</th>
+<th>原本フォーマット</th>
+<th>ETL処理</th>
+<th>派生物</th>
+<th>表示</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>調査（報告書・写真）</td>
+<td>PDF/JPEG/GeoTIFF</td>
+<td>サムネ生成・GeoTIFFタイル化（GDAL）・メタ抽出</td>
+<td>WMTSタイル・サムネ・GeoJSONメタ参照</td>
+<td>WMS/Webドキュメントリンク</td>
+</tr>
+<tr>
+<td>測量（点群）</td>
+<td>LAS/LAZ/E57</td>
+<td>PDAL投影・フィルタ→Entwineタイル化</td>
+<td>タイル点群（Potree/3DTiles形式）</td>
+<td>Potree/Cesium</td>
+</tr>
+<tr>
+<td>測量（DSM/DTM/オルソ）</td>
+<td>GeoTIFF</td>
+<td>gdalwarp→gdal2tiles</td>
+<td>XYZ/WMTSタイル・等高線ベクタ</td>
+<td>MapLibre GL/Cesium地形ドレープ</td>
+</tr>
+<tr>
+<td>設計（BIM/IFC）</td>
+<td>IFC/Revit(.rvt)</td>
+<td>IFC→3DTILES変換（IFC.js/ifcConvert/xeokit）</td>
+<td>3DTILES/glTF（LOD・Draco圧縮済）</td>
+<td>Cesium/専用SaaSビューア</td>
+</tr>
+<tr>
+<td>設計（CAD）</td>
+<td>DWG/DXF</td>
+<td>OGR→GeoPackage変換</td>
+<td>GeoPackage/GeoJSON</td>
+<td>GeoServer/MapLibre GL</td>
+</tr>
+<tr>
+<td>設計（土木/LandXML）</td>
+<td>LandXML/CSV</td>
+<td>変換→PostGIS</td>
+<td>GeoJSONフィーチャ/MVT</td>
+<td>MapLibre GL/Cesium</td>
+</tr>
+<tr>
+<td>GIS（ベクタ）</td>
+<td>Shapefile/GeoJSON/GeoPackage</td>
+<td>PostGISインポート→Tippecanoe</td>
+<td>MVT（PBF）/GeoJSON</td>
+<td>MapLibre GL/GeoServer</td>
+</tr>
+</tbody>
+</table>
+<p><strong>共通ETL要件</strong> - 全データに座標系（EPSG）整合・投影変換を実施 - <code>ssot_id</code>・作成日・作成者・精度・処理履歴をメタデータとして付与（PostGIS JSONB / GeoJSON properties） - パイプラインはCI化し、SSOT更新→派生物再生成を自動実行（インクリメンタル差分更新対応） - 公開層（層3）向けには属性削減・個人情報匿名化を施した別派生物を生成</p>
+<h2 id="gis基盤空間統合属性管理">5.3 GIS基盤（空間統合・属性管理）</h2>
+<p>すべての業務データを<strong>位置情報という共通軸</strong>で統合する中核。PostGISを主DBとして採用し、地物・属性・メタデータ・文書リンクを一元管理する。</p>
+<p><strong>表5-3　GIS基盤（空間統合・属性管理）の機能一覧</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>機能</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>空間・属性管理</td>
+<td>EPSGコードによる空間参照を全データに付与。地物ごとの属性・台帳をGIS属性テーブルで管理・検索・参照</td>
+</tr>
+<tr>
+<td>台帳・属性連携</td>
+<td>各業務フェーズの台帳（CSV/DB）をGIS属性として取り込み、地物との関連付けを維持</td>
+</tr>
+<tr>
+<td>文書・図面リンク</td>
+<td><code>ssot_id</code>・<code>file_url</code>・<code>approval_status</code>等をGIS属性に保持。GetFeatureInfoで文書を即参照・ダウンロード可能にする</td>
+</tr>
+<tr>
+<td>専門データ取込</td>
+<td>IFC(BIM/CIM)・DWG(CAD)・LAS/LAZ(点群)を受け入れGIS座標系に統合</td>
+</tr>
+<tr>
+<td>空間データ形式対応</td>
+<td>GeoJSON/Shapefile/GeoPackage/GMLを入出力し他システム・オープンデータとの相互運用性を確保</td>
+</tr>
+<tr>
+<td>属性編集・補正</td>
+<td>PostGIS属性テーブルの値をQGIS・Web GIS（GeoServer/Lizmap）またはOGC API - Features（PUT/PATCH）経由で直接修正する。編集権限は層1に限定し、変更者・変更日・変更理由を <code>audit_log</code> に記録する</td>
+</tr>
+<tr>
+<td>新規地物・属性追加</td>
+<td>現地調査・追加測量・台帳更新により新規地物または属性カラムを追加する。新規地物には <code>ssot_id</code>（UUID）を発番し、全システム共通キーとして使用する</td>
+</tr>
+<tr>
+<td>変更履歴管理</td>
+<td>属性変更はトリガベースの履歴テーブル（<code>audit_log</code>）で全件記録し、変更前後の値・変更者・タイムスタンプを保持する</td>
+</tr>
+<tr>
+<td>CDEへのバックシンク</td>
+<td>GIS層で確定した属性・地物はGeoPackageまたはGeoJSONでエクスポートし、CDE（Box等）のWIP→Sharedワークフローを経てSSOTに反映する。GIS層が正本となる属性にのみ本手順を適用する</td>
+</tr>
+</tbody>
+</table>
+<h3 id="lizmap-を動作させるための-vm-候補">LIZMAP を動作させるための VM 候補</h3>
+<p>以下は QGIS Server + Lizmap Web Client を用いた可視化ポータルを想定した VM 構成候補です。実運用ではトラフィック量・同時接続数・タイル生成負荷・タイルキャッシュ有無に応じて調整してください。</p>
+<ul>
+<li><strong>開発 / 評価（小規模テスト）</strong>
+<ul>
+<li>CPU: 2 vCPU</li>
+<li>メモリ: 4 GB</li>
+<li>ディスク: 50 GB SSD</li>
+<li>OS: Ubuntu LTS（例: 22.04以降）</li>
+<li>備考: 単一ノードで動作確認。低負荷・少人数の検証用。</li>
+</ul></li>
+<li><strong>小規模本番（少数ユーザ）</strong>
+<ul>
+<li>CPU: 4 vCPU</li>
+<li>メモリ: 8–16 GB</li>
+<li>ディスク: 100–150 GB SSD（IOPS に余裕を）</li>
+<li>備考: PostGIS を同一 VM に置けるが、データ量が増える場合は分離を検討。</li>
+</ul></li>
+<li><strong>中規模本番（複数同時ユーザ・タイル生成あり）</strong>
+<ul>
+<li>CPU: 8 vCPU</li>
+<li>メモリ: 32 GB</li>
+<li>ディスク: 250 GB SSD（高速IO推奨）</li>
+<li>備考: PostGIS を別ノード／マネージド DB に分離。タイルキャッシュ（MapProxy/TileCache）や Redis を併用。</li>
+</ul></li>
+<li><strong>高可用 / スケーラブル構成（推奨：本番大型）</strong>
+<ul>
+<li>構成例: Web層（複数の Lizmap Web Client コンテナ） + QGIS Server ノード群（LB配下） + PostGIS（主従構成またはマネージド） + 分散キャッシュ/オブジェクトストレージ（S3互換）</li>
+<li>各 Web ノード: 4–8 vCPU / 16–32 GB</li>
+<li>QGIS Server ノード: 8 vCPU / 32 GB（負荷に応じて水平スケール）</li>
+<li>備考: Kubernetes 等でコンテナ化し、水平スケール＋LBで対応するパターンが運用性に優れる。</li>
+</ul></li>
+</ul>
+<p><strong>運用上の注意（短く）</strong> - OS: Ubuntu LTS 系を推奨。セキュリティ更新は自動化する。 - QGIS Server: LTR（長期サポート）バージョンを利用し、Lizmap の対応バージョンを確認する。 - PostGIS: データ量が多い場合は I/O とメモリを重視。VACUUM / autovacuum 設定を適切に調整する。 - キャッシュ: タイル・OGCレスポンスのキャッシュ（Varnish/Redis/MapProxy）を導入するとレスポンスが大幅改善する。 - バックアップ: PostGIS とタイルストアのスナップショット/バックアップ運用を必須とする。 - TLS/認証: 公開・関係者共有に応じて OIDC/SSO を導入し、Lizmap の権限管理と連携する。</p>
+<p>（参考）クラウド/オンプレ候補 - <strong>AWS</strong>: EC2（汎用・汎用メモリ最適化）、RDS / Aurora（PostGIS 対応）、S3（タイル・オブジェクト） - <strong>Azure</strong>: Virtual Machines、Azure Database for PostgreSQL、Blob Storage - <strong>GCP</strong>: Compute Engine、Cloud SQL（Postgres）、Cloud Storage - <strong>オンプレ</strong>: VMware 仮想マシン（vCPU/メモリを上記目安に割当）、ストレージは高速 SSD を推奨</p>
+<p>上記は目安です。負荷試験（同時接続・タイル生成）を実施して実運用構成を確定してください。</p>
+<h3 id="ismap-登録主要クラウド">ISMAP 登録（主要クラウド）</h3>
+<p>以下は主要クラウド事業者の ISMAP 登録状況（主要公開情報に基づく）。 - <strong>AWS (Amazon Web Services)</strong>: 登録済み（サービス単位で対象範囲が異なるため、該当サービス行の <code>登録番号</code> を ISMAP ポータルで確認してください） — 参照: https://www.ismap.go.jp/csm?id=cloud_service_list 、https://aws.amazon.com/jp/compliance/ismap/ - <strong>Microsoft (Office 365 / Azure)</strong>: 登録済み — 登録番号: C21-0013-2 — 参照: https://www.ismap.go.jp/csm?id=cloud_service_list - <strong>Google Workspace</strong>: 登録済み — 登録番号: C21-0005-2 — 参照: https://www.ismap.go.jp/csm?id=cloud_service_list - <strong>Box</strong>: 登録済み — 登録番号: C21-0017-2 — 参照: https://www.ismap.go.jp/csm?id=cloud_service_list - <strong>Dropbox Business</strong>: 登録済み — 登録番号: C24-0075-2 — 参照: https://www.ismap.go.jp/csm?id=cloud_service_list - <strong>さくらのクラウド（さくらインターネット）</strong>: 登録済み — サービス単位の登録番号は <code>ISMAPポータル</code> 側の該当行を確認してください — 参照: https://manual.sakura.ad.jp/cloud/ismap/index.html - <strong>IIJ（IIJ GIO 等）</strong>: 登録済み — サービス単位で登録番号あり、該当サービスの ISMAP エントリを参照してください — 参照: https://www.iij.ad.jp/（IIJ GIO 案内）および ISMAP ポータル - <strong>NTT（NTTデータ等の該当サービス）</strong>: 登録済み（例: NTTデータ OpenCanvas 等） — 登録番号はサービスごとに異なるため ISMAP ポータルを参照してください</p>
+<p>各社の ISMAP ポータル検索（例）</p>
+<ul>
+<li>AWS: https://www.ismap.go.jp/csm?sysparm_query=Amazon%20Web%20Services</li>
+<li>Microsoft: https://www.ismap.go.jp/csm?sysparm_query=Microsoft%20Office%20365</li>
+<li>Google: https://www.ismap.go.jp/csm?sysparm_query=Google%20Workspace</li>
+<li>Box: https://www.ismap.go.jp/csm?sysparm_query=Box</li>
+<li>Dropbox: https://www.ismap.go.jp/csm?sysparm_query=Dropbox%20Business</li>
+<li>さくら: https://www.ismap.go.jp/csm?sysparm_query=%E3%81%95%E3%81%8F%E3%82%89%E3%81%AE%E3%82%AF%E3%83%A9%E3%82%A6%E3%83%89</li>
+<li>IIJ: https://www.ismap.go.jp/csm?sysparm_query=IIJ%20GIO</li>
+<li>NTT: https://www.ismap.go.jp/csm?sysparm_query=NTT%20Data</li>
+</ul>
+<p>注: ISMAP は多くの事業者で「サービス単位」かつ「リージョン／機能範囲」ごとに登録が行われます。正式な調達・利用判断では、上記の簡易表に加え <code>ISMAP クラウドサービスリスト</code> の該当行で<strong>登録番号・登録日・対象範囲（サービス名／リージョン）</strong>を必ず確認してください。</p>
+<p>もし私の方で <code>登録番号</code>（ISMAP ポータル上の「登録番号」列）を各社ごとに1つずつ取得して本文に明記してよろしければ、続けて各該当ページを掘り登録番号と登録日・参照 URL を追記します。</p>
+<h3 id="概算価格比較目安月額">概算価格比較（目安・月額）</h3>
+<p>前提（見積条件の例）: 東京リージョン相当、OS: Ubuntu、ストレージ: 250 GB SSD、帯域: 小〜中程度、オンデマンド課金（割引/リザーブ未考慮）。実運用ではマネージド DB・バックアップ・サポート費用・データ転送量が別途必要。</p>
+<ul>
+<li><strong>AWS / Azure / GCP（パブリック大手）</strong>
+<ul>
+<li>小規模（4 vCPU / 8–16 GB）: 約 ¥15,000〜¥35,000</li>
+<li>中規模（8 vCPU / 32 GB）: 約 ¥60,000〜¥140,000</li>
+<li>高可用（マルチノード + マネージドDB + オブジェクトストレージ）: 約 ¥200,000〜¥600,000</li>
+</ul></li>
+<li><strong>さくらのクラウド（国産 IaaS）</strong>
+<ul>
+<li>小規模: 約 ¥10,000〜¥30,000</li>
+<li>中規模: 約 ¥50,000〜¥110,000</li>
+<li>高可用: 約 ¥150,000〜¥450,000</li>
+</ul></li>
+<li><strong>IIJ / NTT（エンタープライズ / 法人向け）</strong>
+<ul>
+<li>小規模: 約 ¥20,000〜¥40,000</li>
+<li>中規模: 約 ¥80,000〜¥160,000</li>
+<li>高可用: 約 ¥250,000〜¥700,000</li>
+</ul></li>
+<li><strong>SaaS 型（Box / Dropbox 等）</strong>
+<ul>
+<li>比較対象が異なるため IaaS と直接比較不可（例: Dropbox Business ユーザ課金 約 ¥1,000〜¥2,500/ユーザ/月、Box も同程度）。</li>
+</ul></li>
+</ul>
+<p>注意: 上記は概算レンジです。実際の見積りは「想定同時接続数」「タイル生成頻度」「バックアップ保持期間」「ネットワーク egress」「サポートレベル（SLA）」で大きく変動します。公共案件では ISMAP 適合確認と同時に、各社から正式な見積（構成＋サポート）を取得してください。</p>
+<p>（参考）国内クラウド / ホスティング候補</p>
+<ul>
+<li><p><strong>さくらのクラウド（さくらインターネット）</strong>: 国内データセンタで稼働する IaaS。VM の柔軟な構成が可能で国内拠点要件を満たしやすい。ブロックストレージやオブジェクトストレージとの組合せでタイル保管やバックアップ運用が容易。</p></li>
+<li><p><strong>IIJ GIO / IIJ のクラウドサービス</strong>: 法人向けの高信頼クラウド・マネージド DB 提供があり、国内拠点・運用サポートを重視する案件に適する。PostGIS 運用のマネージドサービスが利用可能な場合は運用負荷軽減につながる。</p></li>
+<li><p><strong>NTT Communications / NTT グループのクラウド</strong>: 国内データセンタと高いネットワーク品質を提供。エンタープライズ向けの SLA・セキュリティ要件が重要な公共案件に向く。</p></li>
+<li><p><strong>さくらのVPS / 国内専用ホスティング</strong>: 小規模・試験的な導入やコスト最優先のケースで検討可能。ただし I/O 性能やスケール性に注意。</p></li>
+</ul>
+<p>注: 上記国内サービスは「国内データセンタ要件」に対応しやすい候補ですが、ISMAP 登録状況・契約条件・運用サポート内容は随時確認が必要です。公共案件では必ず ISMAP 等の適合確認を行ってください。</p>
+<p><strong>ID連携原則</strong> - <code>ssot_id</code>（UUID）を全システム共通キーとして使用し、BIM要素・点群領域・GIS地物・文書間のトレーサビリティを担保する - GIS地物テーブルに <code>doc_links</code>（<code>ssot_id</code> 配列）または <code>doc_count</code> カラムを追加し、GetFeatureInfoで関連文書を参照可能にする</p>
+<h2 id="d可視化3dtiles統一">5.4 3D可視化（3DTILES統一）</h2>
+<p>3Dモデル配信は <strong><code>3DTILES</code></strong> を中間フォーマットの標準とし、取り込み→タイル化→配信→表示を一貫して自動化する。</p>
+<p><strong>主要フロー</strong> 1. <strong>取り込み</strong>: IFC/RVT/DWG・LAS/LAZ・写真測量モデル等を受け入れ 2. <strong>前処理</strong>: 座標（EPSG/ECEF）整合、階層・セマンティクス抽出、マテリアル統合 3. <strong>タイル化</strong>: メッシュ簡略化・LOD生成・Draco/KTX2圧縮 → <code>3DTILES</code> 生成 4. <strong>デプロイ</strong>: 3DサーバまたはS3+CDNへデプロイしストリーミング配信 5. <strong>表示</strong>: Cesium/Three.js等がビュー依存でタイルを逐次取得してレンダリング 6. <strong>インタラクション</strong>: 断面・距離・属性クエリ・ハイライト等の3D操作を提供</p>
+<p><strong>BIM/CIM固有の考慮事項</strong> - 元IFC/DWGはCDEにSSOTとして保管し、公開用は軽量化した3DTILES/glTFを <code>Published</code> として配信 - IFC→3DTILES変換ツール: IFC.js / ifcConvert / xeokit-metadata-convert 等 - SaaS（Autodesk Forma, Trimble Connect等）はセキュリティ・国内保管要件を確認の上PoC評価を推奨 - ARクライアント非対応の場合、サーバ側でglTF/GLBへ自動変換して配信</p>
+<p><strong>設計上の留意点</strong> - 3D固有メタデータ（階層ID・素材・耐荷重等のセマンティクス）をタイルメタに保持し、クライアントからの3Dクエリで利用可能にする - ジオリファレンス（ECEF→ローカル変換）と高さ基準（地表面 vs ジオイド）を明示 - パフォーマンスはタイル粒度・LOD・圧縮・プリフェッチで制御。巨大モデルは領域分割とメタタイル設計が必要 - ファイル登録→変換→検証→デプロイのパイプラインをCI化し、差分更新（インクリメンタル）対応を実装</p>
+<h2 id="d配信ogc準拠">5.5 2D配信（OGC準拠）</h2>
+<p>2Dの地図・属性データ配信はOGC標準に準拠して相互運用性を確保しながら、3D表示（<code>3DTILES</code>）と整合した座標系・メタデータを保持する。</p>
+<p><strong>表5-4　推奨OGCプロトコル / フォーマット（優先順）</strong></p>
+<table>
+<colgroup>
+<col style="width: 47%" />
+<col style="width: 26%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr>
+<th>プロトコル</th>
+<th>用途</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OGC API - Features（読込）</td>
+<td>属性フィーチャの取得・検索（GET）・フィルタクエリ</td>
+<td>GeoJSONを標準ペイロードとして扱う</td>
+</tr>
+<tr>
+<td>OGC API - Features（書込）</td>
+<td>地物・属性の新規登録（POST）・更新（PUT/PATCH）・削除（DELETE）</td>
+<td>書込は層1認証・トランザクション管理必須。WFS-T 2.0をレガシーGISツール（QGIS/ArcGIS等）互換として併用</td>
+</tr>
+<tr>
+<td>OGC API - Tiles / MVT（PBF）</td>
+<td>高速ベクトルタイル配信</td>
+<td>クライアント描画性能を最大化</td>
+</tr>
+<tr>
+<td>WMTS / XYZ</td>
+<td>タイル化ラスタ背景（航空写真・オルソ）の高速配信</td>
+<td>CDNと組合せ</td>
+</tr>
+<tr>
+<td>WMS</td>
+<td>動的ラスタ画像・GetFeatureInfo連携</td>
+<td>レガシーツール互換</td>
+</tr>
+<tr>
+<td>GeoPackage</td>
+<td>配布用・オフライン用アーカイブ</td>
+<td>ベクタ/ラスタを単一ファイルで保持</td>
+</tr>
+<tr>
+<td>GeoJSON</td>
+<td>APIレスポンス・軽量クライアント向け</td>
+<td>デバッグ・軽量用途</td>
+</tr>
+<tr>
+<td>OGC API - Records / CSW</td>
+<td>メタデータ検索・カタログ連携</td>
+<td>ISO 19115準拠</td>
+</tr>
+</tbody>
+</table>
+<p><strong>3D連携</strong> - 背景ラスタ（XYZ/WMTS）・DEMはCesiumの地形ドレープに使用可能であることを要件とする - 同一タイル座標系（EPSG:3857 / WebMercator）を採用し、タイル格子・ズームレベルの整合を保つ - DEM/高さ基準はメタデータで明示（<code>height_reference</code>: <code>geoid</code> | <code>ellipsoid</code>） - ベクタ（MVT）と3D（3DTILES）は <code>ssot_id</code> を共通キーとして双方向参照可能にする</p>
+<p><strong>パフォーマンス対策</strong> - ラスタ: WMTS/XYZで事前タイル化（ズームレベル 0〜18）、CDN + Cache-Controlでエッジキャッシュ最大化 - ベクタ: MVT（Tippecanoe生成）で表示に最小限の属性のみ（<code>ssot_id</code>, <code>type</code>, <code>label</code>, <code>status</code>）。詳細属性は別APIで遅延取得 - DEM: 粗解像度は遠景用・詳細はローカル領域用に分割 - ベクタクエリはPostGIS側で処理しクライアント負荷を軽減 - クライアント側はWebGL（Cesium/MapLibre GL/deck.gl）でGPU描画し、CPU作業はワーカで分離</p>
+<p><strong>推奨スタック</strong> - バックエンドDB: <code>PostGIS</code>（ジオメトリ・属性・バージョン管理を一元化） - OGCサーバ: <code>GeoServer</code> / <code>QGIS Server(Lizmap)</code>（WMS/WMTS/WFS/OGC API） - タイル生成: <code>tippecanoe</code>（ベクタ）・<code>gdal2tiles</code>/<code>gdalwarp</code>（ラスタ） - ベクタタイル配信: <code>tegola</code> / <code>TileServer GL</code> / S3+CloudFront - クライアント: <code>MapLibre GL</code>（2D）+ <code>Cesium</code>（3D）を組合せ、用途に応じて <code>Leaflet</code>/<code>deck.gl</code> を追加</p>
+<p><strong>メタデータ（必須項目）</strong><br />
+<code>ssot_id</code>, <code>title</code>, <code>created_at</code>, <code>creator</code>, <code>epsg</code>, <code>bbox</code>, <code>accuracy</code>, <code>license</code>, <code>file_url</code>, <code>processing_history</code>。<br />
+カタログ登録時はISO 19115準拠フィールドを含め、OGC API - Records / CSWで検索可能にする。</p>
+<p><strong>PoC/導入時チェック</strong> - WMS/WMTS/OGC API - Features のレスポンス互換性とGetFeatureInfoの整合性 - MVT（PBF）タイルの生成・ズーム整合性・スタイル適用テスト - GeoPackageの作成・読み戻しおよびオフライン利用検証 - OGC API - Records / CSWでの検索・メタデータ表示確認 - 2D/3D間のID連携（<code>ssot_id</code>による双方向参照）</p>
+<h2 id="事業監理機能ssot活用層">5.6 事業監理機能（SSOT活用層）</h2>
+<p>SSOTとして管理されたデータを活用し、事業管理が実施層を横断的に統括するための業務機能を可視化基盤から提供する。</p>
+<p><strong>表5-5　事業監理機能一覧（SSOT活用層）</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>機能</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>進捗管理</td>
+<td>各フェーズの成果データをSSOTから参照し、事業全体の進捗をリアルタイムに把握する</td>
+</tr>
+<tr>
+<td>資料整理</td>
+<td>設計書・会議録・住民対応記録等をSSOTから集約・整理・検索できる状態に保つ</td>
+</tr>
+<tr>
+<td>可視化</td>
+<td>SSOTデータを地図・3D・グラフで表現し、関係者が直感的に把握できるようにする</td>
+</tr>
+<tr>
+<td>報告書作成支援</td>
+<td>地図・3Dデータと属性情報を組み合わせ、高品質な報告書を効率的に生成する</td>
+</tr>
+<tr>
+<td>状況把握レベル選択</td>
+<td>概略〜詳細の複数粒度で表示を切り替え、意思決定の目的に応じた情報密度の確認ができる</td>
+</tr>
+<tr>
+<td>VR連携</td>
+<td>VRへのデータ出力に対応し、複雑な構造物のイメージ共有や住民説明に活用する</td>
+</tr>
+<tr>
+<td>関係機関連携</td>
+<td>許認可機関・ライフライン事業者等との情報共有をSSOTから必要なデータを抽出・提供することで円滑化する</td>
+</tr>
+</tbody>
+</table>
+<h2 id="アクセス制御配信設計">5.7 アクセス制御・配信設計</h2>
+<p>可視化基盤のアクセス制御は「3. アクセス制御とデータ共有」の三層モデルに準拠する。</p>
+<p><strong>表5-6　可視化基盤のアクセス制御・配信設計</strong></p>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 29%" />
+<col style="width: 19%" />
+<col style="width: 38%" />
+</colgroup>
+<thead>
+<tr>
+<th>層</th>
+<th>配信形態</th>
+<th>認証</th>
+<th>派生物の条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>層1（設計編集）</td>
+<td>VPN/ゼロトラスト内の内部サービス</td>
+<td>SSO+MFA。短いセッション有効期限</td>
+<td>高解像度・完全属性。配信は署名付き</td>
+</tr>
+<tr>
+<td>層2（関係者共有）</td>
+<td>認証付きエンドポイント + 限定共有短期署名URL</td>
+<td>SSO+MFA推奨。外部はOTP/署名</td>
+<td>必要最小属性。ダウンロード制御付き</td>
+</tr>
+<tr>
+<td>層3（住民公開）</td>
+<td>CDN公開配信（WAF/RateLimit付き）</td>
+<td>不要（公開）</td>
+<td>完全匿名化・解像度低減済みの派生物のみ</td>
+</tr>
+</tbody>
+</table>
+<p><strong>共通要件</strong> - OGC/3DTILESエンドポイントはリバースプロキシ（Nginx/Caddy）で保護し、APIはOAuth2トークン/APIキーで制御 - 公開用（層3）はCDEのPublishedステータスを通過した派生物のみ配信を許可 - 全アクセス・操作ログをSIEMへ集約し最低90日保持</p>
+<h2 id="課題pocロードマップ">5.8 課題・PoC・ロードマップ</h2>
+<p><strong>優先PoC項目（高）</strong> - 大規模データ表示性能（複数IFC + 点群）での応答性と同時閲覧性能検証 - IFC→3DTILES/glTF、点群→タイル点群の自動生成パイプラインと処理時間評価 - CDEと可視化サービス間の認証・権限連携（SSO・ユーザ同期・ロールマッピング） - 元データの完全エクスポート（可搬性）とリストア検証 - GIS属性編集ワークフローの検証（QGIS / OGC API - Features 経由の書き込み・<code>audit_log</code> 記録・CDE WIPへのバックシンク手順）</p>
+<p><strong>運用ガバナンス（中）</strong> - SSOTの責任分界（どのデータが公式か・更新は誰が承認するか）の明文化 - GIS固有属性の責任分界（PostGISが正本となる属性の範囲・編集承認手順・CDE反映タイミング）の文書化 - 公開層の匿名化基準（写真・点群の個人情報除去ルール）とチェック手順 - ログ保管期間・監査プロセスの策定</p>
+<p><strong>技術改善・コスト（低〜中）</strong> - 自前ホスティング vs SaaS のTCO比較と冗長化設計 - レンダリング最適化（LOD戦略・キャッシュ/タイル刷新の方針） - 出来形差分検出の自動化とアラート連携</p>
+<p><strong>体制・教育（継続課題）</strong> - 運用ハンドブックの作成（権限・承認・公開手順） - 運用担当（CDEオーナー）とデータ管理担当の役割定義 - 関係者向けトレーニング計画とPoCフィードバックループ</p>
+<p>まずはPoC設計書（試験データ・評価指標・スケジュール）を作成し、実行→評価→運用ルール反映のサイクルを回すことを推奨する。</p>
+<h2 id="データ利用方式の分岐">5.9 データ利用方式の分岐</h2>
+<p>空間データの「使い方」は、<strong>誰が・どの目的で使うか</strong>によって大きく2方式に分かれる。「3. アクセス制御とデータ共有」の三層モデル（層1〜3）と対応させると、方式・共有方法・具体的アプリの選択が明確になる。</p>
+<figure>
+<img src="https://yamamoto-ryuzo.github.io/portal/Project_CDE/images/05_09_データ利用方式の分岐.png" alt="データ利用方式の分岐" />
+<figcaption aria-hidden="true">データ利用方式の分岐</figcaption>
+</figure>
+<h3 id="全体対応表層方式共有方法アプリ">全体対応表（層・方式・共有方法・アプリ）</h3>
+<p><strong>表5-7　データ利用方式の全体対応表（層・方式・共有方法・アプリ）</strong></p>
+<table>
+<colgroup>
+<col style="width: 7%" />
+<col style="width: 14%" />
+<col style="width: 17%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>層</th>
+<th>対象者</th>
+<th>共有方法</th>
+<th>データ方式</th>
+<th>アプリ区分</th>
+<th>代表的アプリ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>層1</strong> 設計・編集</td>
+<td>設計者・BIM担当・測量担当</td>
+<td>アカウント（認証付き）</td>
+<td><strong>ネイティブ方式（原本ネイティブ運用）</strong></td>
+<td>🗺️ <strong>GIS基盤</strong></td>
+<td><code>AutoCAD</code>/<code>Civil 3D</code>・<code>Revit</code>・<code>Navisworks</code>・<code>ArcGIS Pro</code>・<code>QGIS</code>・<code>Leica Cyclone</code>（点群）</td>
+</tr>
+<tr>
+<td>〃</td>
+<td>〃</td>
+<td>〃</td>
+<td>〃</td>
+<td>🏗️ <strong>デジタルツインPF</strong></td>
+<td><code>KOLC+</code>（建設BIM/CIM DT → <strong>5.4</strong>）</td>
+</tr>
+<tr>
+<td><strong>層2</strong> 関係者共有</td>
+<td>発注者・施工管理・関係機関</td>
+<td>アカウント ＋ 限定共有（署名付き短期URL等）</td>
+<td><strong>ネイティブ方式（原本ネイティブ運用） or タイル配信方式（XYZ/MVT/3DTILES）</strong></td>
+<td>🗺️ <strong>GIS基盤</strong></td>
+<td>ネイティブ方式: <code>Trimble Connect</code>・<code>BIM 360 Viewer</code> ／ タイル配信方式: <code>Lizmap</code>（認証付き）・<code>CesiumJS</code>（3D）・<code>MapLibre GL</code>（2D）</td>
+</tr>
+<tr>
+<td>〃</td>
+<td>〃</td>
+<td>〃</td>
+<td>〃</td>
+<td>🏗️ <strong>デジタルツインPF</strong></td>
+<td><code>torinome Base</code>（Admin認証・限定共有要確認 → <strong>5.6</strong>）</td>
+</tr>
+<tr>
+<td><strong>層3</strong> 公開</td>
+<td>住民・一般閲覧者・広報</td>
+<td>公開共有（パブリック）</td>
+<td><strong>タイル配信方式（XYZ/MVT/3DTILES）</strong></td>
+<td>🗺️ <strong>GIS基盤</strong></td>
+<td><code>Lizmap</code>（公開）・<code>CesiumJS</code>（公開）・<code>ArcGIS Online</code>（公開マップ）</td>
+</tr>
+<tr>
+<td>〃</td>
+<td>〃</td>
+<td>〃</td>
+<td>〃</td>
+<td>🏗️ <strong>デジタルツインPF</strong></td>
+<td><code>Re:Earth</code>（都市DT → <strong>5.5</strong>）・<code>PLATEAU VIEW</code>・<code>torinome Base</code>（公開モード）</td>
+</tr>
+<tr>
+<td><strong>AR・現場</strong></td>
+<td>施工・監理担当・住民説明会</td>
+<td>アカウント または 公開共有</td>
+<td>タイル配信（3DTILES/glTF）</td>
+<td>🗺️ <strong>GIS基盤</strong></td>
+<td><code>Cesium for Unity/Unreal</code>（3DTILESレンダリングエンジン）</td>
+</tr>
+<tr>
+<td>〃</td>
+<td>〃</td>
+<td>〃</td>
+<td>〃</td>
+<td>🏗️ <strong>デジタルツインPF</strong></td>
+<td><code>torinome AR</code>・<code>torinome WebAR</code>・<code>PLATEAU AR</code>（→ <strong>5.6</strong>）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>層2ではネイティブ方式とタイル配信を並行して提供することで、専門ソフト利用者（設計者・施工管理者）と非専門者（関係機関・下請け）のどちらにも対応できる。</p>
+</blockquote>
+<hr />
+<h3 id="ネイティブ方式原本ネイティブ運用">ネイティブ方式（原本ネイティブ運用）</h3>
+<h4 id="概要">概要</h4>
+<p>ネイティブ方式は、設計・測量・BIM 等の原本ファイル（DWG/IFC/LAS/ LandXML 等）を変換せずそのまま SSOT として管理し、専門ツールで直接開いて利用する運用モデルです。精度・セマンティクスを損なわず随時更新を反映できる点が最大の特徴で、層1（設計編集）を主目的に想定されます。</p>
+<h4 id="主なメリット">主なメリット</h4>
+<ul>
+<li>精度保持: 元ファイルの座標精度や階層・属性をそのまま維持できるため、設計・解析での誤差を最小化できる。</li>
+<li>既存ワークフローの継続: 専門担当者は普段使っているツールを変えずに作業でき、学習コストが低い。</li>
+<li>即時反映: 差分アップロードで最新状態に追従でき、出来形計測など頻繁更新に適する。</li>
+<li>出典性: SSOT として原本を保管することで、トレーサビリティが明確になる。</li>
+</ul>
+<h4 id="適用場面">適用場面</h4>
+<ul>
+<li>層1（設計編集）: 詳細設計、BIMモデリング、点群処理など専門ツールで直接編集・解析する場面。</li>
+<li>層2の専門担当向け: Trimble Connect や専用ビューア経由で共有し、関係者（施工管理者・監理者）が原本を精査する場合。</li>
+<li>出来形チェック・品質管理: 高精度な比較や差分解析が必要な工程。</li>
+</ul>
+<h4 id="フォーマット別の使い分けネイティブ前提">フォーマット別の使い分け（ネイティブ前提）</h4>
+<ul>
+<li>CAD: <code>DWG</code>/<code>DXF</code>（詳細図・線形）— 精密図面・寸法管理に最適。</li>
+<li>BIM: <code>IFC</code>/<code>RVT</code> — 階層・属性・部材情報を保持し設計連携に有効。</li>
+<li>点群: <code>LAS</code>/<code>LAZ</code> — 高精度出来形・計測解析に必須。Entwine 等でタイル化する前の原本保持が重要。</li>
+<li>土木データ: <code>LandXML</code>/<code>CSV</code> — 断面・縦横断・土量計算の原点として管理。</li>
+</ul>
+<h4 id="簡易アーキテクチャ">簡易アーキテクチャ</h4>
+<p>SSOT（CDE: 原本保管）→ 専門ツールアクセス（直接ダウンロード or マウント）→ 編集 → CDEへ差分アップロード（WIP→Shared→Published ワークフロー）</p>
+<p>差分アップロードをトリガーに、必要に応じて派生タイル（XYZ/MVT/3DTILES）を生成する ETL を動かすのが望ましい。</p>
+<h4 id="poc最小手順">PoC（最小手順）</h4>
+<ol type="1">
+<li>代表的な原本ファイル（IFC/DWG/LAS）を CDE に登録する。<br />
+</li>
+<li>専門ツールで原本を開き、小規模編集（注記・修正）を実施して差分を CDE にアップロードする。<br />
+</li>
+<li>差分イベントで ETL を起動し、派生タイルの再生成が行えることを検証する。<br />
+</li>
+<li>バージョン管理（<code>ssot_id</code> + version）とアクセスログが残ることを確認する。</li>
+</ol>
+<h4 id="検証ポイント">検証ポイント</h4>
+<ul>
+<li>精度とセマンティクス: 変換やエクスポートを行った場合の座標ズレ・属性欠落の有無を原本と比較する。<br />
+</li>
+<li>反映フロー: 差分アップロード→派生物再生成（インクリメンタル）が期待どおり動くか。<br />
+</li>
+<li>認可・排他制御: ファイルロックやWIPフローで同時編集による競合が防げるか。<br />
+</li>
+<li>運用コスト: 大容量ファイルの転送・保管コストと、変換を伴う運用の工数を見積もる。</li>
+</ul>
+<h4 id="運用上の推奨">運用上の推奨</h4>
+<ul>
+<li>ハイブリッド運用: ネイティブ原本は SSOT として保管し、公開・共有用には自動的にタイル派生物を生成するハイブリッド運用を推奨する。<br />
+</li>
+<li>差分トリガーの自動化: CDE のイベント（ファイル更新）をトリガに ETL をCI化し、派生物の整合性を常に担保する。<br />
+</li>
+<li>権限管理: 層1向けの厳格な認証（SSO/MFA）と排他制御（チェックアウト/チェックイン）を導入する。<br />
+</li>
+<li>テスト基準: 大規模モデルでレンダリング・転送性能を予め PoC で検証し、容量・帯域に応じた運用ポリシーを定める。</li>
+</ul>
+<p><strong>表5-8　ネイティブ方式 評価サマリ</strong></p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>評価</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>精度保持</td>
+<td>◎</td>
+</tr>
+<tr>
+<td>随時更新への対応</td>
+<td>◎</td>
+</tr>
+<tr>
+<td>変換コスト（公開向け）</td>
+<td>△（派生タイル生成は別工程）</td>
+</tr>
+<tr>
+<td>対象層</td>
+<td>層1（専門担当者） / 層2（専門共有）</td>
+</tr>
+<tr>
+<td>公開・広域配信</td>
+<td>△（一般公開は派生タイルを推奨）</td>
+</tr>
+<tr>
+<td>多人数同時利用</td>
+<td>△（同時編集には排他制御が必要）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>注: 一般的な運用の目安として、<code>KOLC+</code>・<code>ArcGIS Pro</code> の場合はタイル配信等への変換で共有を賄えるケースが多い。一方で <code>Revit</code>、<code>Navisworks</code>、<code>QGIS</code>、<code>AutoCAD Civil 3D</code> を原本のままネイティブで高速に共有・参照させる用途では、機能・性能確保のために有償の <code>FORMA</code> 等の専用ソリューションが必要になる場合がある（予算と要件に応じ要検討）。</p>
+<h3 id="タイル配信方式xyzmvt3dtiles">タイル配信方式（XYZ/MVT/3DTILES）</h3>
+<h4 id="概要-1">概要</h4>
+<p>タイル配信方式とは、原本を CDE に保管しつつ、表示・公開用途に最適化した派生データ（2D/3Dタイル）を生成して配信する手法です。ブラウザ／モバイル／AR クライアントでの軽快な表示と大規模同時配信を目的とします。</p>
+<h4 id="主なメリット-1">主なメリット</h4>
+<ul>
+<li>広域かつ高速配信（事前生成タイル＋CDN）</li>
+<li>表示中の範囲のみ取得するため帯域・描画負荷が低い（タイル分割／LOD）</li>
+<li>モバイル／AR に適した軽量ストリーミング（3DTILES/glTF + 圧縮）</li>
+<li>公開／限定共有の使い分けが容易（署名付きURL／OAuth／CDN制御）</li>
+</ul>
+<h4 id="適用場面簡潔">適用場面（簡潔）</h4>
+<ul>
+<li>層2（関係者共有）: 認証付きタイルで関係者に高速共有</li>
+<li>層3（公開）: CDN 経由で住民向け広報・地図公開</li>
+<li>AR/現場: 3DTILES/glTF を現地表示や WebAR に利用</li>
+</ul>
+<h4 id="フォーマット別の使い分け">フォーマット別の使い分け</h4>
+<ul>
+<li>ラスタ（航空写真／オルソ）: <code>XYZ</code> / <code>WMTS</code>（背景タイル）</li>
+<li>ベクタ: <code>MVT(PBF)</code>（検索・スタイル可変な地物）</li>
+<li>3D: <code>3DTILES</code> / <code>glTF</code>（BIM・点群・都市モデル）</li>
+</ul>
+<h4 id="簡易アーキテクチャ概略">簡易アーキテクチャ（概略）</h4>
+<p>CDE（原本） → ETL/変換ワーカー → タイルストア（MBTiles / オブジェクトストレージ） → CDN → クライアント</p>
+<p>（認証領域はプロキシ／署名付きURL／OAuth で制御）</p>
+<h4 id="poc最小手順-1">PoC（最小手順）</h4>
+<ul>
+<li>ラスタ（GeoTIFF → XYZ）: <code>gdal2tiles.py -z 0-18 input.tif tiles/</code></li>
+<li>ベクタ（GeoJSON → mbtiles）: <code>tippecanoe -o data.mbtiles -zg input.geojson</code></li>
+<li>3D（LAZ → Entwine EPT → 3DTILES）: <code>entwine build -i /path/laz -o /path/ept</code> → <code>py3dtiles</code> 等で 3DTILES 生成</li>
+</ul>
+<blockquote>
+<p>各出力を S3 等に置き CDN に配信し、MapLibre/CesiumJS で簡易確認する。</p>
+</blockquote>
+<h4 id="検証ポイント-1">検証ポイント</h4>
+<ul>
+<li>変換による座標ズレ／属性欠落の有無（原本との差分比較）</li>
+<li>ズーム別レスポンスと CDN キャッシュ効率</li>
+<li>更新サイクル（差分再生成の所要時間）</li>
+<li>公開用の匿名化・解像度調整の妥当性</li>
+</ul>
+<h4 id="運用上の推奨-1">運用上の推奨</h4>
+<ul>
+<li>原本は SSOT として CDE に保持し、差分登録をトリガーに CI 化した ETL で派生タイルを再生成する。</li>
+<li>公開用は属性削減・匿名化版のみ配信し、認証領域は署名付きURLやプロキシで保護する。</li>
+<li>PoC ではラスタ／ベクタ／3D のうち一つをまず検証し、次にハイブリッド運用を確認する。</li>
+</ul>
+<hr />
+<h3 id="推奨方針ハイブリッド">推奨方針（ハイブリッド）</h3>
+<p><strong>原本（ネイティブ方式（原本ネイティブ運用））は CDE で SSOT として保管・管理し、共有・公開・AR 用にはタイル配信方式（XYZ/MVT/3DTILES）の派生物を自動生成する。</strong></p>
+<pre><code>[CDE: 原本保管（SSOT）— ネイティブ方式]
+    │  層1: アカウント認証で専門ソフトから直接利用
+    ↓ 更新イベントをトリガーに自動ETL（タイル配信生成）
+[PostGIS + タイルストア]
+    ├── 2D: XYZ/WMTS/MVT タイル  ← 層2（認証）/ 層3（公開）
+    └── 3D: 3DTILES / glTF        ← 層2（認証）/ 層3（公開）/ AR
+    ↓
+[配信サーバ + CDN]
+    ├── 層2（アカウント認証 ＋ 限定共有）: Lizmap / CesiumJS / torinome Base（認証付き）
+    ├── 層3（公開共有）: Re:Earth / Lizmap / PLATEAU VIEW / CesiumJS / torinome Base（公開）
+    └── AR: torinome AR / torinome WebAR / Cesium for Unity・Unreal（3DTILES/glTF ストリーミング）</code></pre>
+<ul>
+<li>自動 ETL（<code>GDAL</code>/<code>PDAL</code>/<code>Tippecanoe</code>/<code>Entwine</code>/<code>py3dtiles</code> 等）で変換を CI 化する。</li>
+<li>座標系（EPSG）・精度・メタデータ（<code>ssot_id</code>・作成者・作成日・処理履歴）を各派生物に保持する。</li>
+<li>公開層（層3）向けは属性削減・個人情報匿名化を施した専用派生物を生成し、<code>Published</code> ステータスを通過したものだけ配信を許可する。</li>
+</ul>
+<hr />
+<h1 id="デジタルツイン活用層">6. デジタルツイン活用層</h1>
+<blockquote>
+<p><strong>本章の位置づけ</strong><br />
+デジタルツイン活用層は、「GIS基盤（第4章）が提供する空間データ」を活用して、現実の物理対象（構造物・インフラ・都市）をデジタル空間上に再現・同期する。GISが「手段」であるのに対し、デジタルツインは「目指す姿・活用層」である。本章では代表的なDTプラットフォームとして <strong>建設BIM/CIM DT（KOLC+: 5.5）</strong>・<strong>スマートシティ都市DT（Re:Earth: 5.6）</strong>・<strong>XRデジタルツイン（torinome: 5.4）</strong> を取り上げる。</p>
+</blockquote>
+<figure>
+<img src="https://yamamoto-ryuzo.github.io/portal/Project_CDE/images/06_デジタルツイン活用層.png" alt="デジタルツイン活用層" />
+<figcaption aria-hidden="true">デジタルツイン活用層</figcaption>
+</figure>
+<h2 id="gis基盤とデジタルツインの関係">6.1 GIS基盤とデジタルツインの関係</h2>
+<pre><code>GIS基盤（第4章）= データインフラ
+  │
+  ├── データ保管・処理
+  │       ・ PostGIS（空間DB）/ GeoServer（OGC配信）/ TileServer GL
+  │       ・ ETLパイプライン（GDAL/PDAL/py3dtiles）→タイル生成
+  │
+  ├──▼タイル配信エンドポイント：ここが接続界面▼───
+  │       【■ 2Dタイル】 XYZ・WMTS（ラスタ）/ MVT/PBF（ベクタ）
+  │       【■ 3Dタイル】 3D Tiles（OGC標準）/ glTF/GLB
+  │       → このエンドポイントを読み取る側が「DT活用層」
+  │
+  └── 活用層（デジタルツイン）= アプリケーションプラットフォーム
+          ・ 建設BIM/CIM DT: KOLC+（4D工程・出来形・現場リアルタイム同期）
+          ・ 都市DT: Re:Earth / PLATEAU VIEW（スマートシティ・住民説明会）
+          ・ XR DT: torinome（CesiumJS基盤・広域表示＋AR/VR/WebAR）
+          ・ IoTリアルタイム同期・シミュレーション・将来予測</code></pre>
+<blockquote>
+<p><strong>タイルが接続界面</strong>: GIS基盤とDT活用層の連携は<strong>タイル形式を通じたエンドポイント</strong>で行われる。GIS基盤は2D（XYZ/WMTS/MVT）・3D（3D Tiles）のタイルを生成・配信する「タイルプロバイダ」であり、DTプラットフォームはそのタイルを取得・レンダリング・ XR展開する「タイルコンシューマ」である。この分業が高速性・大視点共有・XR連携を同時成立させる根拠である。</p>
+</blockquote>
+<p><strong>表6-1　GISとデジタルツインの役割の違い</strong></p>
+<table>
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 27%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr>
+<th>観点</th>
+<th>GIS基盤</th>
+<th>デジタルツイン活用層</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>本質</strong></td>
+<td>地理空間データの管理・分析・可視化の基盤</td>
+<td>現実の物理対象をデジタルで再現・同期する概念</td>
+</tr>
+<tr>
+<td><strong>時間軸</strong></td>
+<td>静的・スナップショット中心</td>
+<td>リアルタイム同期・将来予測</td>
+</tr>
+<tr>
+<td><strong>目的</strong></td>
+<td>空間的意思決定支援</td>
+<td>状態監視・シミュレーション・制御</td>
+</tr>
+<tr>
+<td><strong>CDE上の位置づけ</strong></td>
+<td>データ保管・配信・可視化の「手段」</td>
+<td>プロジェクトCDEが目指す「状態像（ゴール）」</td>
+</tr>
+<tr>
+<td><strong>接続界面</strong></td>
+<td><strong>タイル配信エンドポイントを提供</strong>（タイルプロバイダ）</td>
+<td><strong>タイルを取得・レンダリング・XR展開</strong>（タイルコンシューマ）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="デジタルツインの構成要素">6.2 デジタルツインの構成要素</h2>
+<p><strong>表6-2　デジタルツイン構成要素</strong></p>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 18%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr>
+<th>構成要素</th>
+<th>内容</th>
+<th>主なツール例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>3D座標層</strong></td>
+<td>BIM/IFC・点群・PLATEAUの統合・3DTILES配信</td>
+<td><strong>KOLC+</strong>（建設BIM/CIM DT）, <strong>Re:Earth</strong>（都市DT）, PLATEAU VIEW, <strong>torinome</strong>（XR DT）</td>
+</tr>
+<tr>
+<td><strong>リアルタイム層</strong></td>
+<td>IoTセンサー・現場カメラ・測定データのリアルタイム取込</td>
+<td>GNSSリアルタイム、測定センサー連携</td>
+</tr>
+<tr>
+<td><strong>シミュレーション層</strong></td>
+<td>之漏件・施工手順・災害を現実に影響を与えずに事前検証</td>
+<td>シミュレーションエンジン、Unity/Unreal</td>
+</tr>
+<tr>
+<td><strong>XR屠映層</strong></td>
+<td>AR/VRで現場または会議室で実宯大展示</td>
+<td>torinome AR/VR/WebAR, PLATEAU AR</td>
+</tr>
+</tbody>
+</table>
+<h2 id="デジタルツインロードマップ">6.3 デジタルツイン・ロードマップ</h2>
+<p>プロジェクトCDEにおけるデジタルツインの展開は段階的に進めることを推奨する。</p>
+<p><strong>ステップ1（入口）</strong>: GIS基盤でBIM/IFC・点群・都市モデルの3D可視化を実現する。<br />
+<strong>ステップ2（展開）</strong>: IoTセンサー・現場データとのリアルタイム連携を追加する。<br />
+<strong>ステップ3（成熟）</strong>: シミュレーション・AR/VR活用まで拡張し、事業全体の意思決定・住民説明・維持管理を支援する。</p>
+<blockquote>
+<p><strong>デジタルツインプラットフォーム代表事例: 建設BIM/CIM DT「KOLC+」は本章 5.4 に、スマートシティ都市DT「Re:Earth」は本章 5.5 に、XRデジタルツイン「torinome」は本章 5.6 に記載する。</strong></p>
+</blockquote>
+<p><strong>表6-3　DTプラットフォーム比較（KOLC+ / Re:Earth / torinome）</strong></p>
+<table>
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 32%" />
+<col style="width: 29%" />
+<col style="width: 28%" />
+</colgroup>
+<thead>
+<tr>
+<th>観点</th>
+<th style="text-align: center;">KOLC+（建設BIM/CIM DT）</th>
+<th style="text-align: center;">Re:Earth（都市DT）</th>
+<th style="text-align: center;">torinome（XR DT）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>対象スケール</strong></td>
+<td style="text-align: center;">工事現場〜路線</td>
+<td style="text-align: center;">都市・地域・<strong>広域</strong></td>
+<td style="text-align: center;"><strong>広域〜現場</strong></td>
+</tr>
+<tr>
+<td><strong>BIM/CIM詳細管理</strong></td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">△</td>
+<td style="text-align: center;">○（表示のみ）</td>
+</tr>
+<tr>
+<td><strong>広域高速表示</strong></td>
+<td style="text-align: center;">△</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;"><strong>◎</strong>（CesiumJS基盤）</td>
+</tr>
+<tr>
+<td><strong>PLATEAU連携</strong></td>
+<td style="text-align: center;">○</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;"><strong>◎</strong>（PLATEAU・ Google 3D Tiles）</td>
+</tr>
+<tr>
+<td><strong>リアルタイム同期</strong>（現場センサー・GNSS）</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">△</td>
+<td style="text-align: center;">△</td>
+</tr>
+<tr>
+<td><strong>AR/VR/XR</strong></td>
+<td style="text-align: center;">△（360写真・GNSS程度）</td>
+<td style="text-align: center;">△</td>
+<td style="text-align: center;">◎</td>
+</tr>
+<tr>
+<td><strong>住民説明・広報（層3）</strong></td>
+<td style="text-align: center;">○</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">◎（WebAR）</td>
+</tr>
+<tr>
+<td><strong>設計・施工管理WF</strong></td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">△</td>
+<td style="text-align: center;">△</td>
+</tr>
+<tr>
+<td><strong>ノーコード操作</strong></td>
+<td style="text-align: center;">△</td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">○</td>
+</tr>
+<tr>
+<td><strong>国内DC / ISMAP</strong></td>
+<td style="text-align: center;">◎</td>
+<td style="text-align: center;">要確認</td>
+<td style="text-align: center;">要確認</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>使い分けの目安</strong>: 工事現場スケールの進捗・出来形・リアルタイム同期 → <strong>KOLC+</strong>。都市・地域スケールの広域可視化・ノーコード・PLATEAU・公共実績重視 → <strong>Re:Earth</strong>。広域 CesiumJS 表示 ＋ AR/VR/WebARのXR体験まで一気通貫 → <strong>torinome</strong>。</p>
+</blockquote>
+<h2 id="kolc建設bimcimデジタルツインプラットフォーム">6.4 KOLC+（建設BIM/CIMデジタルツインプラットフォーム）</h2>
+<p>BIM/CIM・点群・設計データを統合し、現場と設計・監理の状態をリアルタイムで同期する<strong>建設向けデジタルツインプラットフォーム</strong>。KOLC+（運営: KOLG Inc. / サービスページ: https://kolcx.com/）は、GIS基盤（第4章）が提供する3DTILES・点群・2D地図等を取り込み、工事進捗・出来形・4D工程をデジタル空間上で再現・管理する。GIS基盤が「データを供給する基盤」であるのに対し、KOLC+は「建設プロジェクトの状態をデジタルで再現・監理するプラットフォーム」である。</p>
+<blockquote>
+<p>注: KOLC+ 等のベンダー提供 API や Webhook を利用して、承認済みの最終成果を自動的に CDE の Archived に登録できるかを事前に検証することを推奨します（認証・メタデータ渡し・冪等性を PoC で確認）。</p>
+</blockquote>
+<ul>
+<li><strong>クラウドでのモデル統合</strong>: BIM/CIM・点群・2D/3D CAD・地形・オルソ画像等を座標系で統合し、3Dタイル化してブラウザ高速表示を実現。</li>
+<li><strong>デジタルツイン機能群（リアルタイム同期）</strong>: 4D（工程）共有・編集、土量計算、断面 DXF 出力、360度写真管理、GNSS/現場カメラや計測データの<strong>リアルタイム連携</strong>（現場の実態をデジタル空間に反映）、Navisworks クラウド共有、指摘・バージョン管理、ワークフロー（ASP）等を提供。</li>
+<li><strong>セキュリティ・ホスティング</strong>: 国内データセンター稼働、ISO27001（ISMS）等の認証取得、ISMAP 登録。</li>
+<li><strong>料金感（公表値の例）</strong>: 月額数万円〜のプラン（例: 3Dプラン 3万円/月、デジタルツイン向け 5万円/月、DXプラン 24万円/月、官公庁プラン 6万円/月など。詳細は見積・問合せが必要）。</li>
+</ul>
+<p><strong>評価と留意点</strong> - <strong>得意な用途</strong>: 工事現場〜路線スケールのBIM/CIM詳細管理・出来形・4D工程・現場センサーとのリアルタイム同期。設計→施工→維持管理を一気通貫でカバーする建設特化のDT。 - <strong>広域表示の限界</strong>: 都市・地域スケールの広域高速表示・PLATEAU連携・住民説明向け公開可視化は Re:Earth（5.5）が適している。KOLC+ は工事現場〜路線スケールに特化しており、広域地図的な用途は本来の守備範囲外。 - ISMAP 登録・国内 DC・官公庁プランがある点は公共事業での採用を容易にする。 - SaaS 導入は長期契約・データポータビリティ・コストが課題になり得るため、「元データの管理場所」「派生公開データの生成ルール」「API 連携・エクスポート可否」を事前に確認すること。 - 実務導入は PoC（大規模 IFC/点群での表示性能、API による CDE 連携、権限／保管場所の確認、コスト試算）を必須とする。 - ネイティブ方式によるネイティブ編集（DWG/IFC原本操作）とタイル配信（3Dタイル配信・ブラウザ表示）を橋渡しするハイブリッドな位置づけ。GIS基盤のOGC配信と組み合わせて、設計から施工・維持管理までの一気通貫デジタルツインを構成できる。</p>
+<hr />
+<h2 id="reearthスマートシティ都市デジタルツインプラットフォーム">6.5 Re:Earth（スマートシティ・都市デジタルツインプラットフォーム）</h2>
+<p>Re:Earth（運営: Eukarya Inc. / サービス: https://reearth.io）は、CesiumJSを基盤とした<strong>ノーコード型スマートシティ・都市デジタルツインプラットフォーム</strong>。国土交通省のPLATEAUプロジェクトにおけるWeb可視化環境としても採用実績があり、都市・インフラのデジタルツイン可視化（住民説明・広報・スマートシティ）に広く用いられる。</p>
+<h4 id="主な特徴">主な特徴</h4>
+<ul>
+<li><strong>ノーコード操作</strong>: プラグイン・ウィジェット方式でコーディング不要のDT可視化環境を構築できる。GeoJSON・3DTILES・CZML・WMS/WMTS等を直接読み込んでWebブラウザで公開・共有。</li>
+<li><strong>PLATEAU連携</strong>: 国土交通省Project PLATEAUの都市モデル（CityGML/3DTILES）をそのまま読み込み、住民説明・都市計画・インフラ管理の可視化に活用。</li>
+<li><strong>オープンソース + SaaS</strong>: コアエンジンはOSS（Apache 2.0）。クラウド版（SaaS）と自ホスト版の選択が可能。</li>
+<li><strong>公共・住民向け公開（層3）に強み</strong>: 公開共有で住民・広報向けのデジタルツインビューアとして展開できる。</li>
+<li><strong>GIS基盤との連携</strong>: 第4章のGIS基盤（GeoServer・PostGIS・OGC API）が配信するタイル・フィーチャーを直接接続して活用できる。</li>
+</ul>
+<h4 id="主な対応データ形式">主な対応データ形式</h4>
+<p><code>GeoJSON</code>、<code>3DTILES</code>（PLATEAU都市モデル対応）、<code>CZML</code>、<code>KML/KMZ</code>、<code>WMS/WMTS</code>（OGC準拠）、<code>MVT</code></p>
+<h4 id="評価と留意点">評価と留意点</h4>
+<ul>
+<li><strong>得意な用途</strong>: 都市・地域スケールの<strong>広域高速表示</strong>。CesiumJS + CDNタイル配信による大量オブジェクトの高速レンダリングが強み。PLATEAU都市モデル・住民説明・広報公開・スマートシティ可視化に最適。</li>
+<li><strong>BIM/CIM詳細管理の限界</strong>: 工事現場スケールのBIM/CIM詳細管理・出来形・4D工程・リアルタイム同期は KOLC+（5.4）が適している。Re:Earth は「広く見せる」可視化層であり、「深く管理する」施工管理DTとは用途が異なる。</li>
+<li><strong>強み</strong>: PLATEAU対応・ノーコード・住民説明会・広報公開に最適。行政・公共事業での実績多数。</li>
+<li><strong>確認事項</strong>: 国内DCホスティング・ISMAPへの登録状況は要確認。公共案件の本番採用前に発注者と合意が必要。</li>
+<li><strong>留意点</strong>: 可視化・共有・住民説明に特化した活用が適している。設計変更・精度管理・承認ワークフローには向かない。</li>
+</ul>
+<hr />
+<h2 id="torinomexrデジタルツインpfhololab">6.6 torinome（XRデジタルツインPF・HoloLab）</h2>
+<p>ホロラボ（HoloLab Inc.）が開発・運営する XR デジタルツインプラットフォーム（サービスページ: https://hololab.co.jp/services/packages/torinome/）。<strong>torinome Base は CesiumJS を基盤とした 3D 地球儀ベースの Web GIS</strong> であり、Re:Earth と同等の広域・都市スケール 3D 表示能力を持つ。これに加えて AR/VR/WebAR の XR 層を一気通貫で提供できる点が最大の特徴。PLATEAU / Google Photorealistic 3D Tiles・CZML（CesiumJS 専用フォーマット）への対応も CesiumJS 基盤の証左である。タイル配信方式の層2〜3・AR/VR/WebAR を単一プラットフォームでカバーできる。</p>
+<h4 id="アプリケーション構成7種">アプリケーション構成（7種）</h4>
+<p><strong>表6-4　torinome アプリケーション構成（7種）</strong></p>
+<table>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 40%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>アプリ</th>
+<th>対応デバイス</th>
+<th>主な用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>torinome Base</strong></td>
+<td>PC / タブレット（Webブラウザ）</td>
+<td>3D 地球儀ベースの Web GIS。3D 都市モデル・点群・GIS データを重畳表示。作成した地図は URL で共有可能。全アプリの起点（母艦）</td>
+</tr>
+<tr>
+<td><strong>torinome Spaces</strong></td>
+<td>PC / タブレット（Webブラウザ）</td>
+<td>緯度経度に依存しない原点ベースの空間オーサリングツール。3D データをドラッグ＆ドロップで空間を構築・検証。乃村工藝社と共同開発</td>
+</tr>
+<tr>
+<td><strong>torinome Admin</strong></td>
+<td>PC / タブレット（Webブラウザ）</td>
+<td>ユーザー管理・アクセス制御・XR コンテンツ登録・一括編集・CSV 出力・外部連携設定。層2の認証管理を担う</td>
+</tr>
+<tr>
+<td><strong>torinome AR</strong></td>
+<td>iPad Pro / iPhone</td>
+<td>Base に登録したデータを現実世界に AR 表示。実寸大または縮小サイズで確認。専用マーカーを使用</td>
+</tr>
+<tr>
+<td><strong>torinome Planner</strong></td>
+<td>iPad Pro</td>
+<td>AR カードと 3D モデルでテーブル上の空間レイアウト検討。複数人で同時議論でき、結果は Base にリアルタイム反映</td>
+</tr>
+<tr>
+<td><strong>torinome VR / for AVP / for Glasses</strong></td>
+<td>Meta Quest 3 / Apple Vision Pro / MiRZA</td>
+<td>没入型 VR・高精細パススルー MR・ハンズフリー AR。Base や Spaces とシームレス連携</td>
+</tr>
+<tr>
+<td><strong>torinome WebAR</strong></td>
+<td>スマートフォン（各種ブラウザ）</td>
+<td>アプリ不要・ブラウザのみの AR 体験。マーカー読み込みで表示。住民説明会・観光・広報向け</td>
+</tr>
+</tbody>
+</table>
+<h4 id="対応データ形式">対応データ形式</h4>
+<p><code>glTF/GLB</code>（メッシュ）、<code>LAS</code>（点群）、<code>3D Tiles</code>（Gaussian Splatting・GIS データ・都市モデル）、<code>GeoJSON</code>、<code>CZML</code>、<code>KML</code>/<code>KMZ</code>、iPhone スキャンデータ（LiDAR）、テキスト・URL・動画・画像、PLATEAU / Photorealistic 3D Tiles（Google）</p>
+<h4 id="セキュリティアクセス制御">セキュリティ・アクセス制御</h4>
+<ul>
+<li><strong>Admin 機能</strong>: ユーザー・グループ管理、アクセス制御（層2相当）、コンテンツの一括管理が可能。</li>
+<li><strong>外部 API 連携</strong>: 既存 DB や CMS との API 連携に対応。CDE（Box 等）からのデータ取り込みパイプラインを構築可能。</li>
+<li><strong>国内 DC/ISMAP</strong>: 日本事業者（HoloLab Inc.）。詳細は要確認（公共案件では事前に契約書面で確認すること）。</li>
+</ul>
+<h4 id="プランと料金感">プランと料金感</h4>
+<p><strong>表6-5　torinome プランと料金感</strong></p>
+<table>
+<colgroup>
+<col style="width: 53%" />
+<col style="width: 46%" />
+</colgroup>
+<thead>
+<tr>
+<th>プラン</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ベーシック</strong></td>
+<td>Base・Spaces・Admin</td>
+</tr>
+<tr>
+<td><strong>フルパック</strong></td>
+<td>Base・Spaces・Admin + AR・Planner・VR・WebAR 全7アプリ</td>
+</tr>
+<tr>
+<td>有償トライアル</td>
+<td>あり（詳細は問い合わせ）</td>
+</tr>
+</tbody>
+</table>
+<p>料金は非公開（要問い合わせ）。カスタマイズ開発・外部システム連携（API）のオプションあり。</p>
+<h4 id="評価と留意点-1">評価と留意点</h4>
+<ul>
+<li><strong>強み</strong>: タイル配信方式の Web GIS（Base）→ 関係者共有（Admin 認証）→ AR/VR/WebAR を単一プラットフォームで提供できるのは現時点で torinome のみ。専用アプリ不要の WebAR は住民説明会・広報での即時展開に有効。</li>
+<li><strong>確認事項</strong>: 層2（限定共有: パスワード付き・有効期限・ダウンロード制御）への正式対応可否は要確認。公共案件では国内 DC の書面確認を取得すること。</li>
+<li><strong>留意点</strong>: ネイティブ方式（DWG/IFC 等の原本ネイティブ編集）には非対応。設計・計画フェーズはネイティブ方式（KOLC+ 等）と併用するハイブリッド構成を推奨。</li>
+<li><strong>実務導入</strong>: PoC（大規模点群・3DTILES の Base 表示性能、Admin による URL 共有の挙動、CDE 連携 API、コスト試算）を実施してから本採用を判断すること。</li>
+</ul>
+<hr />
+<h1 id="事業監理層ai支援">7. 事業監理層（AI支援）</h1>
+<h2 id="設計原理と処理パイプライン">7.1 設計原理と処理パイプライン</h2>
+<p>目的: - 事業監理における意思決定支援を中心に据え、データの一次性（SSOT）を根拠として説明可能な推論・要約・予測を提供する。</p>
+<p>設計原理（原理的要件）: - 単一責任の分離: データ保管（BOX, SSOT）・知識化（埋め込み/ベクトルDB）・生成（LLM）・公開（公開層）の役割を明確に分離する。 - 出典性（Provenance）: すべての推論は参照元（box_file_id, version, segment）に遡れること。 - 説明可能性（Explainability）: LLM応答は要約に加え、参照箇所と信頼度スコアを提示する。 - モジュール性と再現性: ETL→埋め込み→検索→生成の各段階は独立してテスト・再現可能であること。</p>
+<p>データモデルと知識表現: - ドキュメントセグメント: 法令・要領は逐条・逐項で分割し、各セグメントを最小単位の埋め込み対象とする。 - メタデータ正規化: <code>document_type</code>, <code>jurisdiction</code>, <code>effective_date</code>, <code>version</code>, <code>segment_id</code>, <code>legal_citation</code> 等をキーにしてフィルタと出典マッピングを行う。 - オントロジー: 道路・河川ドメインの基本語彙（用語辞書）と簡易オントロジーを定義し、同義語・単位変換・階層関係を埋め込み前に正規化する。</p>
+<p>処理パイプライン（理論的構成）: 1. インジェスト層: BOX(SSOT)から文書を取得し、段落・条項単位にセグメント化。 2. 正規化層: OCR補正・単位標準化・用語正規化・座標系/時間形式統一を適用。 3. 構造化化層: 表・仕様・箇所参照を抽出し、メタ情報として付与。 4. 知識化層: セグメント単位で埋め込みを作成し、ベクトルDBへ格納（メタを強く付与）。 5. 推論層: レトリーバ（RAG）で関連セグメントを取得し、引用付きコンテキストをLLMへ与えて応答生成。 6. 検証層: 応答の出典一貫性・信頼度を評価し、必要なら再検索やヒューマンレビューへエスカレーション。</p>
+<p>RAG設計上の注意点（理論）: - ソース分離: 法令・要領等の一次資料は専用のRAGインデックス（高信頼インデックス）に分離し、回答時に高優先で選択する。 - 出典重み付け: 埋め込み段階でソース信頼度スコアをバイアスとして保持し、検索時に重みとして反映する。 - 応答の保守性: 法令改定時は該当セグメントのみ再処理し、古い応答が残らないようにversion管理を徹底する。</p>
+<p>評価指標（KPI）: - 出典提示率（%）: 応答で出典を提示した割合（目標100%） - 出典一貫性率: 応答と参照文書の一致率（目標95%） - 意思決定適合率: AI推奨が人間の判断と合致した割合（サンプルレビュー） - レイテンシ: 応答生成までの時間（オンライン要件）</p>
+<p>セキュリティ・プライバシー原則: - 最小権限: BOXアクセスは短期トークン＋サービスアカウントで実行 - 機密分離: 個人情報／機密は埋め込み対象外、または匿名化ルールを適用 - 監査可能性: イベント→処理→応答のトレースログを保持</p>
+<p>展開パターン: - バッチ主導: 大量更新や定期再埋め込みを夜間バッチで行い、安定性を担保 - イベント駆動: BOXMCP 等のイベントでリアルタイム近くに差分更新を行う（公開層とは明確に分離）</p>
+<p>運用的結論: - 事業管理（監理）用途では「一次資料に基づく出典トレース」と「ヒューマンレビューの組み込み」が最重要であり、システム設計はこれを最優先に据える。 - BOXMCP / BOX を中心としたイベント駆動と、高信頼のRAGインデックス（法令専用）の分離が実務的に有効である。 - 次ステップ: 本理論を元に PoC 設計（データセット、評価指標、レビュー体制）を作成する。</p>
+<h2 id="rag向け-ssot法律要領マニュアル等の設置案">7.2 RAG向け SSOT（法律・要領・マニュアル等）の設置案</h2>
+<p>AI（RAG）で信頼できる応答を得るためには、一次情報を整備した専用のSSOTコレクションを用意することが効果的です。ここでは道路・河川に関する法令、要項、要領、運用マニュアル、保守手順書、設計基準等をBOX上に体系的に収集・管理するための設計案を示します。</p>
+<ul>
+<li><p>目的: RAG の根拠ソースとして利用できる一次資料群を SSOT として BOX に格納し、出典トレースとレビュー体制を通じて応答の信頼性を担保する。</p></li>
+<li><p>範囲例（道路・河川）:</p>
+<ul>
+<li>法令（道路法、河川法、関連政令・省令）</li>
+<li>国土交通省要項・告示（道路橋示方書、河川管理要領 等）</li>
+<li>地方自治体の運用マニュアル・設計要領</li>
+<li>維持管理マニュアル、検査手順、点検チェックリスト</li>
+<li>仕様書、設計要件、承認決裁文書（公開可の範囲）</li>
+</ul></li>
+<li><p>推奨メタデータ設計（BOX上のファイルメタ）:</p>
+<ul>
+<li><code>document_type</code>（法令/要項/手順書）</li>
+<li><code>jurisdiction</code>（国/都道府県/市町村）</li>
+<li><code>effective_date</code> / <code>revision_date</code></li>
+<li><code>version</code>（SSOT版）</li>
+<li><code>legal_citation</code>（条文参照）</li>
+<li><code>review_owner</code>（管理部門/担当者）</li>
+<li><code>sensitivity</code>（公開/内部/機密）</li>
+</ul></li>
+<li><p>運用フロー（簡易）:</p>
+<ol type="1">
+<li>法令・要領等を収集し、担当部署が BOX の <code>SSOT/RAG</code> フォルダへ配置してメタデータを付与。</li>
+<li>法令の改正や要領改訂が発生したら、担当レビュー担当が <code>revision_date</code> を更新し、新版を <code>version</code> として登録。旧版はアーカイブとして残す。</li>
+<li>ETL は <code>SSOT/RAG</code> フォルダだけを定期巡回して埋め込みを更新。変更検出は <code>version</code> または <code>revision_date</code> をキーに差分処理。</li>
+<li>RAG 応答では必ず <code>legal_citation</code> と <code>box_file_id</code> を表示し、利用者が元文書へ遡れるようにする。</li>
+</ol></li>
+<li><p>ガバナンス: 法令類は法務・技術レビュー担当の二重チェック体制を設け、改定時の承認プロセス（レビュー→承認→公開）を定義する。公開・非公開の切替は BOX の共有設定で管理。</p></li>
+<li><p>品質管理指標:</p>
+<ul>
+<li>出典一貫性率（LLM応答が参照した一次文書と一致する割合）</li>
+<li>レビュー未解決指摘数（ヒューマンレビューで検出された誤り数）</li>
+<li>応答の出典提示率（応答で出典を提示した割合、目標100%）</li>
+</ul></li>
+<li><p>実践上の留意点:</p>
+<ul>
+<li>法令は逐条で構造化しておくと検索性が向上する（条番号・項目をメタ化）。</li>
+<li>地方要領やマニュアルは地域差があるため <code>jurisdiction</code> によるフィルタリングを実装する。</li>
+<li>機密あるいは個人情報を含む文書は SSOT に含めず、別の保護レイヤで扱うか、埋め込み前にマスキングする。
+<ul>
+<li>法令は逐条で構造化しておくと検索性が向上する（条番号・項目をメタ化）。</li>
+<li>地方要領やマニュアルは地域差があるため <code>jurisdiction</code> によるフィルタリングを実装する。</li>
+<li>機密あるいは個人情報を含む文書は SSOT に含めず、別の保護レイヤで扱うか、埋め込み前にマスキングする。</li>
+</ul></li>
+</ul></li>
+</ul>
+<h3 id="優先度付き収集リスト道路河川分野の例">優先度付き収集リスト（道路・河川分野の例）</h3>
+<p>以下は優先順位（高→中→低）を付けて整備する推奨リストです。まずは「高」からBOXに集め、PoCで品質検証を行ってから中→低へ広げてください。</p>
+<ul>
+<li>高（最優先）:
+<ul>
+<li>現行の法令本文（道路法、河川法および関連政令・省令）</li>
+<li>国土交通省の告示・要領（道路橋示方書、河川管理要領等）の最新版</li>
+<li>維持管理マニュアルと検査手順（点検チェックリストを含む）</li>
+<li>施行令・施行規則、技術基準の抜粋（解釈上重要な条項）</li>
+</ul></li>
+<li>中（次に整備）:
+<ul>
+<li>地方自治体の設計要領・運用マニュアル（主要自治体サンプル）</li>
+<li>事業固有の仕様書・設計要件・承認決裁文書（公開可能範囲）</li>
+<li>過去の判例・解釈資料、技術懇談会の資料（参照頻度が高いもの）</li>
+</ul></li>
+<li>低（補助資料）:
+<ul>
+<li>研究報告書・技術論文、参考資料（学術的背景の補助情報）</li>
+<li>ベンダー提供の製品マニュアル（必要部分のみ抜粋）</li>
+<li>過去の稼働記録・運用日誌（匿名化して参照する場合）</li>
+</ul></li>
+</ul>
+<hr />
+<h3 id="ガイドライン基準書の具体例詳細">7.2.1 ガイドライン／基準書の具体例（詳細）</h3>
+<p>RAG 用 SSOT に優先的に含めるべきガイドラインや基準書の具体例とその役割を示します。</p>
+<ul>
+<li>法令・施行令・政令: 法的根拠としての条文（道路法、河川法、施行令等） — 合法性・許認可判断の根拠。</li>
+<li>国（中央省庁）発行の要領・告示: 国土交通省の要領、道路橋示方書、河川管理要領等 — 設計・維持管理の標準手順と技術基準。</li>
+<li>地方自治体の運用要領・設計指針: 地域固有要件や運用手順（都道府県、市区町村単位の実務ガイド）。</li>
+<li>維持管理・検査マニュアル: 点検頻度・手順・閾値・計測方法など、現場運用時の判断基準。</li>
+<li>技術標準・仕様書: 橋梁・舗装・河川構造物に関する材料・施工・試験基準。</li>
+<li>事業計画・承認文書: 設計条件・合意事項・承認履歴（公開可能範囲） — 意思決定トレーサビリティ。</li>
+<li>保守記録・検査レポート（匿名化可）: 過去の点検結果や補修履歴、故障事例の学習素材。</li>
+<li>関連ガイドライン: 危機管理、災害対応、交通管理、環境配慮に関する運用ガイド。</li>
+</ul>
+<h3 id="整備指針収集正規化メタ付与の具体手順">7.2.2 整備指針（収集・正規化・メタ付与の具体手順）</h3>
+<p>RAG 信頼性を高めるための実務的な整備手順とルールの例です。</p>
+<ol type="1">
+<li>収集ルール設計
+<ul>
+<li>収集対象を『法令／要領／マニュアル／データ（検査）』等のカテゴリで定義。優先度タグ（high/medium/low）を必須にする。</li>
+<li>収集元を明記（官報／省庁サイト／自治体公式／ベンダー）し、ソースの信頼度を評価する。</li>
+</ul></li>
+<li>文書化とメタデータ付与
+<ul>
+<li>上で示したメタ（<code>document_type</code>, <code>jurisdiction</code>, <code>effective_date</code>, <code>version</code>, <code>legal_citation</code>, <code>review_owner</code>, <code>sensitivity</code>）を必須化。</li>
+<li>逐条・逐項の分割（条番号、節番号）をファイル内のセグメントとして保持し、埋め込みはセグメント単位で行う。</li>
+</ul></li>
+<li>正規化ルール
+<ul>
+<li>単位統一（m, km, kgf→N 等）、座標系標準化（EPSG コードの明記）、日付フォーマット統一を実施。</li>
+<li>OCR 出力は必ず正規化パイプラインを通し、誤字訂正辞書（用語集）で補正する。</li>
+</ul></li>
+<li>出典マッピング
+<ul>
+<li>各埋め込みベクトルには <code>source_type</code>, <code>box_file_id</code>, <code>version</code>, <code>segment_id</code>, <code>jurisdiction</code> を含める。</li>
+<li>LLM 応答テンプレートは「引用表示（条文/要領名/版）」→「要約」→「参考箇所へのリンク」の順で出力する。</li>
+</ul></li>
+<li>品質管理とレビュー
+<ul>
+<li>法務／技術レビュー担当を明確化し、改定時はレビュー→承認→更新のフローを実行。</li>
+<li>定期的なヒューマンレビュー（サンプル検証）と自動指標（出典一貫性率）を組み合わせて品質を監視。</li>
+</ul></li>
+<li>運用制約とリスク管理
+<ul>
+<li>地方差・言語差の管理（自治体ごとの要領は <code>jurisdiction</code> で分離）</li>
+<li>機密データ、個人情報は埋め込み対象外または匿名化・マスキングを義務化。</li>
+</ul></li>
+<li>用語辞書と専門語彙管理
+<ul>
+<li>ドメイン辞書（法令用語、技術用語、略語）を作成し、OCR 正規化・検索シソーラス・LLM プロンプトの補助に利用する。</li>
+</ul></li>
+</ol>
+<hr />
+<h2 id="実装例boxmcp-等">7.3 実装例（BOXMCP 等）</h2>
+<p>以下は BOXMCP（Box のイベント／コネクタ機能）を用いた実装例です。理論節で示した設計原理に基づき、実運用でのイベント駆動・差分処理・出典トレースをどのように実装するかを示します。</p>
+<ul>
+<li><p>主なイベント: <code>FILE.UPLOADED</code>, <code>FILE.VERSIONED</code>, <code>FILE.PREVIEWED</code>, <code>SHARE.CREATED</code>, <code>COLLAB.USER_ADDED</code>。</p></li>
+<li><p>フロー概要:</p>
+<ol type="1">
+<li>BOXMCP がイベントを受け取り、イベントペイロード（file_id, version, actor, timestamp）を受信。</li>
+<li>イベントをキュー（例: Pub/Sub, Service Bus）へ投入し、処理用ワーカーへ流す。</li>
+<li>ワーカーは最小権限のサービスアカウントで BOX API からファイルを取得し、認可チェックを実施。</li>
+<li>ETL（PDF/OCR、IFC→属性抽出、CSVパース等）を行い、差分が検出された場合のみ埋め込みを更新してベクトルDBへ反映。</li>
+<li>埋め込みや検索結果には必ず <code>box_file_id</code> と <code>version</code>、該当スニペット位置をメタとして添付し、LLM 応答に出典を表示。</li>
+<li>全イベント処理の監査ログ（event_id、処理ステータス、エラー、参照box_file_id）を保存。</li>
+</ol></li>
+<li><p>実装上の留意点:</p>
+<ul>
+<li>冪等性: 同一イベントの重複処理を避けるため <code>event_id</code> を保存し、重複は無視する。</li>
+<li>差分処理: 大容量ファイル（点群・BIM）では差分抽出と差分のみの再埋め込みを採用してコスト削減。</li>
+<li>セキュリティ: BOX トークンは短期発行・最小権限で運用し、アクセスはすべて監査ログに記録。</li>
+<li>フォールバック: Box 側障害時はイベントを S3 互換ストアに二重送信するなどの代替経路を用意。</li>
+</ul></li>
+<li><p>PoC チェックリスト（短期）:</p>
+<ol type="1">
+<li>代表ファイルを BOX にアップロードして <code>FILE.UPLOADED</code> が発生することを確認</li>
+<li>BOXMCP イベントがキューへ入ることを確認</li>
+<li>ワーカーが BOX から最小権限で取得し、テキスト抽出→埋め込みを実行することを確認</li>
+<li>RAG 応答に <code>box_file_id</code> と <code>version</code> が含まれることを確認</li>
+<li>ファイルのバージョン更新で差分のみが再処理されることを確認</li>
+</ol></li>
+<li><p>BOXの国内DC要件（公共案件向け）を満たしているか確認。必要に応じてオンプレ/国内クラウドの代替を検討。</p></li>
+<li><p>機密データは埋め込み・LLM送信前にマスキングまたはオンプレ処理で匿名化する。</p></li>
+<li><p>実装パターン（短期〜中期）:</p>
+<ol type="1">
+<li>PoC（短期）: 代表的なプロジェクトデータ（図面PDF・台帳CSV・簡易BIMエクスポート）をBOXに集約し、簡易ETL→埋め込み→RAG照会で要約精度を検証。出典トレースと運用UXを重点評価。</li>
+<li>スケール化（中期）: ベクトルDBのシャーディング、インクリメンタル更新、差分検出、運用ダッシュボード（応答品質・使用状況）を導入。</li>
+</ol></li>
+<li><p>例: BOXを起点としたワークフロー</p>
+<ol type="1">
+<li>設計担当が設計図をBOXにアップロード（メタデータで <code>project-id</code> と <code>status: WIP</code> を付与）</li>
+<li>ETL が定期的にBOXを巡回して新規ファイルを検出、テキスト抽出と埋め込みを実行</li>
+<li>管理者が「公開」フラグをBOX上で切り替えると、公開用差分が生成されて公開層へ流れる（公開は別プロセス）</li>
+<li>ユーザーがAIチャットで問い合わせ→RAGがBOX由来の根拠を提示して回答（出典付き）</li>
+</ol></li>
+</ul>
+<hr />
+<h1 id="事業監理層概算事業費ai支援">8. 事業監理層（概算事業費）（AI支援）</h1>
+<h2 id="ragベースの早期概算目的ワークフローpoc">8.1 RAGベースの早期概算（目的・ワークフロー・PoC）</h2>
+<p>目的: - 過去の積算実績を埋め込み化してRAG（Retrieval-Augmented Generation）で参照し、事業監理が早期に意思決定できる「初期概算」と検討材料を短時間で作成する。出典トレースと前提メタを必須化し、結果はヒューマンレビューで確定する。</p>
+<p>必須インプット: - SSOT の過去積算データ（CSV/表形式）、設計図・台帳のテキスト化データ、地域単価表、事業前提（範囲・仕様・精度目標）</p>
+<p>代表ワークフロー: 1. 事業監理が前提（対象範囲・単価版・精度目標）を定義する。 2. データ準備: SSOT から過去積算・台帳・単価表を抽出し、セグメント化・正規化（単位・用語・日付）を実施する。 3. 埋め込み生成: セグメント単位で埋め込みを作成し、ベクトルDBに格納する。 4. 初期概算生成: レトリーバで関連セグメントを取得し、LLMに出典付きコンテキストを与えて初期概算と乖離要因候補を生成する。 5. フラグ付け: LLM応答で「図面要確認」や「データ欠落」の箇所にフラグを立てる。 6. レビュー・迭代: 事業監理がレビューし、必要箇所を精査（GAIA等で数量抽出）または係数で補正する。</p>
+<p>RAG と Gaia 等の使い分け（要旨）: - RAG: 早期概算、出典トレース、乖離要因の洗い出し（高速・低コスト） - Gaia 等: 点群/3D・複雑形状・PDF/OCR由来の精緻数量抽出（高精度・再現性）</p>
+<p>成果物（出力）: - 概算サマリ（総額・工種別内訳・想定誤差） - 機械可読内訳（CSV/Excel）と前提メタ（YAML/JSON） - 出典トレース（box_file_id, version, segment_id）とRAGスニペット</p>
+<h2 id="gaia-cloud等の選定根拠と利用ルール概要">8.2 Gaia Cloud等の選定根拠と利用ルール（概要）</h2>
+<p>前提: 本節は Gaia Cloud 等がネットワーク／サイトライセンス（同時起動/concurrent）を提供し、組織横断での導入が可能であることを想定して記述している。実際の契約形態・価格はベンダー見積りで確認すること。</p>
+<p>選定根拠（要点）: - 全自動積算と設計書解析（PDF/OCR）の実装により、手入力削減と高速な初期数量算出が期待できる点。 - 国土交通省等の中央省庁および全国自治体の積算基準に対応するデータベースを持ち、地域差に対する運用負荷を低減できる点。 - クラウド基盤（AWS等）採用による自動バックアップ・常時最新版提供と、リモートでのチーム共有・運用が可能な点。 - 充実したメーカーサポート（全国拠点・リモート支援）があり、導入時の定着支援と運用相談が得られる点。</p>
+<p>期待できる効果: - RAGベースの初期概算からの精査対象を迅速に確定でき、工数削減と意思決定の短縮化に寄与する。 - 複雑形状・点群ベースの数量算出が必要なケースで、人的作業を機械化して精度と再現性を高める。</p>
+<p>想定適用範囲（運用上の区分）: - 日常的な概算支援: RAGで算出した初期概算のレビューと簡易突合（主に事業監理担当）。 - 精緻な数量抽出: RAGでフラグ付けされた箇所、点群/3Dモデルが関係する土量・体積・延長の算出に Gaia Cloud等 を投入。</p>
+<p>導入チェックリスト（選定・PoCで確認すべき項目）: 1. 精度検証: 過去案件での出力（数量・金額）と実績値の乖離分布を確認する（目標例: RAG＋Gaiaで概算誤差を主要指標以下に収束）。 2. データ連携: SSOT（Box等）からのデータ取り込み／出力（CSV/Excel/JSON）・API連携が可能かを確認する。 3. 運用コストとSLA: 利用料金、処理コスト、サポート体制（オンサイト/リモート）を評価する。 4. セキュリティ／準拠性: データ所在（国内DC可否）・ISMAP/組織ポリシー適合の有無を確認する。 5. ワークフロー適合性: RAGワークフローとの突合（出典トレース保持・補正履歴の記録）が運用で可能かを確認する。</p>
+<p>簡潔な運用ルール（サンプル）: 1. 投入閾値: RAG初期概算と既存実績の相対乖離 &gt; 20%、または図面解釈に高い不確実性が検出された場合に限定して Gaia Cloud等 を適用する。 2. データ準備: Gaia Cloud等に渡すデータは「数量抽出に必要な座標系・スケール・属性（メタ）」を満たしていること（前処理チェックリストで合格後に実行）。 3. 出力管理: Gaia Cloud等の出力は原資料（box_file_id 等）およびRAG由来の文脈と突合し、最終値は事業監理が承認する。出力差分・補正履歴を必ず保存する。 4. 最小実行単位: 実行はプロジェクト単位／区間単位で行い、コストとメリットを比較して投入を決定する。</p>
+<p>リスクと留意点: - Gaia Cloud等はクラウドサービスのためネットワーク要件（推奨帯域）や運用コストが発生する。処理の自動化には入力データの前処理が重要。 - 公共案件ではデータ所在・契約条項（国内DC/データ保護）とベンダー契約の確認が必須。 - ベンダーのマニュアルに従う運用を原則とし、本書で技術的内部仕様の詳細は記載しない。</p>
+<p>推奨PoC設計（短期）: - 1) 過去案件2件を選定し、RAGのみ → RAG＋Gaia Cloud等の順で概算を算出、金額・数量の乖離と作業工数を比較する。 - 2) データ連携（SSOT→Gaia Cloud等→出力）を通じてエクスポート形式・APIの確認を行う。 - 3) サポート評価：ベンダーと共同で導入手順・トレーニングを実行し、定着までのサポート品質を検証する。</p>
+<p>※ 本節の Gaia Cloud等に関する記述は製品ページおよび公開情報の要点を整理したもので、詳細はベンダー資料・マニュアルで確認してください。</p>
+<h1 id="公開ガバナンス層ssot共有公開">9. 公開・ガバナンス層（SSOT共有・公開）</h1>
+<p>この層は、SSOTから公開物を派生・生成して配信する「公開プロセス」と、公開を制御する「ガバナンス（承認・監査・ポリシー）」を合わせて扱います。承認フロー（ワークフロー）は公開プロセスの一部として位置づけられ、WIP→Shared→Published といった状態遷移のトリガー、公開メタデータの付与、公開物の差分管理、通知・ログ保管、公開権限の検査を担います。つまりワークフローは独立した手続きではなく、公開・ガバナンス層の運用機能として実装されるべきものです。</p>
+<figure>
+<img src="https://yamamoto-ryuzo.github.io/portal/Project_CDE/images/05_承認フロー（ワークフロー）.png" alt="承認フロー（ワークフロー）" />
+<figcaption aria-hidden="true">承認フロー（ワークフロー）</figcaption>
+</figure>
+<h2 id="cdeの決済フローwip-shared-published-archived">9.1 CDEの決済フロー（WIP → Shared → Published / Archived）</h2>
+<p>ISO 19650のステータス遷移は単なるデータ管理の便宜ではなく、<strong>正式な決済（承認）プロセス</strong>を表す。</p>
+<pre class="mermaid"><code>flowchart TD
+    TT[&quot;TaskTeam【タスクチーム】&lt;br/&gt;作成・修正（CDE外）&quot;]
+    EX[&quot;Exchange【やり取り】&lt;br/&gt;CDE外からの受領・一時保管（バッファ）&quot;]
+    WIP[&quot;WIP【作業中】&lt;br/&gt;共有依頼前の確認（受注者）&quot;]
+    SH[&quot;Shared【共有】&lt;br/&gt;審査・承認待ち（発注者）&quot;]
+    PB[&quot;Published【活用】&lt;br/&gt;承認済み現行版（関係機関等での活用）&quot;]
+    AR[&quot;Archived【アーカイブ】&lt;br/&gt;業務・フェーズ完了単位の&lt;br/&gt;報告書・納品物保管（公開と別枠）&quot;]
+    ASP[&quot;主に「調査・測量・設計」&lt;br/&gt;KOLC＋ / Basepage 等&lt;br/&gt;受発注者間のASP承認ワークフロー&quot;]
+
+    TT --&gt;|&quot;やり取り&quot;| EX
+    TT --&gt;|&quot;TaskTeamで作成・WIPへ提出&quot;| WIP
+    EX --&gt;|&quot;整理&quot;| TT
+    WIP --&gt;|&quot;指摘あり → タスクで修正・再提出（繰り返し）&quot;| TT
+    WIP --&gt;|&quot;チーム内確認・共有依頼（受注者）&quot;| SH
+    SH --&gt;|&quot;審査・承認（発注者）&quot;| PB
+    ASP --&gt;|&quot;承認完了（最終版）→ Archived へ&quot;| AR
+    SH --&gt;|&quot;業務・フェーズ完了時に保管（別枠）&quot;| AR</code></pre>
+<p><strong>表8-1　CDEの決済フロー 遷移アクションと実行者</strong></p>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 40%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr>
+<th>遷移</th>
+<th>アクション</th>
+<th>実行者</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TaskTeam ↔︎ Exchange</td>
+<td>受領・一時保管・整理</td>
+<td>タスクチーム</td>
+</tr>
+<tr>
+<td>WIP → Shared</td>
+<td>チーム内確認・共有依頼</td>
+<td>受注者（各担当）</td>
+</tr>
+<tr>
+<td>Shared → Published</td>
+<td>審査・承認（契約上の受理）</td>
+<td>発注者（監督職員等）</td>
+</tr>
+<tr>
+<td>Shared → Archived</td>
+<td>業務・フェーズ完了時に保管（公開とは独立した別枠）</td>
+<td>発注者/システム</td>
+</tr>
+<tr>
+<td>ASP → Archived</td>
+<td>ASP上で承認された最終成果を Webhook/API により <code>Archived</code> に登録（<code>ssot_id</code> 等のメタデータを付与）</td>
+<td>受注者 / ASP / システム</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>最優先確認事項</strong>: 発注者（国・自治体）の情報セキュリティポリシーおよびガバメントクラウド方針によりクラウド利用可否・使用可能サービスが限定される場合がある。ストレージ選定は事業開始前に発注者と合意が必要。</p>
+</blockquote>
+<h2 id="承認フロー推奨パターン">9.2 承認フロー推奨パターン</h2>
+<p><strong>表8-2　承認フロー推奨パターン一覧</strong></p>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: right;">推奨度</th>
+<th>パターン</th>
+<th>例（サービス）</th>
+<th>概要</th>
+<th>長所</th>
+<th>短所</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;"><strong>1</strong></td>
+<td><strong>【推奨ハイブリッド】タスク管理ツール + フルスタック</strong></td>
+<td>Backlog + FastAPI + React/Next.js (Coolify)</td>
+<td>フルスタック承認画面＋タスク管理のハイブリッド構成</td>
+<td>監査証跡と高品質な承認UIを両立。<code>Shared→Published</code> に最適</td>
+<td>初期開発コストが最大。PoCはP2単体から開始を推奨</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td>フルスタック</td>
+<td>Coolify</td>
+<td>React フロントで承認UIを提供。APIワーカーでBox操作・監査ログ・バッチ処理を実行</td>
+<td>UXと柔軟性が最大</td>
+<td>セルフホストの運用負荷が必要</td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td>Serverless / Managed</td>
+<td>Vercel</td>
+<td>フロント/Serverless 関数で簡易UIを提供</td>
+<td>マネージドでスケーラブル</td>
+<td>監査証跡・トレーサビリティがP1に比べ弱い</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td>タスク管理ツール + 外部APIワーカー</td>
+<td>Backlog + FastAPI</td>
+<td>Backlogタスク完了をWebhook起点にしてFastAPIがBox操作を実行</td>
+<td>既存のタスク運用を活用でき導入が速い。PoC開始に最適</td>
+<td>本番移行時はP1への移行を検討</td>
+</tr>
+<tr>
+<td style="text-align: right;">5</td>
+<td><strong>【KO-U】</strong> ローコード + 外部APIワーカー</td>
+<td>Power Automate + Azure Functions</td>
+<td>MS環境が整備済みの組織向け。受注者内部フロー限定</td>
+<td>Office/Teams との統合が容易</td>
+<td>発注者正式承認フローへの適用は<strong>KO-U</strong></td>
+</tr>
+<tr>
+<td style="text-align: right;">6</td>
+<td><strong>【KO-U】</strong> ローコード + 外部APIワーカー</td>
+<td>Box Relay + FastAPI</td>
+<td>Box ネイティブで導入が速い。受注者内部フロー（WIP系）に限定</td>
+<td>Box ネイティブ</td>
+<td>差戻し理由の構造化・複数案件並行管理が困難。<strong>KO-U</strong></td>
+</tr>
+<tr>
+<td style="text-align: right;">7</td>
+<td><strong>【KO-U】</strong> ローコード + 外部APIワーカー</td>
+<td>n8n + FastAPI</td>
+<td>受注者内部・PoC 限定</td>
+<td>自ホストで柔軟に連携可能</td>
+<td>承認UIは開発者向けで一般担当者には事実上使用不可。<strong>KO-U</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>KO-U（承認UI/UX）</strong>: 発注者担当者が直接操作する正式承認フロー（<code>Shared→Published</code>）でUI品質が低いと運用そのものが破綻する。P5〜P7の汎用UIは本フローへの適用不可。</p>
+</blockquote>
+<h2 id="得点順承認パターン比較表">9.3 得点順（承認パターン比較表）</h2>
+<p>評価基準（重み）: 監査性(40) / セキュリティ/コンプライアンス(30) / Usability(20) / インフラ・保守運用(7) / 導入コスト(3)</p>
+<p><strong>表8-3　承認パターン比較（得点順）</strong></p>
+<table>
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 15%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr>
+<th>パターン</th>
+<th style="text-align: center;">KO-U</th>
+<th style="text-align: right;">得点(100)</th>
+<th style="text-align: right;">監査性(40)</th>
+<th style="text-align: right;">セキュリティ(30)</th>
+<th style="text-align: right;">Usability(20)</th>
+<th style="text-align: right;">インフラ(7)</th>
+<th style="text-align: right;">導入コスト(3)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P1: タスク管理ツール + フルスタック</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: right;"><strong>94</strong></td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>P2: タスク管理ツール + 外部APIワーカー</td>
+<td style="text-align: center;">❌ KO-U</td>
+<td style="text-align: right;"><del>88</del></td>
+<td style="text-align: right;"><del>36</del></td>
+<td style="text-align: right;"><del>30</del></td>
+<td style="text-align: right;"><del>15</del></td>
+<td style="text-align: right;"><del>4</del></td>
+<td style="text-align: right;"><del>3</del></td>
+</tr>
+<tr>
+<td>P3: フルスタック (Coolify)</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: right;"><strong>76</strong></td>
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>P4: ローコード + 外部APIワーカー (Power Automate)</td>
+<td style="text-align: center;">❌ KO-U</td>
+<td style="text-align: right;"><del>76</del></td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>P5: ローコード + 外部APIワーカー (Box Relay)</td>
+<td style="text-align: center;">❌ KO-U</td>
+<td style="text-align: right;"><del>76</del></td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>P6: Serverless / Managed (Vercel)</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: right;"><strong>74</strong></td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>P7: ローコード + 外部APIワーカー (n8n)</td>
+<td style="text-align: center;">❌ KO-U</td>
+<td style="text-align: right;"><del>68</del></td>
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+<p><strong>推奨（事業監理観点）</strong>: 本番運用では<strong>P1ハイブリッド</strong>を目標に据え、まず<strong>P2単体</strong>でPoCを実施し、承認UIの課題が顕在化した段階でP3のフルスタック承認画面を追加するロードマップが最も現実的。P4〜P7は受注者内部フロー（TaskTeam/WIP系）に限定する。</p>
+<h2 id="webhook起点での実装方式比較">9.4 Webhook起点での実装方式（比較）</h2>
+<p><strong>表8-4　Webhook起点での実装方式の比較</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>方式</th>
+<th>向いている条件</th>
+<th>汎用性/拡張性</th>
+<th>監理・運用の注意点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FastAPI（VM/コンテナ）</td>
+<td>仕様変更が多い、独自ロジックが厚い、ベンダロックを避けたい</td>
+<td>高い</td>
+<td>ランタイム/パッチ適用/監視を自前運用する必要</td>
+</tr>
+<tr>
+<td>Azure Functions / AWS Lambda</td>
+<td>初期導入を速くしたい、サーバ運用を最小化したい</td>
+<td>中〜高</td>
+<td>実行時間制約、ネットワーク制御、監査ログ設計を要確認</td>
+</tr>
+<tr>
+<td>Cloud Run / App Service</td>
+<td>FastAPI資産を活かしつつ運用負荷を下げたい</td>
+<td>高い</td>
+<td>IAM・ネットワーク境界・コスト監視の設計が必要</td>
+</tr>
+<tr>
+<td>n8n / Logic Apps 等のローコード</td>
+<td>早期PoC、ワークフロー可視化を重視</td>
+<td>中</td>
+<td>署名検証・冪等性・再試行制御を明示実装すること</td>
+</tr>
+</tbody>
+</table>
+<p><strong>非機能要件（実装言語・フレームワーク名より重要）</strong> - Webhook署名検証と再送時の冪等性 - キューによる非同期化（大容量処理・再試行） - task_id等による監査トレーサビリティ - シークレット分離と最小権限実行</p>
+<h2 id="承認対象ごとの推奨実装">9.5 承認対象ごとの推奨実装</h2>
+<p><strong>表8-5　承認対象ごとの推奨実装</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>承認対象</th>
+<th>主な承認主体</th>
+<th>推奨実装</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TaskTeam 内部レビュー（草稿合意）</td>
+<td>受注者チーム内</td>
+<td>タスク管理ツール（Backlog 等）</td>
+<td>日常業務に近く、担当・期限・差戻しを管理しやすい</td>
+</tr>
+<tr>
+<td>TaskTeam -&gt; WIP 提出可否</td>
+<td>受注者側責任者</td>
+<td>タスク管理ツール + 外部APIワーカー</td>
+<td>承認イベントをWebhook起点にして、WIPへの登録処理を自動化しやすい</td>
+</tr>
+<tr>
+<td>WIP -&gt; Shared 共有依頼</td>
+<td>受注者側責任者</td>
+<td>タスク管理ツール + 外部APIワーカー</td>
+<td>監査で重要な遷移。task_idとファイルIDの紐付けを残しやすい</td>
+</tr>
+<tr>
+<td>Shared -&gt; Published 正式承認</td>
+<td>発注者（監督職員等）</td>
+<td><strong>ハイブリッド（タスク管理ツール + フルスタック）を強く推奨</strong></td>
+<td>発注者担当者が直接操作する正式承認フロー。UI/UXは事実上のKO条件</td>
+</tr>
+<tr>
+<td>Shared -&gt; Archived 保管判断</td>
+<td>発注者/PMO</td>
+<td><strong>ハイブリッド（タスク管理ツール + フルスタック）</strong></td>
+<td>保存・証跡管理の一貫性確保のためP1統一を推奨</td>
+</tr>
+<tr>
+<td>緊急差替え・取り下げ</td>
+<td>発注者責任者 + システム管理者</td>
+<td>手動承認（オンコール）+ 証跡記録（P1）</td>
+<td>例外処理は即時性を優先し手動で実行、事後にP1で操作ログを永続化</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="付録">10. 付録</h1>
+<h2 id="可視化アプリ対応表">10.1 可視化アプリ対応表</h2>
+<p>主要可視化アプリ・プラットフォームについて「主に対応する可視化層」「主な機能」「認証・連携」を整理する。実際の導入可否は各製品の最新仕様・契約条件で確認すること。</p>
+<blockquote>
+<p>「可視化層」欄の凡例: 記載なし＝確認済み / <strong>（調査中）</strong>＝限定共有対応・認証方式等の詳細が未確認。導入前に要確認。</p>
+</blockquote>
+<p><strong>表9-1　主要可視化アプリ対応表</strong></p>
+<table>
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 26%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr>
+<th>ツール</th>
+<th style="text-align: center;">可視化層</th>
+<th>主な機能</th>
+<th>認証・連携</th>
+<th style="text-align: center;">国内DC/ISMAP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Cesium / 3D Tiles</strong></td>
+<td style="text-align: center;">層2/層3（調査中）</td>
+<td>3DTILES/glTF対応、自己ホスト可／Cesium ion SaaS。自己ホスト＋リバースプロキシで層2対応可能だが標準機能での対応範囲は要確認</td>
+<td>ionトークン、カスタムSSO/APIトークン</td>
+<td style="text-align: center;">Cesium ionは海外SaaS。自己ホストで国内運用可</td>
+</tr>
+<tr>
+<td><strong>KOLC＋</strong></td>
+<td style="text-align: center;">層1</td>
+<td>3Dタイル・点群・4D・注記・ワークフロー。SAML2.0（SSO）対応</td>
+<td>SAML2.0（SSO）・2段階認証</td>
+<td style="text-align: center;">国内DC（さくら/AWS東京）・ISMAP登録・ISO27001</td>
+</tr>
+<tr>
+<td><strong>CIMPHONY Plus</strong></td>
+<td style="text-align: center;">層2（調査中）</td>
+<td>点群統合・注記・計測・断面出力。限定共有（パスワード付き期限付きリンク）対応状況は要確認</td>
+<td>SSO/法人向け連携</td>
+<td style="text-align: center;">NETIS登録済み</td>
+</tr>
+<tr>
+<td><strong>Re:Earth</strong></td>
+<td style="text-align: center;">層1/層2/層3</td>
+<td>CesiumCMS・ストーリーテリング、自己ホスト可。認証連携・アクセス制御の設定により層1（管理者向け認証）・層2（共有リンク等による関係者共有）・層3（パブリック公開）の全層に対応。REST/GraphQL API、プラグインで認証連携可</td>
+<td>REST/GraphQL API、プラグインで認証連携可</td>
+<td style="text-align: center;">日本事業者。ISMS/国内DC要確認</td>
+</tr>
+<tr>
+<td><strong>torinome</strong>（HoloLab）</td>
+<td style="text-align: center;">層2（調査中）/層3/AR</td>
+<td>XRデジタルツインプラットフォーム（HoloLab製）。3D都市モデル（PLATEAU）・点群（LAS）・3DTILES・glTF・GeoJSON等を3D地球儀上に重畳表示。Admin機能でユーザー・アクセス制御が可能で層2対応の可能性あり（限定共有対応は要確認）。AR（iPad/iPhone）・WebAR（スマートフォン・ブラウザ）・VR（Meta Quest 3/Apple Vision Pro/MiRZA）に対応。外部API連携対応</td>
+<td>Admin機能によるユーザー管理。OAuth/SAML詳細は要確認</td>
+<td style="text-align: center;">日本事業者（HoloLab Inc.）。SaaS型。国内DC/ISMAP要確認</td>
+</tr>
+<tr>
+<td><strong>Potree</strong></td>
+<td style="text-align: center;">層1/層2（調査中）</td>
+<td>点群ビューワー・タイル化ツール。標準では認証機能なし。リバースプロキシ/WAFで認証を追加すれば各層に対応可能だが設定内容による</td>
+<td>認証機能なし（リバースプロキシ/WAFで保護が必要）</td>
+<td style="text-align: center;">自己ホストで国内運用可</td>
+</tr>
+<tr>
+<td><strong>iTowns</strong></td>
+<td style="text-align: center;">層2/層3（調査中）</td>
+<td>地理空間3D表示・タイル対応。SSO連携はカスタム実装が必要。限定共有対応状況は要確認</td>
+<td>カスタム実装でSSO連携可</td>
+<td style="text-align: center;">自己ホスト</td>
+</tr>
+<tr>
+<td><strong>Autodesk (Forma / Construction Cloud)</strong></td>
+<td style="text-align: center;">層1/層2（調査中）</td>
+<td>BIM表示・注記・4D/管理機能。有料SaaSでSSO/OAuth対応のため層1は確実。限定共有（パスワード付き期限付きリンク）対応状況は要確認</td>
+<td>SSO/OAuth対応（商用SaaS）</td>
+<td style="text-align: center;">グローバルSaaS。国内DC/ガバメント向けは契約確認</td>
+</tr>
+<tr>
+<td><strong>Bentley iTwin</strong></td>
+<td style="text-align: center;">層1/層2（調査中）</td>
+<td>IFC・BIM・デジタルツイン統合。有料エンタープライズSaaSでOAuth2/SSO対応のため層1は確実。限定共有対応状況は要確認</td>
+<td>OAuth2 / SSO、エンタープライズ向け</td>
+<td style="text-align: center;">データセンター位置は要確認</td>
+</tr>
+<tr>
+<td><strong>Trimble Connect</strong></td>
+<td style="text-align: center;">層1/層2（調査中）</td>
+<td>BIM点群データ共有・管理。有料SaaSでSSO/API対応のため層1は確実。限定共有対応状況は要確認</td>
+<td>SSO/API対応</td>
+<td style="text-align: center;">要確認</td>
+</tr>
+<tr>
+<td><strong>QGIS / QGIS Server</strong></td>
+<td style="text-align: center;">層1/層2/層3</td>
+<td>デスクトップGIS・豊富な解析機能・プラグイン。自己ホストで全層対応可能</td>
+<td>LDAP/SSO連携可</td>
+<td style="text-align: center;">自己ホストで国内運用可</td>
+</tr>
+<tr>
+<td><strong>Lizmap</strong></td>
+<td style="text-align: center;">層1/層2/層3</td>
+<td>QGISによる地図をWeb公開。LDAP等の認証連携・グループ管理可。認証設定により層1（管理者向け認証）・層2（関係者共有）・層3（パブリック公開）の全層に対応</td>
+<td>LDAP等の認証連携・グループ管理可</td>
+<td style="text-align: center;">自己ホスト可</td>
+</tr>
+<tr>
+<td><strong>ArcGIS Online</strong></td>
+<td style="text-align: center;">層1/層3</td>
+<td>Webマップ・ダッシュボード・ストーリーマップ。組織アカウント（SSO/SAML対応）による層1利用と、パブリック公開による層3利用が可能。限定共有非対応のため層2には不適</td>
+<td>ArcGIS組織アカウント／SAML</td>
+<td style="text-align: center;">グローバルSaaS。国内要件は契約確認</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>注意: 各アプリの「認証方式（SAML/OAuth/独自）」「APIの有無」「データ所在（国内DC要件）」は導入前に必ず確認する。<strong>層2として使用する場合は、アカウント共有と限定共有（パスワード付き・有効期限・ダウンロード制御）の両方に対応していることを事前に確認すること。</strong> アカウント共有のみしか対応していないツールは、アカウントを持たない関係機関・下請け等への共有ができず、層2要件を単独では満たせない。</p>
+</blockquote>
+<h2 id="認証api国内dc-暫定まとめ">10.2 認証・API・国内DC 暫定まとめ</h2>
+<blockquote>
+<p>下表は公開情報を基にした暫定評価。公共案件でのKO判定（国内DC必須等）を想定する場合、各ベンダーの<strong>官公庁向けプラン／ガバメントクラウド対応／契約書面での所在地明記</strong>を必ず取得すること。</p>
+</blockquote>
+<p><strong>表9-2　認証・API・国内DC 暫定まとめ</strong></p>
+<table>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 29%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr>
+<th>ベンダー</th>
+<th>認証方式</th>
+<th style="text-align: center;">API / 開発者向け</th>
+<th>国内DC / ISMAP / ISMS</th>
+<th>ソース</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KOLC＋</td>
+<td>SAML2.0（SSO）・2段階認証</td>
+<td style="text-align: center;">REST API 提供</td>
+<td>国内DC・ISMAP登録・ISO27001</td>
+<td>https://kolcx.com/feature/security/</td>
+</tr>
+<tr>
+<td>ArcGIS (Esri)</td>
+<td>OAuth2 / SAML / APIキー</td>
+<td style="text-align: center;">豊富なREST API（ArcGIS Platform）</td>
+<td>ArcGIS Online はグローバルSaaS。ArcGIS Enterprise はセルフホスト可</td>
+<td>https://trust.arcgis.com/</td>
+</tr>
+<tr>
+<td>Autodesk (APS)</td>
+<td>OAuth2（2-legged/3-legged/PKCE）</td>
+<td style="text-align: center;">APS（旧Forge）各種REST API</td>
+<td>基本はグローバルSaaS</td>
+<td>https://aps.autodesk.com/</td>
+</tr>
+<tr>
+<td>Bentley iTwin</td>
+<td>OAuth2 / SSO</td>
+<td style="text-align: center;">iTwin Platform APIs</td>
+<td>データセンター位置は要確認</td>
+<td>https://developer.bentley.com/</td>
+</tr>
+<tr>
+<td>Trimble Connect</td>
+<td>SSO / OAuth 系</td>
+<td style="text-align: center;">Trimble Connect API</td>
+<td>要確認</td>
+<td>https://developer.trimble.com/</td>
+</tr>
+<tr>
+<td>Cesium / Cesium ion</td>
+<td>ionトークン（APIキー）</td>
+<td style="text-align: center;">CesiumJS（OSS）＋Cesium ion（SaaS tiler/API）</td>
+<td>Cesium ionは海外SaaS。自己ホストで国内運用可</td>
+<td>https://cesium.com/docs/</td>
+</tr>
+<tr>
+<td>Re:Earth</td>
+<td>REST / GraphQL API（CMS）</td>
+<td style="text-align: center;">API でデータ管理・配信可能</td>
+<td>日本事業者として国内運用を謳うが要確認</td>
+<td>https://reearth.io/</td>
+</tr>
+<tr>
+<td>Potree (OSS)</td>
+<td>認証機能なし（自己ホストで外部認証を追加）</td>
+<td style="text-align: center;">ビューワ＋PotreeConverter</td>
+<td>自己ホストで国内DC運用可</td>
+<td>https://github.com/potree/potree</td>
+</tr>
+<tr>
+<td>QGIS / QGIS Server</td>
+<td>LDAP / HTTP認証 / 外部SSO連携可</td>
+<td style="text-align: center;">OGC（WMS/WFS/OGC API）および PyQGIS</td>
+<td>自己ホスティング中心で国内DC運用可</td>
+<td>https://qgis.org/</td>
+</tr>
+<tr>
+<td>Lizmap</td>
+<td>LDAP等の認証連携・グループ管理可</td>
+<td style="text-align: center;">WMS/WMTS等。Lizmap Cloud（SaaS）あり</td>
+<td>自己ホスト可。Lizmap Cloud は契約確認</td>
+<td>https://docs.lizmap.com/</td>
+</tr>
+<tr>
+<td>torinome（HoloLab）</td>
+<td>Admin機能によるユーザー管理・アクセス制御。OAuth/SAML詳細は要確認</td>
+<td style="text-align: center;">外部API連携対応（既存DB/CMS連携）</td>
+<td>日本事業者（HoloLab Inc.）。国内DC/ISMAP要確認</td>
+<td>https://hololab.co.jp/services/packages/torinome/</td>
+</tr>
+</tbody>
+</table>
+<h2 id="netis-と類似サービスの確認">10.3 NETIS と類似サービスの確認</h2>
+<ul>
+<li><strong>NETIS</strong>: 国土交通省が公開する新技術の情報データベース。技術の採用検討時はNETIS掲載や評価情報を確認することを推奨する — https://www.netis.mlit.go.jp/</li>
+</ul>
+<p><strong>表9-3　NETISと類似サービス一覧</strong></p>
+<table>
+<colgroup>
+<col style="width: 60%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr>
+<th>サービス</th>
+<th>概要</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>KOLC＋</strong>（国内SaaS）</td>
+<td>BIM/CIM統合、3Dタイル化、4D工程管理、土量計算、写真管理、国内DC/ISMS対応 — https://kolcx.com/</td>
+</tr>
+<tr>
+<td><strong>CIMPHONY Plus</strong>（福井コンピュータ）</td>
+<td>3次元点群・3Dモデル・2D図面・写真をクラウドで統合。NETIS登録済み — https://const.fukuicompu.co.jp/products/cimphonyplus/</td>
+</tr>
+<tr>
+<td><strong>Re:Earth</strong>（Eukarya Inc.）</td>
+<td>Cesiumを含むオープン技術を活用した都市データプラットフォーム。PLATEAU等の都市データ公開に強み — https://reearth.io/</td>
+</tr>
+<tr>
+<td><strong>torinome</strong></td>
+<td>Cesium系の可視化ツール。ブラウザベースでの3D表示やタイル配信を想定 — https://torinome.jp/</td>
+</tr>
+<tr>
+<td><strong>Autodesk（Forma / Construction Cloud）</strong></td>
+<td>大規模モデルのクラウド配信・建設向けワークフロー（商用SaaS） — https://www.autodesk.com/</td>
+</tr>
+<tr>
+<td><strong>Bentley iTwin</strong></td>
+<td>デジタルツイン・BIMの統合基盤。インフラ向けの大規模運用実績あり — https://www.bentley.com/</td>
+</tr>
+<tr>
+<td><strong>Trimble Connect</strong></td>
+<td>建設・測量系のデータ共有・管理プラットフォーム。現場連携に強みあり — https://connect.trimble.com/</td>
+</tr>
+<tr>
+<td><strong>Cesium + 3D Tiles / Cesium ion</strong></td>
+<td>オープンなタイル配信＋ブラウザ表示の基盤。自前構築で可搬性高い — https://cesium.com/</td>
+</tr>
+<tr>
+<td><strong>Potree / iTowns / glTFワークフロー</strong></td>
+<td>点群や3D表示のオープンソースソリューション</td>
+</tr>
+</tbody>
+</table>
+<p><strong>推奨手順</strong>: NETISで該当技術・事例の有無をまず確認し、関係者向けPoC（大規模データでの表示性能試験、API/ワークフロー連携、データ保管・エクスポート可否、総所有コスト比較）を実施したうえで採用を決定する。</p>

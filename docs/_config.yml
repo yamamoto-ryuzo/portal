@@ -17,6 +17,4 @@ defaults:
     values:
       layout: default
 
-# フロントマターなしのMDファイルも変換する
-include:
-  - "**/*.md"
+# docs/ 配下は HTML ファイルで管理する（md→html 一括変換済み）

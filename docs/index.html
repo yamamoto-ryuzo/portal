@@ -1,0 +1,72 @@
+---
+title: トップページ
+date: 2026-05-30
+---
+<h1 id="パソコンotaku">パソコンOTAKU</h1>
+<p>　中学生の時にPC-8001mrkⅡなるものに出会い、当時はやっていたゲーム雑誌に作ったゲームを投稿するオタクな中学生！<br />
+　Z80の2ビットの世界にはまり、中学のつまらない？授業中にゲームのフローを書いていた・・・おかげで理数系以外の成績極端によくないです。<br />
+　その後、大学の専攻が農業土木だったため、幅広く農業や土木を学ぶことができ、現在の土木の仕事につながっています。</p>
+<p>　<a href="山本竜三%20自己紹介.pdf">自己紹介のビジュアル化はこんな感じ！</a></p>
+<h2 id="サイト内検索">サイト内検索</h2>
+{% include search-box.html %}
+<p><a href="./tags/">タグ索引はこちら</a></p>
+<h2 id="最近更新した記事">最近更新した記事</h2>
+{% assign recent_pages = site.pages | where_exp: "p", "p.date" | sort: "date" | reverse -%}
+<ul>
+{% for p in recent_pages limit: 10 -%}
+<li>{{ p.date | date: "%Y-%m-%d" }} <a href="{{ p.url | relative_url }}">{{ p.title | default: p.name }}</a></li>
+{% endfor %}
+</ul>
+<h2 id="主な活動">主な活動</h2>
+<h3 id="vector">Vector</h3>
+<p>　　https://www.vector.co.jp/vpack/browse/person/an063250.html<br />
+　　<a href="https://www.vector.co.jp/soft/winnt/business/se527023.html">yr-qgis-launcher：ログイン機能等を備えた初めての人でも扱いやすいQGIS環境を提供</a></p>
+<h3 id="初めての人でも扱いやすいqgis環境の構築">初めての人でも扱いやすいQGIS環境の構築</h3>
+<p>　　https://github.com/yamamoto-ryuzo/yr-qgis-launcher</p>
+<h3 id="qgispluginlizmapの日本語翻訳活動">QGISplugin,LIZMAPの日本語翻訳活動</h3>
+<p>　　https://explore.transifex.com/3liz-1/lizmap-locales/</p>
+<h3 id="qgisをwebで配信できるlizmapの布教">QGISをWEBで配信できるLIZMAPの布教</h3>
+<p>　　https://github.com/yamamoto-ryuzo/Lizmap-installation-Japanese-memo<br />
+　　https://www.facebook.com/groups/lizmapusergroupjapan</p>
+<h3 id="土木事業管理における知識判断継承のためのrag_system構築提案書"><a href="https://zenn.dev/yamamoto_ryuzo/books/rag-civil-engineering">土木事業管理における知識・判断継承のためのRAG_System構築提案書</a></h3>
+<p><a href="./RAG_System/">PAGES_RAG_System</a><br />
+<img src="./RAG_System/images/TrackA+C_構築ガイド.png" alt="土木事業管理RAG_TrackA+C_構築ガイド" />　　</p>
+<h3 id="事業監理におけるプロジェクトcdeの実現"><a href="./Project_CDE/">事業監理におけるプロジェクトCDEの実現</a></h3>
+<figure>
+<img src="./Project_CDE/プロジェクトCDE.png" alt="プロジェクトCDE" />
+<figcaption aria-hidden="true">プロジェクトCDE</figcaption>
+</figure>
+<h2 id="dx全般"><a href="./DX/">DX全般</a></h2>
+<p>・とりあえず書き始め。。。</p>
+<h2 id="出没先">出没先　</h2>
+<p>・https://www.dx-junkyard.com/<br />
+・<a href="https://yamamoto-ryuzo.github.io/portal/FOSS4G%E3%82%82%E3%81%8F%E3%82%82%E3%81%8F%E4%BC%9A.html">FOSS4Gもくもく会</a>　　 皆勤賞を目指しています！</p>
+<h2 id="イベント">イベント</h2>
+<h3 id="イベント-2026">イベント 2026</h3>
+<p>　今年のお題は 2025から持ち越した 　　<a href="https://www.vector.co.jp/soft/winnt/business/se527023.html">yr-qgis-launcher：ログイン機能等を備えた初めての人でも扱いやすいQGIS環境を提供</a>　のパワーアップ<br />
+　　　QGISプラグイン：<a href="https://github.com/yamamoto-ryuzo/GEO-search-plugin">QGISPlugin　GEO-search-pluginのダウンロード数が3万を超えたので、英語版を作成し国際化！</a><br />
+　　　QGISランチャー：国際化。。。日本のユーザー少ないので、英語版を作成 　</p>
+<h2 id="終了イベント">終了イベント</h2>
+<h3 id="イベント-2026-1">イベント 2026</h3>
+<p><a href="https://zenn.dev/hackathons/google-cloud-japan-ai-hackathon-vol4">第4回 Agentic AI Hackathon with Google Cloud</a><br />
+　　　　GIS周りをちょこっとお手伝い、私にとっては、モダンな開発環境での開発だったので面白かった。<br />
+　　　　<a href="https://airs.demo.dx-junkyard.com/">獣害通報AI管理システム「AIRS」</a> 　<a href="https://zenn.dev/fooqoo/articles/eeeebf27353744">チームリーダーの報告ページ！はこちら。</a></p>
+<h3 id="イベント-2025">イベント 2025</h3>
+<p><a href="https://github.com/yamamoto-ryuzo/boxPhotoGeoURL">Boxフォルダ写真位置情報抽出アプリ</a><br />
+<a href="https://yamamoto-ryuzo.github.io/portal/%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88CDE">プロジェクトＣＤＥ整理開始</a><br />
+<a href="https://yamamoto-ryuzo.github.io/portal/backlog">backlog-エクセル連携</a>:バックログAPIを利用してエクセルに課題を読み込み<br />
+<a href="https://www.youtube.com/@yamakun">ユーチューブ</a>:QGIS動画を投稿するためアカウント取得<br />
+<a href="https://docs.dify.ai/ja-jp">とりあえずDify</a>：<a href="https://udify.app/chat/ROACB9bjRdLIVwZB">ゆかりのチャボっと作成</a></p>
+<h3 id="イベント-2024">イベント 2024</h3>
+<p><a href="https://www.vector.co.jp/soft/winnt/business/se527103.html">Vector登録</a>：<a href="https://github.com/yamamoto-ryuzo/MLITxml2csv">電子納品の一覧を作成 MLITxml2csv</a>を登録<br />
+<a href="https://plugins.qgis.org/plugins/geo_easyprint/">QGISプラグイン</a>：<a href="https://github.com/yamamoto-ryuzo/geo_easyprint">簡易印刷プラグインの公式プラグインへの登録</a><br />
+<a href="https://www.vector.co.jp/soft/winnt/business/se527023.html">Vector登録</a>：<a href="https://github.com/yamamoto-ryuzo/yr-qgis-launcher">QGISの専用ランチャー yr-qgis-launcher</a>を登録<br />
+<a href="https://odhackathon.metro.tokyo.lg.jp/">応募先</a>：<a href="https://github.com/yamamoto-ryuzo/portal/issues/1#issue-2329558676">都知事杯オープンデータ・ハッカソン2024ファーストステージ　(個人)</a><br />
+　　<a href="https://odhackathon.metro.tokyo.lg.jp/team-building/#ideathon2">アイデアソン Day.2 8/7(水)</a>、<a href="https://odhackathon.metro.tokyo.lg.jp/hackathon/#hackathon-day1">ハッカソン 8/24.25日（土日）</a> 　<a href="https://odhackathon.metro.tokyo.lg.jp/collection/29/">ファーストステージ収録(8/31)</a><br />
+<a href="https://www.zaimu.metro.tokyo.lg.jp/zaisei/zaisei/teian/tomin/7tomin">応募先</a>：<a href="https://yamamoto-ryuzo.github.io/portal/都民による事業提案制度.html">令和6年度　都民による事業提案制度</a><br />
+　　4/5～　提案、７月 <a href="https://www.zaimu.metro.tokyo.lg.jp/documents/d/zaimu/t_ichiran_7">投票まで辿り着いた提案（私は落選。。。）</a><br />
+<a href="https://asciistartup.connpass.com/event/318573/">応募先</a>：<a href="https://github.com/yamamoto-ryuzo/portal/issues/2">PLATEAU Hack Challenge 2024 for ルーキ</a><a href="https://protopedia.net/prototype/5297">【そこ！どうなってるの？】</a></p>
+<h3 id="イベント-2023">イベント 2023</h3>
+<p><a href="https://odhackathon.metro.tokyo.lg.jp/hackathon2023/">応募先</a> ：<a href="https://yamamoto-ryuzo.github.io/portal/images/%E9%83%BD%E7%9F%A5%E4%BA%8B%E6%9D%AF%E3%82%AA%E3%83%BC%E3%83%97%E3%83%B3%E3%83%87%E3%83%BC%E3%82%BF%E3%83%BB%E3%83%8F%E3%83%83%E3%82%AB%E3%82%BD%E3%83%B3%202023.png">都知事杯オープンデータ・ハッカソン　</a><a href="https://www.dx-junkyard.com/posts/opendata-bridge">【OpenData Bridge】</a><br />
+<a href="https://www.digital.go.jp/policies/myna_portal/hackathon">応募先</a>：<a href="https://yamamoto-ryuzo.github.io/portal/images/%E3%83%9E%E3%82%A4%E3%83%8A%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%AB%E3%83%8F%E3%83%83%E3%82%AB%E3%82%BD%E3%83%B3.png">マイナポータルハッカソン</a><a href="https://www.youtube.com/watch?v=5-ktu6egUCs&amp;list=PLUPGuSVqDNP-qmZev9vrlE8-h_8uKFRm7&amp;index=11">【マイナセーフティ】</a><br />
+応募先：Tokyo OSS Party!! 2023</p>

@@ -7,26 +7,14 @@
     <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
     {% include head-custom.html %}
-    <style>
-      .page-container {
-        width: min(1200px, 95vw);
-        margin: 0 auto;
-        padding: 24px 0 48px;
-      }
-
-      @media (max-width: 768px) {
-        .page-container {
-          width: 92vw;
-          padding-top: 16px;
-        }
-      }
-    </style>
   </head>
   <body>
-    <main class="page-container">
+    <div class="wrap">
       {% include site-nav.html %}
-      {{ content }}
-    </main>
+      <main class="content">
+        {{ content }}
+      </main>
+    </div>
     <script type="module">
       import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
       // Kramdown が <pre><code class="language-mermaid"> に変換するため
@@ -37,6 +25,10 @@
         div.className = 'mermaid';
         div.textContent = code.textContent;
         pre.replaceWith(div);
+      });
+      // pandoc 変換は <pre class="mermaid"><code> を出力するため code を剥がす
+      document.querySelectorAll('pre.mermaid > code').forEach(code => {
+        code.parentElement.textContent = code.textContent;
       });
       mermaid.initialize({ startOnLoad: true });
     </script>

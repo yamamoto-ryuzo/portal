@@ -1,0 +1,92 @@
+---
+title: "SSOT + LoRA + RAG 統合アーキテクチャ"
+date: 2026-06-16
+tags: [RAG, LLM, SSOT, LoRA]
+---
+<h1 id="ssot-lora-rag-統合アーキテクチャ">SSOT + LoRA + RAG 統合アーキテクチャ</h1>
+<p><strong>ハルシネーションを極小化し実業務で本当に動くLLMシステムを作るための、SSOT(信頼できる唯一の情報源)・LoRA・RAGの統合アーキテクチャ設計・実装ガイド。</strong></p>
+<p><a href="https://zenn.dev/yamamoto_ryuzo/books/rag-multiagent-build"><img src="https://yamamoto-ryuzo.github.io/portal/RAG-Build/images/cover.png" alt="SSOT + LoRA + RAG 統合アーキテクチャ" /></a></p>
+<p>👉 <strong><a href="https://zenn.dev/yamamoto_ryuzo/books/rag-multiagent-build">Zennで本を読む（外部サイト）</a></strong></p>
+<hr />
+<h2 id="本書が解決すること">本書が解決すること</h2>
+<p>前作の <a href="https://zenn.dev/books/rag-civil-engineering/edit">土木事業管理 RAG_System構築ガイド</a> では、マルチエージェント構成の<strong>理論と設計方針</strong>を示しました。<br />
+本書はその続編として、SSOT（信頼できる唯一の情報源）、LoRA（ファインチューニングによる背景知識）、そしてRAGを三位一体で統合し、<strong>実際に動くシステムを手順通りに組み立てる</strong>ための「SSOT + LoRA + RAG 統合アーキテクチャ」実装ガイドです。</p>
+<table>
+<thead>
+<tr>
+<th>設計書（rag-civil-engineering）</th>
+<th>本書（rag-multiagent-build）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>なぜマルチエージェントが必要か</td>
+<td>どう実装するか</td>
+</tr>
+<tr>
+<td>エージェント構成の論理設計</td>
+<td>各エージェントのプロンプト・接続設定</td>
+</tr>
+<tr>
+<td>RAGスコープの推奨設計</td>
+<td>ナレッジベースの実際の作り方</td>
+</tr>
+<tr>
+<td>KPI・ロードマップ</td>
+<td>テスト手順・評価指標の測定方法</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="対象読者">対象読者</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>読者</th>
+<th>期待する成果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AI導入担当者（ローコード）</strong></td>
+<td>DifyでPoC環境を1週間以内に動かす</td>
+</tr>
+<tr>
+<td><strong>バックエンドエンジニア</strong></td>
+<td>Microsoft AutoGenで本番グレードのパイプラインを構築する</td>
+</tr>
+<tr>
+<td><strong>事業管理担当者</strong></td>
+<td>動作テストの評価基準を理解し、受入検査を実施できる</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="前提知識">前提知識</h2>
+<p>本書を進める前に以下を把握していることが推奨されます。</p>
+<ul>
+<li><a href="../RAG_System/">土木事業管理 RAG_System構築ガイド</a> の内容（特に7章のエージェント構成図）</li>
+<li>Markdown・YAMLの基本読み書き</li>
+<li>LLM API（OpenAI / Azure OpenAI）の基本操作</li>
+<li>Git の基本操作（clone / commit / push）</li>
+</ul>
+<hr />
+<h2 id="章構成">章構成</h2>
+<h3 id="第1章ssot-lora-rag-統合アーキテクチャのロードマップ草案"><a href="https://zenn.dev/yamamoto_ryuzo/books/rag-multiagent-build/viewer/1_overview">第1章：SSOT + LoRA + RAG 統合アーキテクチャのロードマップ（草案）</a></h3>
+<p>SSOT、LoRA、RAGを統合し、実際に動くマルチエージェントシステムを組み立てるためのロードマップ、実装トラック、およびフレームワーク選定基準。</p>
+<h3 id="第2章ragの基本理論とssot戦略"><a href="https://zenn.dev/yamamoto_ryuzo/books/rag-multiagent-build/viewer/2_ssot_strategy">第2章：RAGの基本理論とSSOT戦略</a></h3>
+<p>ハルシネーションを極小化するためのRAGの理論と、信頼できる唯一の情報源（SSOT）をどう確保し維持するかについての戦略。</p>
+<h3 id="第3章既存apiを活用したssot抽出フローの設計"><a href="https://zenn.dev/yamamoto_ryuzo/books/rag-multiagent-build/viewer/3_search_technology">第3章：既存APIを活用したSSOT抽出フローの設計</a></h3>
+<p>Box、SharePoint、社内データベースなどの既存APIやMCP（Model Context Protocol）を活用し、リアルタイムかつセキュアにSSOTからデータを抽出するフローの具体的な設計。</p>
+<h3 id="第4章マルチエージェント構成のアーキテクチャ設計"><a href="https://zenn.dev/yamamoto_ryuzo/books/rag-multiagent-build/viewer/4_multiagent_architecture">第4章：マルチエージェント構成のアーキテクチャ設計</a></h3>
+<p>オーケストレーター、監理、回答統合など、役割分担されたマルチエージェントシステムの協調プロトコル（A2A等）と全体のアーキテクチャ設計。</p>
+<h3 id="第5章loraによる背景知識実装のシステムアーキテクチャ"><a href="https://zenn.dev/yamamoto_ryuzo/books/rag-multiagent-build/viewer/5_lora_system_architecture">第5章：LoRAによる背景知識実装のシステムアーキテクチャ</a></h3>
+<p>基盤モデルの能力を補完し、業界特有・組織特有 of 背景知識を効率的にLLMに学習させるためのLoRA（Low-Rank Adaptation）のアーキテクチャ。</p>
+<h3 id="第6章システム構成と公開運用アーキテクチャ"><a href="https://zenn.dev/yamamoto_ryuzo/books/rag-multiagent-build/viewer/6_deployment_architecture">第6章：システム構成と公開・運用アーキテクチャ</a></h3>
+<p>構築したシステムのデプロイ、アクセス制御、スケーラビリティ、社内インフラへの統合および安全な公開・運用設計（Azure Container Apps + Microsoft Entra IDなど）。</p>
+<h3 id="第7章閉鎖環境におけるloraとssotの完全統合"><a href="https://zenn.dev/yamamoto_ryuzo/books/rag-multiagent-build/viewer/7_continuous_learning_and_integration">第7章：閉鎖環境におけるLoRAとSSOTの完全統合</a></h3>
+<p>機密情報を完全に保護し、インターネットから遮断された閉鎖環境において、LoRAによるファインチューニングとSSOT RAGを安全に統合・運用する最終形態の構築。</p>

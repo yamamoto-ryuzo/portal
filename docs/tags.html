@@ -1,0 +1,23 @@
+---
+title: タグ索引
+date: 2026-11-15
+permalink: /tags/
+---
+<h1 id="タグ索引">タグ索引</h1>
+<p>記事のフロントマター（<code>tags:</code>）から自動生成される索引ページです。</p>
+{% assign all_tags = site.pages | map: "tags" | compact | join: "," | split: "," | uniq | sort -%}
+{% if all_tags.size == 0 %}
+<p>タグ付きのページはまだありません。</p>
+{% else %}
+{%- for tag in all_tags %}
+{%- if tag == "" %}{% continue %}{% endif %}
+<h2>{{ tag }}</h2>
+<ul>
+{% for p in site.pages -%}
+{% if p.tags contains tag -%}
+<li><a href="{{ p.url | relative_url }}">{{ p.title | default: p.name }}</a>{% if p.date %}（{{ p.date | date: "%Y-%m-%d" }}）{% endif %}</li>
+{% endif -%}
+{% endfor %}
+</ul>
+{%- endfor %}
+{% endif %}

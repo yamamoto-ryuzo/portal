@@ -1,0 +1,344 @@
+---
+---
+@import "{{ site.theme }}";
+
+/* ===== KASUGAI Canvas docs と共通のスタイル考え =====
+   紫グラデーション背景 + 白カード + 紫アクセント。
+   コンポーネント（.card / .badge / .feature-card / .url-box / .install-steps）
+   も Canvas docs と同名で使えるようにする */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', Meiryo, sans-serif;
+  line-height: 1.7;
+  color: #333;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+  margin: 0;
+}
+
+.wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+/* ---- ナビゲーション（グラデーションボタン） ---- */
+nav.site-nav {
+  padding: 20px 30px 0;
+}
+
+nav.site-nav a {
+  display: inline-block;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 10px 20px;
+  margin: 0 6px 6px 0;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+nav.site-nav a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.content {
+  padding: 40px 30px;
+}
+
+section {
+  margin-bottom: 32px;
+}
+
+h1 {
+  color: #333;
+  font-size: 1.9em;
+  margin: 0 0 18px;
+}
+
+h2 {
+  color: #333;
+  font-size: 1.6em;
+  margin: 36px 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+h3 {
+  color: #444;
+  font-size: 1.25em;
+  margin: 28px 0 10px;
+}
+
+h4 {
+  color: #555;
+  font-size: 1.05em;
+  margin: 20px 0 8px;
+}
+
+h5 {
+  color: #666;
+  font-size: 0.98em;
+  margin: 16px 0 6px;
+}
+
+p {
+  margin: 1em 0;
+}
+
+a {
+  color: #667eea;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+nav.site-nav a:hover {
+  text-decoration: none;
+}
+
+ul, ol {
+  padding-left: 1.6em;
+  margin: 1em 0;
+}
+
+li {
+  margin: 0.5em 0;
+}
+
+li > ul, li > ol {
+  margin: 0.3em 0;
+}
+
+code {
+  background: #f4f4f4;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Fira Code', Consolas, 'Lucida Console', monospace;
+  font-size: 0.9em;
+  color: #333;
+}
+
+pre {
+  background: #f8f9fa;
+  color: #333;
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: 'Fira Code', Consolas, 'Lucida Console', monospace;
+  font-size: 0.9em;
+  line-height: 1.5;
+  border: 1px solid #e0e0e0;
+  margin: 1em 0;
+}
+
+pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.2em 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+th {
+  background: #f4f4f4;
+  color: #333;
+  font-weight: 600;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 12px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+figure {
+  margin: 1.2em 0;
+}
+
+figure > figcaption {
+  text-align: center;
+}
+
+figure > img, figure > video {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+figure > video {
+  max-height: 70vh;
+}
+
+blockquote {
+  margin: 1.2em 0;
+  padding: 14px 20px;
+  border-left: 3px solid #667eea;
+  background: #f8f9fa;
+  color: #555;
+}
+
+strong {
+  color: #222;
+  font-weight: 700;
+}
+
+/* ---- Canvas docs 共通コンポーネント ---- */
+.card {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 3px solid #667eea;
+  margin: 20px 0;
+}
+
+.badge {
+  display: inline-block;
+  background: #667eea;
+  color: white;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.8em;
+  font-weight: 600;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.feature-card {
+  display: block;
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+  text-decoration: none;
+  color: #333;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.15);
+}
+
+.feature-card h3 {
+  color: #667eea;
+  font-size: 1.2em;
+  margin: 0 0 10px;
+}
+
+.feature-card p {
+  color: #555;
+  font-size: 0.95em;
+  margin: 0;
+}
+
+.url-box {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #28a745;
+  margin: 15px 0;
+}
+
+.url-box h3 {
+  color: #28a745;
+  font-size: 1.2em;
+  margin: 0 0 10px;
+}
+
+.install-steps {
+  background: #fff8e1;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #ffc107;
+  margin: 15px 0;
+}
+
+.install-steps h3 {
+  color: #b8860b;
+  font-size: 1.2em;
+  margin: 0 0 10px;
+}
+
+.install-steps ol {
+  margin-left: 20px;
+}
+
+.install-steps li {
+  margin: 10px 0;
+}
+
+/* ---- サイト内検索ボックス ---- */
+.site-search input {
+  width: 100%;
+  max-width: 480px;
+  padding: 8px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1em;
+}
+
+.site-search input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+}
+
+@media (max-width: 720px) {
+  body {
+    padding: 12px;
+  }
+
+  .content {
+    padding: 24px 18px;
+  }
+
+  nav.site-nav {
+    padding: 16px 18px 0;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+}
