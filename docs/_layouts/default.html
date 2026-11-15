@@ -8,9 +8,10 @@
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
     {% include head-custom.html %}
   </head>
-  <body>
+  <body class="has-nav">
+    <button class="nav-toggle" aria-label="メニュー" onclick="document.body.classList.toggle('nav-open')">☰</button>
+    {% include sidebar-nav.html %}
     <div class="wrap">
-      {% include site-nav.html %}
       <main class="content">
         {{ content }}
       </main>

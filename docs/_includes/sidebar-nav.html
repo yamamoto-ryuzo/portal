@@ -1,0 +1,46 @@
+<!-- Canvas docs(nav.js) 相当の左サイドバーナビ。site.pages から自動生成 -->
+<nav id="site-nav">
+  <div class="nav-title"><a href="{{ '/' | relative_url }}">{{ site.title }}</a></div>
+  <div class="nav-demos">
+    <a class="nav-demo" href="{{ '/search/' | relative_url }}">サイト内検索</a>
+    <a class="nav-demo" href="{{ '/tags/' | relative_url }}">タグ索引</a>
+  </div>
+
+  {% assign root_pages = site.pages
+    | where: "dir", "/"
+    | where_exp: "p", "p.name != 'index.html'"
+    | where_exp: "p", "p.name != 'search.html'"
+    | where_exp: "p", "p.name != 'tags.html'"
+    | sort: "date" | reverse %}
+  {% if root_pages.size > 0 %}
+  <div class="nav-section">記事</div>
+  <ul>
+    {% for p in root_pages %}
+    <li><a href="{{ p.url | relative_url }}"{% if p.url == page.url %} class="active"{% endif %}>{{ p.title | default: p.name }}</a></li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  {% assign dirs = site.pages | where_exp: "p", "p.dir != '/'" | group_by: "dir" %}
+  {% if dirs.size > 0 %}
+  <div class="nav-section">カテゴリ</div>
+  {% for d in dirs %}
+    {% assign idx = d.items | where: "name", "index.html" | first %}
+    <div class="nav-group">
+      <div class="nav-group-label">
+        {% if idx %}<a href="{{ idx.url | relative_url }}"{% if idx.url == page.url %} class="active"{% endif %}>{% endif %}
+        {{ idx.title | default: d.name }}
+        {% if idx %}</a>{% endif %}
+      </div>
+      {% assign subs = d.items | where_exp: "p", "p.name != 'index.html'" | sort: "title" %}
+      {% if subs.size > 0 %}
+      <ul class="nav-sub">
+        {% for p in subs %}
+        <li><a href="{{ p.url | relative_url }}"{% if p.url == page.url %} class="active"{% endif %}>{{ p.title | default: p.name }}</a></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+  {% endfor %}
+  {% endif %}
+</nav>
