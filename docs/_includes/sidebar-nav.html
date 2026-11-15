@@ -8,7 +8,7 @@
 
   {% assign root_pages = site.pages
     | where: "dir", "/"
-    | where: "ext", ".html"
+    | where_exp: "p", "p.name contains '.html'"
     | where_exp: "p", "p.name != 'index.html'"
     | sort: "date" | reverse %}
   {% if root_pages.size > 0 %}
@@ -21,7 +21,7 @@
   {% endif %}
 
   {% assign dirs = site.pages
-    | where: "ext", ".html"
+    | where_exp: "p", "p.name contains '.html'"
     | where_exp: "p", "p.dir != '/'"
     | where_exp: "p", "p.name != 'search.html'"
     | where_exp: "p", "p.name != 'tags.html'"
